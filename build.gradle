@@ -20,5 +20,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.2.+'
+    compile 'org.mongodb:mongo-java-driver:2.12.+'
 }
