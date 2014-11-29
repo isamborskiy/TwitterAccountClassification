@@ -1,3 +1,5 @@
 {
-  "lang": "ru"
+  "lang": "ru",
+  "databasePath": "res/ru",
+  "tweetPerUser": 100
 }

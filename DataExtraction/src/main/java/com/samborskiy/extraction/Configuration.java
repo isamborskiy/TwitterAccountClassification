@@ -21,6 +21,8 @@ public class Configuration {
     }
 
     private String lang;
+    private int tweetPerUser;
+    private String databasePath;
 
     /**
      * Builds new instance of {@code Configuration} parsing {@code jsonData}.
@@ -38,11 +40,27 @@ public class Configuration {
         }
     }
 
+    public String getLang() {
+        return lang;
+    }
+
     public void setLang(String lang) {
         this.lang = lang;
     }
 
-    public String getLang() {
-        return lang;
+    public int getTweetPerUser() {
+        return tweetPerUser;
+    }
+
+    public void setTweetPerUser(int tweetPerUser) {
+        this.tweetPerUser = tweetPerUser;
+    }
+
+    public String getDatabasePath() {
+        return databasePath;
+    }
+
+    public void setDatabasePath(String databasePath) {
+        this.databasePath = databasePath;
     }
 }
