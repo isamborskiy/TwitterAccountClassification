@@ -23,6 +23,8 @@ public class Configuration {
     private String lang;
     private int tweetPerUser;
     private String databasePath;
+    private int personalAccountNumber;
+    private String initPersonalScreenName;
 
     /**
      * Builds new instance of {@code Configuration} parsing {@code jsonData}.
@@ -62,5 +64,21 @@ public class Configuration {
 
     public void setDatabasePath(String databasePath) {
         this.databasePath = databasePath;
+    }
+
+    public int getPersonalAccountNumber() {
+        return personalAccountNumber;
+    }
+
+    public void setPersonalAccountNumber(int personalAccountNumber) {
+        this.personalAccountNumber = personalAccountNumber;
+    }
+
+    public String getInitPersonalScreenName() {
+        return initPersonalScreenName;
+    }
+
+    public void setInitPersonalScreenName(String initPersonalScreenName) {
+        this.initPersonalScreenName = initPersonalScreenName;
     }
 }

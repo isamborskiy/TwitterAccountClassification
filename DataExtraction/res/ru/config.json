@@ -1,5 +1,7 @@
 {
   "lang": "ru",
   "databasePath": "res/ru",
-  "tweetPerUser": 100
+  "tweetPerUser": 100,
+  "personalAccountNumber": 1000,
+  "initPersonalScreenName": "a_rukin"
 }
