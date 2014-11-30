@@ -5,9 +5,11 @@ import com.samborskiy.extraction.Configuration;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * Class which help user interact with database.
@@ -28,8 +30,7 @@ public class DatabaseHelper implements AutoCloseable {
             + SCREEN_NAME + " VARCHAR(40) PRIMARY KEY NOT NULL, "
             + TWEETS + " TEXT NOT NULL, "
             + ACCOUNT_TYPE + " INTEGER NOT NULL);";
-    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES %s;";
-    private static final String INSERT_TUPLE = "(\'%s\', \'%s\', %d)";
+    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?);";
     private static final String SELECT_QUERY = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
 
     private Configuration configuration;
@@ -79,15 +80,17 @@ public class DatabaseHelper implements AutoCloseable {
      * Inserts value into table.
      *
      * @param screenName  account owner screen name
-     * @param tweets      user's tweets (without retweet)
+     * @param tweets      user's tweets
      * @param accountType {@code 0} if it personal account else {@code 1}
      * @return {@code true} if insert is complete
      */
     public boolean insert(String screenName, String tweets, int accountType) {
-        try (Statement statement = connection.createStatement()) {
-            String insertTupleValue = String.format(INSERT_TUPLE, screenName, tweets, accountType);
-            String insertQuery = String.format(INSERT_QUERY, insertTupleValue);
-            return statement.execute(insertQuery);
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+            statement.setString(1, screenName);
+            statement.setString(2, tweets);
+            statement.setInt(3, accountType);
+            statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -97,24 +100,16 @@ public class DatabaseHelper implements AutoCloseable {
     /**
      * Inserts all values into table.
      *
-     * @param screenNames  accounts owner screen name
-     * @param tweets       users' tweets (without retweet)
-     * @param accountTypes {@code 0} if it personal account else {@code 1}
+     * @param screenNames accounts owner screen name
+     * @param tweets      users' tweets
+     * @param accountType {@code 0} if it personal account else {@code 1}
      * @return {@code true} if insert is complete
      */
-    public boolean insertAll(String[] screenNames, String[] tweets, int[] accountTypes) {
-        try (Statement statement = connection.createStatement()) {
-            StringBuilder insertTupleValues = new StringBuilder();
-            insertTupleValues.append(String.format(INSERT_TUPLE, screenNames[0], tweets[0], accountTypes[0]));
-            for (int i = 1; i < screenNames.length; i++) {
-                insertTupleValues.append(", ").append(String.format(INSERT_TUPLE, screenNames[i], tweets[i], accountTypes[i]));
-            }
-            String insertQuery = String.format(INSERT_QUERY, insertTupleValues.toString());
-            return statement.execute(insertQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+    public boolean insertAll(List<String> screenNames, List<String> tweets, int accountType) {
+        for (int i = 1; i < screenNames.size(); i++) {
+            insert(screenNames.get(i), tweets.get(i), accountType);
         }
+        return true;
     }
 
     /**
