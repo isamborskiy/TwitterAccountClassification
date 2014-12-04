@@ -21,17 +21,20 @@ public class DatabaseHelper implements AutoCloseable {
     private static final String DATABASE_URL = "jdbc:sqlite:%s/%s.db";
 
     private static final String TABLE_NAME = "twitter_data";
+    private static final String USER_ID = "user_id";
     private static final String SCREEN_NAME = "screen_name";
     private static final String TWEETS = "tweets";
     // 0 - personal account, 1 - corporate account
     private static final String ACCOUNT_TYPE = "account_type";
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
-            + SCREEN_NAME + " VARCHAR(40) PRIMARY KEY NOT NULL, "
-            + TWEETS + " TEXT NOT NULL, "
+            + USER_ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + SCREEN_NAME + " VARCHAR(40) UNIQUE NOT NULL, "
+            + TWEETS + " TEXT, "
             + ACCOUNT_TYPE + " INTEGER NOT NULL);";
     private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?);";
-    private static final String SELECT_QUERY = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
+    private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
+    private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
 
     private Configuration configuration;
     private Connection connection;
@@ -79,16 +82,18 @@ public class DatabaseHelper implements AutoCloseable {
     /**
      * Inserts value into table.
      *
+     * @param userId      user's twitter id
      * @param screenName  account owner screen name
      * @param tweets      user's tweets
      * @param accountType {@code 0} if it personal account else {@code 1}
      * @return {@code true} if insert is complete
      */
-    public boolean insert(String screenName, String tweets, int accountType) {
+    public boolean insert(long userId, String screenName, String tweets, int accountType) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
-            statement.setString(1, screenName);
-            statement.setString(2, tweets);
-            statement.setInt(3, accountType);
+            statement.setLong(1, userId);
+            statement.setString(2, screenName);
+            statement.setString(3, tweets);
+            statement.setInt(4, accountType);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -100,16 +105,68 @@ public class DatabaseHelper implements AutoCloseable {
     /**
      * Inserts all values into table.
      *
+     * @param userIds     users' twitter ids
      * @param screenNames accounts owner screen name
      * @param tweets      users' tweets
      * @param accountType {@code 0} if it personal account else {@code 1}
      * @return {@code true} if insert is complete
      */
-    public boolean insertAll(List<String> screenNames, List<String> tweets, int accountType) {
-        for (int i = 1; i < screenNames.size(); i++) {
-            insert(screenNames.get(i), tweets.get(i), accountType);
+    public boolean insertAll(List<Long> userIds, List<String> screenNames, List<String> tweets, int accountType) {
+        for (int i = 1; i < userIds.size(); i++) {
+            insert(userIds.get(i), screenNames.get(i), tweets.get(i), accountType);
         }
         return true;
+    }
+
+    /**
+     * Returns user screen name.
+     *
+     * @param userId user's twitter id
+     * @return user screen name
+     */
+    public String getScreenName(long userId) {
+        try (Statement statement = connection.createStatement()) {
+            String selectQuery = String.format(SELECT_QUERY_USER_ID, SCREEN_NAME, userId);
+            ResultSet set = statement.executeQuery(selectQuery);
+            return set.getString(SCREEN_NAME);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns user tweets.
+     *
+     * @param userId user's twitter id
+     * @return user tweets
+     */
+    public String getTweets(long userId) {
+        try (Statement statement = connection.createStatement()) {
+            String selectQuery = String.format(SELECT_QUERY_USER_ID, TWEETS, userId);
+            ResultSet set = statement.executeQuery(selectQuery);
+            return set.getString(TWEETS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns account type.
+     *
+     * @param userId user's twitter id
+     * @return account type
+     */
+    public int getAccountType(long userId) {
+        try (Statement statement = connection.createStatement()) {
+            String selectQuery = String.format(SELECT_QUERY_USER_ID, ACCOUNT_TYPE, userId);
+            ResultSet set = statement.executeQuery(selectQuery);
+            return set.getInt(ACCOUNT_TYPE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     /**
@@ -120,7 +177,7 @@ public class DatabaseHelper implements AutoCloseable {
      */
     public String getTweets(String screenName) {
         try (Statement statement = connection.createStatement()) {
-            String selectQuery = String.format(SELECT_QUERY, TWEETS, screenName);
+            String selectQuery = String.format(SELECT_QUERY_SCREEN_NAME, TWEETS, screenName);
             ResultSet set = statement.executeQuery(selectQuery);
             return set.getString(TWEETS);
         } catch (SQLException e) {
@@ -137,7 +194,7 @@ public class DatabaseHelper implements AutoCloseable {
      */
     public int getAccountType(String screenName) {
         try (Statement statement = connection.createStatement()) {
-            String selectQuery = String.format(SELECT_QUERY, ACCOUNT_TYPE, screenName);
+            String selectQuery = String.format(SELECT_QUERY_SCREEN_NAME, ACCOUNT_TYPE, screenName);
             ResultSet set = statement.executeQuery(selectQuery);
             return set.getInt(ACCOUNT_TYPE);
         } catch (SQLException e) {
