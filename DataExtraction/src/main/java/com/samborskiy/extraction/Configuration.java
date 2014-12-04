@@ -24,7 +24,7 @@ public class Configuration {
     private int tweetPerUser;
     private String databasePath;
     private int personalAccountNumber;
-    private String initPersonalScreenName;
+    private String[] corporateTwitterAccounts;
 
     /**
      * Builds new instance of {@code Configuration} parsing {@code jsonData}.
@@ -74,11 +74,11 @@ public class Configuration {
         this.personalAccountNumber = personalAccountNumber;
     }
 
-    public String getInitPersonalScreenName() {
-        return initPersonalScreenName;
+    public String[] getCorporateTwitterAccounts() {
+        return corporateTwitterAccounts;
     }
 
-    public void setInitPersonalScreenName(String initPersonalScreenName) {
-        this.initPersonalScreenName = initPersonalScreenName;
+    public void setCorporateTwitterAccounts(String[] corporateTwitterAccounts) {
+        this.corporateTwitterAccounts = corporateTwitterAccounts;
     }
 }
