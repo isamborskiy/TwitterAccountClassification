@@ -2,7 +2,6 @@
   "lang": "ru",
   "databasePath": "res/ru",
   "tweetPerUser": 100,
-  "personalAccountNumber": 1000,
   "corporateTwitterAccounts": [
     "bm_twit",
     "svyaznoy_ru",

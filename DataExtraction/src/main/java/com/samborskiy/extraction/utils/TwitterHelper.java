@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.samborskiy.extraction.Configuration;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -12,6 +13,8 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +97,39 @@ public class TwitterHelper {
             }
         }
         return tweets;
+    }
+
+    /**
+     * Returns list of users which was found by name.
+     *
+     * @param name name of user
+     * @return list of users
+     */
+    public List<User> findUsersByName(String name) {
+        try {
+            ResponseList<User> users = twitter.searchUsers(getQuery(name), 1);
+            List<User> filteredUser = new ArrayList<>();
+            for (User user : users) {
+                if (isCorrectUser(user)) {
+                    filteredUser.add(user);
+                }
+            }
+            return filteredUser;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns encoded query to {@code Cp1251}.
+     *
+     * @param name name of user
+     * @return resulting query
+     * @throws java.io.UnsupportedEncodingException if the named encoding is not supported
+     */
+    private String getQuery(String name) throws UnsupportedEncodingException {
+        return "q=" + URLEncoder.encode(name, "Cp1251");
     }
 
     /**

@@ -23,7 +23,6 @@ public class Configuration {
     private String lang;
     private int tweetPerUser;
     private String databasePath;
-    private int personalAccountNumber;
     private String[] corporateTwitterAccounts;
 
     /**
@@ -64,14 +63,6 @@ public class Configuration {
 
     public void setDatabasePath(String databasePath) {
         this.databasePath = databasePath;
-    }
-
-    public int getPersonalAccountNumber() {
-        return personalAccountNumber;
-    }
-
-    public void setPersonalAccountNumber(int personalAccountNumber) {
-        this.personalAccountNumber = personalAccountNumber;
     }
 
     public String[] getCorporateTwitterAccounts() {
