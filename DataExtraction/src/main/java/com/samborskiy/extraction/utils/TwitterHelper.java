@@ -49,13 +49,14 @@ public class TwitterHelper {
     /**
      * Returns information about user by screen name.
      *
-     * @param screenName screen name of user
+     * @param screenName  screen name of user
+     * @param isCorporate returns the user found despite constraints of {@link #isCorrectUser(twitter4j.User)}
      * @return information about user
      */
-    public User getUser(String screenName) {
+    public User getUser(String screenName, boolean isCorporate) {
         try {
             User user = twitter.showUser(screenName);
-            if (isCorrectUser(user)) {
+            if (isCorporate || isCorrectUser(user)) {
                 return user;
             }
         } catch (TwitterException e) {
@@ -177,7 +178,8 @@ public class TwitterHelper {
      * @return {@code true} if user is correct
      */
     private boolean isCorrectUser(User user) {
-        return user.getLang().equals(configuration.getLang()) && !user.isProtected();
+        return user.getLang().equals(configuration.getLang()) && !user.isProtected()
+                && user.getStatus() != null;
     }
 
 }

@@ -7,34 +7,49 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    public static void main(String[] args) throws TwitterException {
+    private static final long API_RESTART = TimeUnit.MINUTES.toMillis(15);
+    private static final int MAX_API = 180;
+    private static int apiCount = 0;
+
+    private static void incCounter() {
+        if (apiCount == MAX_API) {
+            try {
+                Thread.currentThread().sleep(API_RESTART);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        apiCount++;
+        apiCount %= MAX_API;
+    }
+
+    public static void main(String[] args) throws TwitterException, URISyntaxException, MalformedURLException, UnsupportedEncodingException {
         File file = new File("DataExtraction/res/ru/config.json");
         Configuration configuration = Configuration.build(file);
-
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
-        List<User> users = new ArrayList<>();
-        List<String> usersScreenName = new ArrayList<>();
-        List<String> tweets = new ArrayList<>();
-        users.add(twitterHelper.getUser(configuration.getInitPersonalScreenName()));
-        users.addAll(twitterHelper.getFollowers(users.get(0)));
-        for (User user : users) {
-            System.out.println(user.getScreenName());
-            usersScreenName.add(user.getScreenName());
-            tweets.add(twitterHelper.getTweets(user.getScreenName()));
-        }
 
         try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
             dbHelper.createTable();
-            dbHelper.insertAll(usersScreenName, tweets, 0);
+
+            for (String account : configuration.getCorporateTwitterAccounts()) {
+                incCounter();
+                User user = twitterHelper.getUser(account, true);
+                String tweets = twitterHelper.getTweets(user.getScreenName());
+                dbHelper.insert(user.getId(), user.getScreenName(), tweets, 0);
+                System.out.println(apiCount);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
