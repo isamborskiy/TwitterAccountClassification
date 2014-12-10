@@ -16,7 +16,9 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class which help user interact with twitter API.
@@ -68,12 +70,13 @@ public class TwitterHelper {
     /**
      * Returns user tweets in json format.
      *
-     * @param screenName screen name of user
+     * @param screenName  screen name of user
+     * @param tweetNumber number of tweet per user
      * @return user tweets
      */
-    public String getTweets(String screenName) {
+    public String getTweets(String screenName, int tweetNumber) {
         try {
-            Paging paging = new Paging(1, configuration.getTweetPerUser());
+            Paging paging = new Paging(1, tweetNumber);
             List<Status> statuses = twitter.getUserTimeline(screenName, paging);
             StringWriter str = new StringWriter();
             mapper.writeValue(str, filterTweets(statuses));
@@ -108,18 +111,33 @@ public class TwitterHelper {
      */
     public List<User> findUsersByName(String name) {
         try {
-            ResponseList<User> users = twitter.searchUsers(getQuery(name), 1);
-            List<User> filteredUser = new ArrayList<>();
-            for (User user : users) {
-                if (isCorrectUser(user)) {
-                    filteredUser.add(user);
-                }
+            Set<User> filteredUser = new HashSet<>();
+            for (int page = 0; page < 5; page++) {
+                filteredUser.addAll(getUsersPageByName(name, page));
             }
-            return filteredUser;
+            return new ArrayList<>(filteredUser);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Returns list of users from {@code page} by name.
+     *
+     * @param name name of user
+     * @param page number of page
+     * @throws Exception if twitter service or network is unavailable
+     */
+    private List<User> getUsersPageByName(String name, int page) throws Exception {
+        List<User> filteredUser = new ArrayList<>();
+        ResponseList<User> users = twitter.searchUsers(getQuery(name), page);
+        for (User user : users) {
+            if (isCorrectUser(user)) {
+                filteredUser.add(user);
+            }
+        }
+        return filteredUser;
     }
 
     /**

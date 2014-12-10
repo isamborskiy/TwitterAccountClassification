@@ -32,7 +32,7 @@ public class DatabaseHelper implements AutoCloseable {
             + SCREEN_NAME + " VARCHAR(40) UNIQUE NOT NULL, "
             + TWEETS + " TEXT, "
             + ACCOUNT_TYPE + " INTEGER NOT NULL);";
-    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?);";
+    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?);";
     private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
     private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
 

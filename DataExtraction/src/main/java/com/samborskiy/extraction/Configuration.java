@@ -21,9 +21,13 @@ public class Configuration {
     }
 
     private String lang;
-    private int tweetPerUser;
+    private int personalTweetPerUser;
+    private int corporateTweetPerUser;
+    private int numberOfPersonalAccounts;
     private String databasePath;
     private String[] corporateTwitterAccounts;
+    private String manNames;
+    private String womanNames;
 
     /**
      * Builds new instance of {@code Configuration} parsing {@code jsonData}.
@@ -49,12 +53,28 @@ public class Configuration {
         this.lang = lang;
     }
 
-    public int getTweetPerUser() {
-        return tweetPerUser;
+    public int getPersonalTweetPerUser() {
+        return personalTweetPerUser;
     }
 
-    public void setTweetPerUser(int tweetPerUser) {
-        this.tweetPerUser = tweetPerUser;
+    public void setPersonalTweetPerUser(int personalTweetPerUser) {
+        this.personalTweetPerUser = personalTweetPerUser;
+    }
+
+    public int getCorporateTweetPerUser() {
+        return corporateTweetPerUser;
+    }
+
+    public void setCorporateTweetPerUser(int corporateTweetPerUser) {
+        this.corporateTweetPerUser = corporateTweetPerUser;
+    }
+
+    public int getNumberOfPersonalAccounts() {
+        return numberOfPersonalAccounts;
+    }
+
+    public void setNumberOfPersonalAccounts(int numberOfPersonalAccounts) {
+        this.numberOfPersonalAccounts = numberOfPersonalAccounts;
     }
 
     public String getDatabasePath() {
@@ -71,5 +91,21 @@ public class Configuration {
 
     public void setCorporateTwitterAccounts(String[] corporateTwitterAccounts) {
         this.corporateTwitterAccounts = corporateTwitterAccounts;
+    }
+
+    public String getManNames() {
+        return manNames;
+    }
+
+    public void setManNames(String manNames) {
+        this.manNames = manNames;
+    }
+
+    public String getWomanNames() {
+        return womanNames;
+    }
+
+    public void setWomanNames(String womanNames) {
+        this.womanNames = womanNames;
     }
 }

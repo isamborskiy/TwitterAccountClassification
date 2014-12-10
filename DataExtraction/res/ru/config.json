@@ -1,7 +1,11 @@
 {
   "lang": "ru",
   "databasePath": "res/ru",
-  "tweetPerUser": 100,
+  "personalTweetPerUser": 100,
+  "corporateTweetPerUser": 500,
+  "numberOfPersonalAccounts": 1000,
+  "manNames": "DataExtraction/res/ru/man_names",
+  "womanNames": "DataExtraction/res/ru/woman_names",
   "corporateTwitterAccounts": [
     "bm_twit",
     "svyaznoy_ru",
@@ -97,7 +101,6 @@
     "minobrnauki_ru",
     "spb_university",
     "mir_olimpiad",
-    "fifaworldcup_ru",
     "fifaworldcup_ru",
     "official_rfs",
     "slot_ru",
