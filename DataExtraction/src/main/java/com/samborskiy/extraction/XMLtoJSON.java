@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class XMLtoJSON extends DefaultHandler {
 
-    public static final File xmlFile = new File("DataExtraction/res/ru/names_w.xml");
-    public static final File jsonFile = new File("DataExtraction/res/ru/woman_names.json");
+    public static final File xmlFile = new File("DataExtraction/res/ru/names_m.xml");
+    public static final File jsonFile = new File("DataExtraction/res/ru/man_names");
     private String currentTag = "";
     private List<String> keys = new ArrayList<>();
 
@@ -35,13 +35,11 @@ public class XMLtoJSON extends DefaultHandler {
     @Override
     public void endDocument() throws SAXException {
         System.out.println("Stop parse XML...");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        StringWriter str = new StringWriter();
         try {
-            mapper.writeValue(str, keys);
             PrintWriter pw = new PrintWriter(jsonFile);
-            pw.println(str);
+            for (String key : keys) {
+                pw.println(key);
+            }
             pw.close();
         } catch (IOException e) {
             e.printStackTrace();

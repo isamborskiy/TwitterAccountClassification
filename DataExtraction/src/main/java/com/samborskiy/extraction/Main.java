@@ -3,6 +3,7 @@ package com.samborskiy.extraction;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.samborskiy.extraction.utils.DatabaseHelper;
 import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.User;
 
@@ -61,42 +62,35 @@ public class Main {
         List<String> names = getNames(configuration.getManNames());
         names.addAll(getNames(configuration.getWomanNames()));
 
-        int index = names.indexOf("соня");
-        System.out.println("соня".equals(names.get(335)));
-        String name = names.remove(index);
-        List<User> users = twitterHelper.findUsersByName(name);
-        System.out.println("Name: " + name + "(" + users.size() + ")" + " ---- " + apiCount);
-        System.out.println(users.toString());
-
-//        try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
+        try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
 //            dbHelper.createTable();
-//
-//            for (String screenName : configuration.getCorporateTwitterAccounts()) {
-//                incCounter();
-//                User user = twitterHelper.getUser(screenName, true);
-//                String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
-//                dbHelper.insert(user.getId(), user.getScreenName(), tweets, 1);
-//                System.out.println(user.getScreenName() + " " + apiCount);
-//            }
-//
-//            int personalAccountsNumber = 0;
-//            while (personalAccountsNumber < configuration.getNumberOfPersonalAccounts()
-//                    && !names.isEmpty()) {
-//                apiCount += 4;
-//                incCounter();
-//                String name = names.remove(random.nextInt(names.size()));
-//                List<User> users = twitterHelper.findUsersByName(name);
-//                System.out.println("Name: " + name + "(" + users.size() + ")" + " ---- " + apiCount);
-//                for (User user : users) {
-//                    incCounter();
-//                    String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
-//                    dbHelper.insert(user.getId(), user.getScreenName(), tweets, 0);
-//                    System.out.println(user.getScreenName() + " " + apiCount);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+            for (String screenName : configuration.getCorporateTwitterAccounts()) {
+                incCounter();
+                User user = twitterHelper.getUser(screenName, true);
+                String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
+                dbHelper.insert(user.getId(), user.getScreenName(), tweets, 1);
+                System.out.println(user.getScreenName() + " " + apiCount);
+            }
+
+            int personalAccountsNumber = 0;
+            while (personalAccountsNumber < configuration.getNumberOfPersonalAccounts()
+                    && !names.isEmpty()) {
+                apiCount += 4;
+                incCounter();
+                String name = names.remove(random.nextInt(names.size()));
+                List<User> users = twitterHelper.findUsersByName(name);
+                System.out.println("Name: " + name + "(" + users.size() + ")" + " ---- " + apiCount);
+                for (User user : users) {
+                    incCounter();
+                    String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
+                    dbHelper.insert(user.getId(), user.getScreenName(), tweets, 0);
+                    System.out.println(user.getScreenName() + " " + apiCount);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

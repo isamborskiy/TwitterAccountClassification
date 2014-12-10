@@ -141,14 +141,14 @@ public class TwitterHelper {
     }
 
     /**
-     * Returns encoded query to {@code Cp1251}.
+     * Returns encoded query to {@code UTF-8}.
      *
      * @param name name of user
      * @return resulting query
      * @throws java.io.UnsupportedEncodingException if the named encoding is not supported
      */
     private String getQuery(String name) throws UnsupportedEncodingException {
-        return "q=" + URLEncoder.encode(name, "Cp1251");
+        return "q=" + URLEncoder.encode(name, "UTF-8");
     }
 
     /**
