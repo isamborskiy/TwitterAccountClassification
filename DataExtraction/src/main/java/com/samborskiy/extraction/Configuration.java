@@ -1,7 +1,6 @@
 package com.samborskiy.extraction;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.samborskiy.extraction.utils.EntityUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +12,6 @@ import java.nio.file.Files;
  * @author Whiplash
  */
 public class Configuration {
-
-    private static ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    }
 
     private String lang;
     private int personalTweetPerUser;
@@ -38,7 +31,7 @@ public class Configuration {
     public static Configuration build(File configFile) {
         try {
             byte[] jsonData = Files.readAllBytes(configFile.toPath());
-            return mapper.readValue(jsonData, Configuration.class);
+            return EntityUtil.deserialize(jsonData, Configuration.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

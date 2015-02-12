@@ -23,9 +23,9 @@ public class DatabaseHelper implements AutoCloseable {
     private static final String TABLE_NAME = "twitter_data";
     private static final String USER_ID = "user_id";
     private static final String SCREEN_NAME = "screen_name";
-    private static final String TWEETS = "tweets";
+    public static final String TWEETS = "tweets";
     // 0 - personal account, 1 - corporate account
-    private static final String ACCOUNT_TYPE = "account_type";
+    public static final String ACCOUNT_TYPE = "account_type";
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
             + USER_ID + " INTEGER PRIMARY KEY NOT NULL, "
@@ -35,6 +35,7 @@ public class DatabaseHelper implements AutoCloseable {
     private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?);";
     private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
     private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME + ";";
 
     private Configuration configuration;
     private Connection connection;
@@ -200,6 +201,22 @@ public class DatabaseHelper implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    /**
+     * Returns {@link java.sql.ResultSet} with all table data.
+     * ATTENTION: you must close the cursor yourself (call method close())
+     *
+     * @return all table data
+     */
+    public ResultSet getAll() {
+        try {
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(SELECT_ALL_QUERY);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
