@@ -1,8 +1,8 @@
 package com.samborskiy.extraction.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.samborskiy.extraction.Configuration;
+import com.samborskiy.entity.Configuration;
+import com.samborskiy.entity.Language;
+import com.samborskiy.entity.utils.EntityUtil;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -12,7 +12,6 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -26,12 +25,6 @@ import java.util.Set;
  * @author Whiplash
  */
 public class TwitterHelper {
-
-    private static ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    }
 
     private Configuration configuration;
     private Twitter twitter;
@@ -78,9 +71,7 @@ public class TwitterHelper {
         try {
             Paging paging = new Paging(1, tweetNumber);
             List<Status> statuses = twitter.getUserTimeline(screenName, paging);
-            StringWriter str = new StringWriter();
-            mapper.writeValue(str, filterTweets(statuses));
-            return str.toString();
+            return EntityUtil.serialize(filterTweets(statuses));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +87,7 @@ public class TwitterHelper {
     private List<String> filterTweets(List<Status> statuses) {
         List<String> tweets = new ArrayList<>();
         for (Status status : statuses) {
-            if (!status.isRetweet() && status.getLang().equals(configuration.getLang())) {
+            if (!status.isRetweet() && configuration.getLang().equals(Language.fromString(status.getLang()))) {
                 tweets.add(status.getText());
             }
         }
@@ -196,8 +187,8 @@ public class TwitterHelper {
      * @return {@code true} if user is correct
      */
     private boolean isCorrectUser(User user) {
-        return user.getLang().equals(configuration.getLang()) && !user.isProtected()
-                && user.getStatus() != null;
+        return configuration.getLang().equals(Language.fromString(user.getLang()))
+                && !user.isProtected() && user.getStatus() != null;
     }
 
 }

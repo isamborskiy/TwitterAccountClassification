@@ -1,6 +1,6 @@
 package com.samborskiy.extraction.utils;
 
-import com.samborskiy.extraction.Configuration;
+import com.samborskiy.entity.Configuration;
 
 import java.io.File;
 import java.sql.Connection;
@@ -20,11 +20,25 @@ public class DatabaseHelper implements AutoCloseable {
 
     private static final String DATABASE_URL = "jdbc:sqlite:%s/%s.db";
 
+    /**
+     * Name of table.
+     */
     private static final String TABLE_NAME = "twitter_data";
+    /**
+     * Name of table column with user's id.
+     */
     private static final String USER_ID = "user_id";
+    /**
+     * Name of table column with user's screen name.
+     */
     private static final String SCREEN_NAME = "screen_name";
+    /**
+     * Name of table column with tweets.
+     */
     public static final String TWEETS = "tweets";
-    // 0 - personal account, 1 - corporate account
+    /**
+     * Name of table column with user type (0 - personal account, 1 - corporate account).
+     */
     public static final String ACCOUNT_TYPE = "account_type";
 
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("

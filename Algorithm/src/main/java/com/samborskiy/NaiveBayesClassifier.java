@@ -7,9 +7,14 @@ import com.samborskiy.extraction.utils.DatabaseHelper;
  */
 public class NaiveBayesClassifier {
 
-    public NaiveBayesClassifier(DatabaseHelper databaseHelper) {
+    private DatabaseHelper databaseHelper;
 
+    public NaiveBayesClassifier() {
+        this.databaseHelper = databaseHelper;
     }
 
+    public void train() {
+
+    }
 
 }

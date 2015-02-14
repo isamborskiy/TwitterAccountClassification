@@ -3,6 +3,7 @@ package com.samborskiy.extraction;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.samborskiy.entity.Configuration;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.User;
@@ -55,7 +56,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        File file = new File("DataExtraction/res/ru/config.json");
+        File file = new File("res/ru/config.json");
         Configuration configuration = Configuration.build(file);
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 

@@ -1,7 +1,7 @@
 package com.samborskiy.misc;
 
 import com.samborskiy.extraction.utils.DatabaseHelper;
-import com.samborskiy.extraction.utils.EntityUtil;
+import com.samborskiy.entity.utils.EntityUtil;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.FastVector;
@@ -69,7 +69,6 @@ public class DatabaseToArff {
         String type = getType(row.getInt(DatabaseHelper.ACCOUNT_TYPE));
         for (String tweet : tweets) {
             Instance instance = new DenseInstance(2);
-//            features.get(0).addStringValue(tweet);
             instance.setValue(features.get(0), tweet);
             instance.setValue(features.get(1), type);
             instances.add(instance);
