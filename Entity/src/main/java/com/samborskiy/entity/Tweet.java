@@ -3,8 +3,6 @@ package com.samborskiy.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * Class stores user's tweet.
@@ -90,13 +88,4 @@ public class Tweet implements Iterable<String> {
         return words.iterator();
     }
 
-    @Override
-    public void forEach(Consumer<? super String> action) {
-        words.forEach(action);
-    }
-
-    @Override
-    public Spliterator<String> spliterator() {
-        return words.spliterator();
-    }
 }
