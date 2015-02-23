@@ -1,4 +1,3 @@
-// CHECKSTYLE:OFF
 package com.samborskiy.extraction.misc;
 
 import org.xml.sax.Attributes;
@@ -34,9 +33,7 @@ public class XMLtoJSON extends DefaultHandler {
         System.out.println("Stop parse XML...");
         try {
             PrintWriter pw = new PrintWriter(jsonFile);
-            for (String key : keys) {
-                pw.println(key);
-            }
+            keys.forEach(pw::println);
             pw.close();
         } catch (IOException e) {
             e.printStackTrace();

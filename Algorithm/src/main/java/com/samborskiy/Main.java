@@ -6,12 +6,14 @@ import com.samborskiy.entity.Tweet;
 import com.samborskiy.misc.InstancesFromDatabase;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
-    public static final String TRAIN_FILE_PATH = "res/ru/config1.json";
-    public static final String TEST_FILE_PATH = "res/ru/config2.json";
+    public static final String TRAIN_FILE_PATH = "res/ru/config_1.json";
+    public static final String TEST_FILE_PATH = "res/ru/config_2.json";
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
@@ -24,13 +26,19 @@ public class Main {
 
         NaiveBayesClassifier classifier = new NaiveBayesClassifier(train);
         classifier.train();
-        int successCounter = 0;
-        for (List<Tweet> tweets : test) {
-            if (!tweets.isEmpty() && classifier.getClassId(tweets) == tweets.get(0).getClassId()) {
-                successCounter++;
+        Map<Integer, Integer> successCounter = new HashMap<>();
+        Map<Integer, Integer> counter = new HashMap<>();
+        test.stream().filter(tweets -> !tweets.isEmpty()).forEach(tweets -> {
+            int classId = tweets.get(0).getClassId();
+            if (classifier.getClassId(tweets) == classId) {
+                successCounter.put(classId, successCounter.getOrDefault(classId, 0) + 1);
             }
+            counter.put(classId, counter.getOrDefault(classId, 0) + 1);
+        });
+
+        for (Integer classId : counter.keySet()) {
+            System.out.format("Guess: %d of %d for classId = %d\n", successCounter.getOrDefault(classId, 0), counter.get(classId), classId);
         }
-        System.out.println("Guess: " + successCounter + " of " + test.size());
     }
 
 }

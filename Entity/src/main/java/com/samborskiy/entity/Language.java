@@ -34,7 +34,8 @@ public enum Language {
         strToLang.put("", all);
     }
 
-    private static final int[] RU_RANGES = {'А', 'Я', 'а', 'я'};
+    // the same as {'А', 'Я', 'а', 'я'};
+    private static final int[] RU_RANGES = {1040, 1071, 1072, 1103};
     private static final int[] EN_RANGES = {'A', 'Z', 'a', 'z'};
 
     /**

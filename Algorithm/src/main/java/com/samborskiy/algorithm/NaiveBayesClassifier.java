@@ -38,7 +38,7 @@ public class NaiveBayesClassifier {
         Map<Integer, List<Tweet>> tweets = new HashMap<>();
         for (Tweet tweet : data) {
             if (tweets.get(tweet.getClassId()) == null) {
-                tweets.put(tweet.getClassId(), new ArrayList<Tweet>());
+                tweets.put(tweet.getClassId(), new ArrayList<>());
             }
             tweets.get(tweet.getClassId()).add(tweet);
         }
@@ -49,7 +49,7 @@ public class NaiveBayesClassifier {
         Map<String, Double> probabilities = new HashMap<>();
         for (Tweet tweet : tweets) {
             for (String word : tweet) {
-                Double value = getOrDefault(probabilities, word, 0.);
+                Double value = probabilities.getOrDefault(word, 0.);
                 probabilities.put(word, value + 1);
             }
         }
@@ -59,17 +59,9 @@ public class NaiveBayesClassifier {
     private void calculateProbabilityLn(Map<String, Double> all, Map<String, Double> part) {
         for (String word : all.keySet()) {
             Double allCountLn = log(all.get(word) + ALPHA);
-            Double partCountLn = log(getOrDefault(part, word, 0.) + ALPHA * 2);
+            Double partCountLn = log(part.getOrDefault(word, 0.) + ALPHA * 2);
             part.put(word, partCountLn - allCountLn);
         }
-    }
-
-    private <K, V> V getOrDefault(Map<K, V> map, K key, V defaultValue) {
-        V value = map.get(key);
-        if (value == null) {
-            value = defaultValue;
-        }
-        return value;
     }
 
     public int getClassId(List<Tweet> tweets) {
@@ -79,7 +71,7 @@ public class NaiveBayesClassifier {
         Map<Integer, Integer> classToCount = new HashMap<>();
         for (Tweet tweet : tweets) {
             int classId = getClassId(tweet);
-            int count = getOrDefault(classToCount, classId, 0);
+            int count = classToCount.getOrDefault(classId, 0);
             classToCount.put(classId, count + 1);
         }
         return maxElementKey(classToCount);
@@ -109,7 +101,7 @@ public class NaiveBayesClassifier {
         Map<String, Double> probabilities = this.probabilities.get(classId);
         double probabilityLn = 0;
         for (String word : tweet) {
-            probabilityLn += getOrDefault(probabilities, word, 0.);
+            probabilityLn += probabilities.getOrDefault(word, 0.);
         }
         return probabilityLn;
     }

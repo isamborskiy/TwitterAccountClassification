@@ -1,7 +1,10 @@
 apply plugin: 'java'
-apply plugin: 'checkstyle'
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.2.+'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
 }
