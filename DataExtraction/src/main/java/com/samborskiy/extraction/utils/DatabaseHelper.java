@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DatabaseHelper implements AutoCloseable {
 
-    private static final String DATABASE_URL = "jdbc:sqlite:%s/%s.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:%s";
 
     /**
      * Name of table.
@@ -74,10 +74,16 @@ public class DatabaseHelper implements AutoCloseable {
     private void connect() throws Exception {
         Class.forName("org.sqlite.JDBC");
         File databasePath = new File(configuration.getDatabasePath());
-        if (databasePath.exists() || databasePath.mkdirs()) {
-            String databaseUrl = String.format(DATABASE_URL, configuration.getDatabasePath(), configuration.getLang());
+        File databaseFolder = getFolder(databasePath);
+        if (databaseFolder.exists() || databaseFolder.mkdirs()) {
+            String databaseUrl = String.format(DATABASE_URL, configuration.getDatabasePath());
             connection = DriverManager.getConnection(databaseUrl);
         }
+    }
+
+    private File getFolder(File file) {
+        String absolutePath = file.getAbsolutePath();
+        return new File(absolutePath.substring(0, absolutePath.lastIndexOf(File.separator)));
     }
 
     /**

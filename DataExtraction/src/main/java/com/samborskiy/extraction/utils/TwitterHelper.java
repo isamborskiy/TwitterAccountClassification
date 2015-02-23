@@ -47,15 +47,12 @@ public class TwitterHelper {
      * @param screenName  screen name of user
      * @param isCorporate returns the user found despite constraints of {@link #isCorrectUser(twitter4j.User)}
      * @return information about user
+     * @throws TwitterException if twitter service or network is unavailable
      */
-    public User getUser(String screenName, boolean isCorporate) {
-        try {
-            User user = twitter.showUser(screenName);
-            if (isCorporate || isCorrectUser(user)) {
-                return user;
-            }
-        } catch (TwitterException e) {
-            e.printStackTrace();
+    public User getUser(String screenName, boolean isCorporate) throws TwitterException {
+        User user = twitter.showUser(screenName);
+        if (isCorporate || isCorrectUser(user)) {
+            return user;
         }
         return null;
     }
@@ -66,16 +63,12 @@ public class TwitterHelper {
      * @param screenName  screen name of user
      * @param tweetNumber number of tweet per user
      * @return user tweets
+     * @throws TwitterException if twitter service or network is unavailable
      */
-    public String getTweets(String screenName, int tweetNumber) {
-        try {
-            Paging paging = new Paging(1, tweetNumber);
-            List<Status> statuses = twitter.getUserTimeline(screenName, paging);
-            return EntityUtil.serialize(filterTweets(statuses));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public String getTweets(String screenName, int tweetNumber) throws TwitterException {
+        Paging paging = new Paging(1, tweetNumber);
+        List<Status> statuses = twitter.getUserTimeline(screenName, paging);
+        return EntityUtil.serialize(filterTweets(statuses));
     }
 
     /**
@@ -99,18 +92,14 @@ public class TwitterHelper {
      *
      * @param name name of user
      * @return list of users
+     * @throws TwitterException if twitter service or network is unavailable
      */
-    public List<User> findUsersByName(String name) {
-        try {
-            Set<User> filteredUser = new HashSet<>();
-            for (int page = 0; page < 5; page++) {
-                filteredUser.addAll(getUsersPageByName(name, page));
-            }
-            return new ArrayList<>(filteredUser);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    public List<User> findUsersByName(String name) throws TwitterException {
+        Set<User> filteredUser = new HashSet<>();
+        for (int page = 0; page < 5; page++) {
+            filteredUser.addAll(getUsersPageByName(name, page));
         }
+        return new ArrayList<>(filteredUser);
     }
 
     /**
@@ -118,15 +107,19 @@ public class TwitterHelper {
      *
      * @param name name of user
      * @param page number of page
-     * @throws Exception if twitter service or network is unavailable
+     * @throws TwitterException if twitter service or network is unavailable
      */
-    private List<User> getUsersPageByName(String name, int page) throws Exception {
+    private List<User> getUsersPageByName(String name, int page) throws TwitterException {
         List<User> filteredUser = new ArrayList<>();
-        ResponseList<User> users = twitter.searchUsers(getQuery(name), page);
-        for (User user : users) {
-            if (isCorrectUser(user)) {
-                filteredUser.add(user);
+        try {
+            ResponseList<User> users = twitter.searchUsers(getQuery(name), page);
+            for (User user : users) {
+                if (isCorrectUser(user)) {
+                    filteredUser.add(user);
+                }
             }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
         return filteredUser;
     }
@@ -147,21 +140,17 @@ public class TwitterHelper {
      *
      * @param user user from whom you want to request followers
      * @return user's followers
+     * @throws TwitterException if twitter service or network is unavailable
      */
-    public List<User> getFollowers(User user) {
+    public List<User> getFollowers(User user) throws TwitterException {
         long cursor = -1;
         PagableResponseList<User> followers;
         List<User> users = new ArrayList<>();
-        try {
-            do {
-                followers = twitter.getFollowersList(user.getId(), cursor);
-                users.addAll(filterFollowers(followers));
-            } while ((cursor = followers.getNextCursor()) != 0);
-            return users;
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            return null;
-        }
+        do {
+            followers = twitter.getFollowersList(user.getId(), cursor);
+            users.addAll(filterFollowers(followers));
+        } while ((cursor = followers.getNextCursor()) != 0);
+        return users;
     }
 
     /**

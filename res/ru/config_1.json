@@ -1,6 +1,6 @@
 {
   "lang": "ru",
-  "databasePath": "res/ru",
+  "databasePath": "res/ru/ru_train_1.db",
   "personalTweetPerUser": 100,
   "corporateTweetPerUser": 500,
   "numberOfPersonalAccounts": 1000,

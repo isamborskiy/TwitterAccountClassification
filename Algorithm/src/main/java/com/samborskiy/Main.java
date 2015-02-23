@@ -1,33 +1,36 @@
-// CHECKSTYLE:OFF
 package com.samborskiy;
 
 import com.samborskiy.algorithm.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Tweet;
-import com.samborskiy.entity.utils.EntityUtil;
-import com.samborskiy.extraction.utils.TwitterHelper;
 import com.samborskiy.misc.InstancesFromDatabase;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        File file = new File("res/ru/config.json");
-        Configuration configuration = Configuration.build(file);
-        List<Tweet> sample = InstancesFromDatabase.get(configuration);
-        NaiveBayesClassifier classifier = new NaiveBayesClassifier(sample);
+    public static final String TRAIN_FILE_PATH = "res/ru/config1.json";
+    public static final String TEST_FILE_PATH = "res/ru/config2.json";
+
+    public static void main(String[] args) throws Exception {
+        File configFileTrain = new File(TRAIN_FILE_PATH);
+        Configuration trainConfiguration = Configuration.build(configFileTrain);
+        List<Tweet> train = InstancesFromDatabase.getAllTweets(trainConfiguration);
+
+        File configFileTest = new File(TEST_FILE_PATH);
+        Configuration testConfiguration = Configuration.build(configFileTest);
+        List<List<Tweet>> test = InstancesFromDatabase.getUsersTweets(testConfiguration);
+
+        NaiveBayesClassifier classifier = new NaiveBayesClassifier(train);
         classifier.train();
-        TwitterHelper twitterHelper = new TwitterHelper(configuration);
-        String[] tweetsArray = EntityUtil.deserialize(twitterHelper.getTweets("yandex", configuration.getNumberOfPersonalAccounts()).getBytes(), String[].class);
-        List<Tweet> tweets = new ArrayList<>();
-        for (String tweet : tweetsArray) {
-            tweets.add(new Tweet(tweet, configuration));
+        int successCounter = 0;
+        for (List<Tweet> tweets : test) {
+            if (!tweets.isEmpty() && classifier.getClassId(tweets) == tweets.get(0).getClassId()) {
+                successCounter++;
+            }
         }
-        System.out.println(classifier.getClassId(tweets));
+        System.out.println("Guess: " + successCounter + " of " + test.size());
     }
 
 }

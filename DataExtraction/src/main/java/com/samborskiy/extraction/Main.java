@@ -1,9 +1,9 @@
-// CHECKSTYLE:OFF
 package com.samborskiy.extraction;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.samborskiy.entity.Configuration;
+import com.samborskiy.extraction.requests.FindUsersRequest;
+import com.samborskiy.extraction.requests.TweetsRequest;
+import com.samborskiy.extraction.requests.UserRequest;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.User;
@@ -14,32 +14,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private static final long API_RESTART = TimeUnit.MINUTES.toMillis(15);
-    private static final int MAX_API = 180;
-    private static int apiCount = 0;
     private static Random random = new Random();
-    private static ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    }
-
-    private static void incCounter() {
-        if (apiCount >= MAX_API) {
-            try {
-                System.out.println("SLEEP");
-                Thread.currentThread().sleep(API_RESTART);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        apiCount %= MAX_API;
-        apiCount++;
-    }
 
     private static List<String> getNames(String fileName) {
         try (BufferedReader bf = new BufferedReader(new FileReader(fileName))) {
@@ -56,7 +34,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        File file = new File("res/ru/config.json");
+        File file = new File("res/ru/config_2.json");
         Configuration configuration = Configuration.build(file);
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 
@@ -64,29 +42,24 @@ public class Main {
         names.addAll(getNames(configuration.getWomanNames()));
 
         try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
-//            dbHelper.createTable();
+            dbHelper.createTable();
 
             for (String screenName : configuration.getCorporateTwitterAccounts()) {
-                incCounter();
-                User user = twitterHelper.getUser(screenName, true);
-                String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
+                User user = new UserRequest(twitterHelper, screenName, true).make();
+                String tweets = new TweetsRequest(twitterHelper, user, configuration.getCorporateTweetPerUser()).make();
                 dbHelper.insert(user.getId(), user.getScreenName(), tweets, 1);
-                System.out.println(user.getScreenName() + " " + apiCount);
+                System.out.println("Get information about corporate: " + user.getScreenName());
             }
 
             int personalAccountsNumber = 0;
-            while (personalAccountsNumber < configuration.getNumberOfPersonalAccounts()
-                    && !names.isEmpty()) {
-                apiCount += 4;
-                incCounter();
+            while (personalAccountsNumber < configuration.getNumberOfPersonalAccounts() && !names.isEmpty()) {
                 String name = names.remove(random.nextInt(names.size()));
-                List<User> users = twitterHelper.findUsersByName(name);
-                System.out.println("Name: " + name + "(" + users.size() + ")" + " ---- " + apiCount);
+                List<User> users = new FindUsersRequest(twitterHelper, name).make();
+                System.out.format("Get users with name: %s (%d)\n", name, users.size());
                 for (User user : users) {
-                    incCounter();
-                    String tweets = twitterHelper.getTweets(user.getScreenName(), configuration.getCorporateTweetPerUser());
+                    String tweets = new TweetsRequest(twitterHelper, user, configuration.getPersonalTweetPerUser()).make();
                     dbHelper.insert(user.getId(), user.getScreenName(), tweets, 0);
-                    System.out.println(user.getScreenName() + " " + apiCount);
+                    System.out.println("Get information about person: " + user.getScreenName());
                 }
             }
         } catch (Exception e) {
