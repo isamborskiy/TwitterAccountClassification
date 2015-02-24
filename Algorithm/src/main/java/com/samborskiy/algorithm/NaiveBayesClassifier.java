@@ -2,9 +2,15 @@ package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Tweet;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.StrictMath.log;
@@ -12,22 +18,26 @@ import static java.lang.StrictMath.log;
 /**
  * Created by Whiplash on 12.02.2015.
  */
-public class NaiveBayesClassifier {
+public class NaiveBayesClassifier extends Classifier {
 
     private static final double ALPHA = 1;
 
-    private List<Tweet> data;
     // class id -> (word -> probability)
     private Map<Integer, Map<String, Double>> probabilities;
 
-    public NaiveBayesClassifier(List<Tweet> data) {
-        this.data = data;
+    public NaiveBayesClassifier(InputStream in) {
+        super(in);
     }
 
+    public NaiveBayesClassifier(List<Tweet> data) {
+        super(data);
+    }
+
+    @Override
     public void train() {
         probabilities = new HashMap<>();
         Map<Integer, List<Tweet>> tweets = splitData();
-        Map<String, Double> count = calculateCount(data);
+        Map<String, Double> count = calculateCount(getData());
         for (Integer classId : tweets.keySet()) {
             probabilities.put(classId, calculateCount(tweets.get(classId)));
             calculateProbabilityLn(count, probabilities.get(classId));
@@ -36,7 +46,7 @@ public class NaiveBayesClassifier {
 
     private Map<Integer, List<Tweet>> splitData() {
         Map<Integer, List<Tweet>> tweets = new HashMap<>();
-        for (Tweet tweet : data) {
+        for (Tweet tweet : getData()) {
             if (tweets.get(tweet.getClassId()) == null) {
                 tweets.put(tweet.getClassId(), new ArrayList<>());
             }
@@ -64,19 +74,7 @@ public class NaiveBayesClassifier {
         }
     }
 
-    public int getClassId(List<Tweet> tweets) {
-        if (probabilities == null) {
-            throw new IllegalStateException("you need to run method 'train()' first");
-        }
-        Map<Integer, Integer> classToCount = new HashMap<>();
-        for (Tweet tweet : tweets) {
-            int classId = getClassId(tweet);
-            int count = classToCount.getOrDefault(classId, 0);
-            classToCount.put(classId, count + 1);
-        }
-        return maxElementKey(classToCount);
-    }
-
+    @Override
     public int getClassId(Tweet tweet) {
         Map<Integer, Double> classToProbability = new HashMap<>();
         for (Integer classId : probabilities.keySet()) {
@@ -85,16 +83,36 @@ public class NaiveBayesClassifier {
         return maxElementKey(classToProbability);
     }
 
-    private <K, V extends Comparable<V>> K maxElementKey(Map<K, V> map) {
-        V maxValue = null;
-        K maxKey = null;
-        for (K key : map.keySet()) {
-            if (maxValue == null || map.get(key).compareTo(maxValue) == 1) {
-                maxKey = key;
-                maxValue = map.get(key);
+    @Override
+    public void read(InputStream in) {
+        try (BufferedReader bf = new BufferedReader(new InputStreamReader(in))) {
+            probabilities = new HashMap<>();
+            Map<String, Double> classIdProbabilities = null;
+            String line;
+            while ((line = bf.readLine()) != null) {
+                if (line.startsWith("Class id ")) {
+                    classIdProbabilities = new HashMap<>();
+                    probabilities.put(Integer.parseInt(line.replace("Class id ", "")), classIdProbabilities);
+                } else {
+                    String[] parseLine = line.split(" ");
+                    classIdProbabilities.put(parseLine[0], Double.parseDouble(parseLine[1]));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void write(OutputStream out) {
+        try (PrintWriter pw = new PrintWriter(out)) {
+            for (Integer classId : probabilities.keySet()) {
+                pw.format("Class id %d\n", classId);
+                for (String word : probabilities.get(classId).keySet()) {
+                    pw.format(Locale.US, "%s %f\n", word, probabilities.get(classId).get(word));
+                }
             }
         }
-        return maxKey;
     }
 
     private double credibilityFunctionLn(Tweet tweet, int classId) {

@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class Main {
 
-    public static final String TRAIN_FILE_PATH = "res/ru/config_1.json";
-    public static final String TEST_FILE_PATH = "res/ru/config_2.json";
+    public static final String TRAIN_FILE_PATH = "res/ru/config_train_1.json";
+    public static final String TEST_FILE_PATH = "res/ru/config_test_2.json";
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);

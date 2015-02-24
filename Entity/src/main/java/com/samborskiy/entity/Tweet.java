@@ -57,7 +57,7 @@ public class Tweet implements Iterable<String> {
      * @return {@code true} if word is correct, {@code false} - otherwise
      */
     private boolean isCorrect(String word, Configuration configuration) {
-        return word.length() >= 3 && configuration.getLang().isCorrectWord(word);
+        return configuration.getLang().isCorrectWord(word);
     }
 
     public int getClassId() {

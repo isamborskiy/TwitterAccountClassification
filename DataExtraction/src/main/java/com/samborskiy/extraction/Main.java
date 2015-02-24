@@ -34,7 +34,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        File file = new File("res/ru/config_2.json");
+        File file = new File("res/ru/config_test_2.json");
         Configuration configuration = Configuration.build(file);
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 
