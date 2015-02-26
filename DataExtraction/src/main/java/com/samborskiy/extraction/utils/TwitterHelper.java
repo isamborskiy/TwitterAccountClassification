@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Class which help user interact with twitter API.
@@ -45,13 +46,13 @@ public class TwitterHelper {
      * Returns information about user by screen name.
      *
      * @param screenName  screen name of user
-     * @param isCorporate returns the user found despite constraints of {@link #isCorrectUser(twitter4j.User)}
+     * @param constraints returns the user found despite constraints of {@link #isCorrectUser(twitter4j.User)}
      * @return information about user
-     * @throws TwitterException if twitter service or network is unavailable
+     * @throws twitter4j.TwitterException if twitter service or network is unavailable
      */
-    public User getUser(String screenName, boolean isCorporate) throws TwitterException {
+    public User getUser(String screenName, boolean constraints) throws TwitterException {
         User user = twitter.showUser(screenName);
-        if (isCorporate || isCorrectUser(user)) {
+        if (!constraints || isCorrectUser(user)) {
             return user;
         }
         return null;
@@ -113,11 +114,7 @@ public class TwitterHelper {
         List<User> filteredUser = new ArrayList<>();
         try {
             ResponseList<User> users = twitter.searchUsers(getQuery(name), page);
-            for (User user : users) {
-                if (isCorrectUser(user)) {
-                    filteredUser.add(user);
-                }
-            }
+            filteredUser.addAll(users.stream().filter(this::isCorrectUser).collect(Collectors.toList()));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -160,13 +157,7 @@ public class TwitterHelper {
      * @return list of followers
      */
     private List<User> filterFollowers(PagableResponseList<User> followers) {
-        List<User> users = new ArrayList<>();
-        for (User follower : followers) {
-            if (isCorrectUser(follower)) {
-                users.add(follower);
-            }
-        }
-        return users;
+        return followers.stream().filter(this::isCorrectUser).collect(Collectors.toList());
     }
 
     /**

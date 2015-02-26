@@ -12,24 +12,24 @@ import twitter4j.User;
 public class UserRequest extends Request<User> {
 
     private final String screenName;
-    private final boolean isCorporate;
+    private final boolean constraints;
 
     /**
      * Creates instance of {@code FindUsersRequest}.
      *
      * @param twitterHelper to get access to twitter API
      * @param screenName    screen name of user
-     * @param isCorporate   is corporate account or personal
+     * @param constraints   is corporate account or personal
      */
-    public UserRequest(TwitterHelper twitterHelper, String screenName, boolean isCorporate) {
+    public UserRequest(TwitterHelper twitterHelper, String screenName, boolean constraints) {
         super(twitterHelper);
         this.screenName = screenName;
-        this.isCorporate = isCorporate;
+        this.constraints = constraints;
     }
 
     @Override
     protected User run() throws TwitterException {
-        return getTwitterHelper().getUser(screenName, isCorporate);
+        return getTwitterHelper().getUser(screenName, constraints);
     }
 
 }
