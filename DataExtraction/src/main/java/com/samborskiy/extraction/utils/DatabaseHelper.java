@@ -224,6 +224,17 @@ public class DatabaseHelper implements AutoCloseable {
         }
     }
 
+    public boolean hasUser(String screenName) {
+        try (Statement statement = connection.createStatement()) {
+            String selectQuery = String.format(SELECT_QUERY_SCREEN_NAME, TWEETS, screenName);
+            ResultSet set = statement.executeQuery(selectQuery);
+            return !set.isAfterLast();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * Returns {@link java.sql.ResultSet} with all table data.
      * ATTENTION: you must close the cursor yourself (call method close())
