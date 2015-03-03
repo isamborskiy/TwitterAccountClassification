@@ -6,39 +6,50 @@ import com.samborskiy.entity.Tweet;
 import com.samborskiy.misc.InstancesFromDatabase;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    public static final String TRAIN_FILE_PATH = "res/ru/config_train_1.json";
-    public static final String TEST_FILE_PATH = "res/ru/config_test_2.json";
+    private static final String TRAIN_FILE_PATH = "res/ru/config.json";
+    private static final int K = 5;
+    private static final int N = 50;
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration trainConfiguration = Configuration.build(configFileTrain);
-        List<Tweet> train = InstancesFromDatabase.getAllTweets(trainConfiguration);
+        List<List<Tweet>> sample = InstancesFromDatabase.getUsersTweets(trainConfiguration);
 
-        File configFileTest = new File(TEST_FILE_PATH);
-        Configuration testConfiguration = Configuration.build(configFileTest);
-        List<List<Tweet>> test = InstancesFromDatabase.getUsersTweets(testConfiguration);
-
-        NaiveBayesClassifier classifier = new NaiveBayesClassifier(train);
-        classifier.train();
-        Map<Integer, Integer> successCounter = new HashMap<>();
-        Map<Integer, Integer> counter = new HashMap<>();
-        test.stream().filter(tweets -> !tweets.isEmpty()).forEach(tweets -> {
-            int classId = tweets.get(0).getClassId();
-            if (classifier.getClassId(tweets) == classId) {
-                successCounter.put(classId, successCounter.getOrDefault(classId, 0) + 1);
+        List<Double> counter = new ArrayList<>(N);
+        for (int i = 0; i < N; i++) {
+            Collections.shuffle(sample);
+            List<List<Tweet>> userTrain = sample.subList(0, sample.size() * (K - 1) / K);
+            List<List<Tweet>> test = sample.subList(sample.size() * (K - 1) / K, sample.size());
+            List<Tweet> train = new ArrayList<>();
+            for (List<Tweet> userTweets : userTrain) {
+                train.addAll(userTweets.stream().collect(Collectors.toList()));
             }
-            counter.put(classId, counter.getOrDefault(classId, 0) + 1);
-        });
-
-        for (Integer classId : counter.keySet()) {
-            System.out.format("Guess: %d of %d for classId = %d\n", successCounter.getOrDefault(classId, 0), counter.get(classId), classId);
+            NaiveBayesClassifier classifier = new NaiveBayesClassifier(train);
+            classifier.train();
+            double success = 0;
+            for (List<Tweet> tweets : test) {
+                if (!tweets.isEmpty()) {
+                    if (classifier.getClassId(tweets) == tweets.get(0).getClassId()) {
+                        success++;
+                    }
+                }
+            }
+            counter.add(success / test.size());
         }
+
+        double avrSuccess = 0.;
+        for (Double success : counter) {
+            avrSuccess += success;
+        }
+        avrSuccess = avrSuccess / N;
+        System.out.format("Avr success: %f", avrSuccess);
     }
 
 }

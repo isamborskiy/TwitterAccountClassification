@@ -37,7 +37,11 @@ public abstract class Classifier {
             int count = classToCount.getOrDefault(classId, 0);
             classToCount.put(classId, count + 1);
         }
-        return maxElementKey(classToCount);
+        if (!classToCount.isEmpty()) {
+            return maxElementKey(classToCount);
+        } else {
+            return 0;
+        }
     }
 
     public abstract int getClassId(Tweet tweet);
