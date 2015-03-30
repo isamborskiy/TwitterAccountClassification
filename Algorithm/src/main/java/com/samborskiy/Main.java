@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration trainConfiguration = Configuration.build(configFileTrain);
-        List<List<Tweet>> sample = InstancesFromDatabase.getUsersTweets(trainConfiguration);
+        List<List<Tweet>> sample = InstancesFromDatabase.getAllAccounts(trainConfiguration);
 
         List<Double> counter = new ArrayList<>(N);
         for (int i = 0; i < N; i++) {

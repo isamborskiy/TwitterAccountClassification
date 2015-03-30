@@ -16,48 +16,40 @@ public class Tweet implements Iterable<String> {
      */
     private static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
-    private final List<String> words = new ArrayList<>();
+    private final List<String> words;
     private final String tweet;
     private final int classId;
 
     /**
      * Returns new instance of {@code Message} parsing {@code tweet}.
      *
-     * @param tweet         text of tweet
-     * @param classId       id of class (eg. 0 is personal, 1 is corporate)
-     * @param configuration configuration for chosen language
+     * @param tweet    text of tweet
+     * @param classId  id of class (eg. 0 is personal, 1 is corporate)
+     * @param language language of tweet
      */
-    public Tweet(String tweet, int classId, Configuration configuration) {
+    public Tweet(String tweet, int classId, Language language) {
         this.tweet = tweet;
-        tweet = tweet.replaceAll(URL_REGEX, " ");
-        String[] wordsArray = tweet.split("[ ,.?!()-]");
-        for (String word : wordsArray) {
-            if (isCorrect(word, configuration)) {
-                this.words.add(word);
-            }
-        }
+        this.words = parseTweet(tweet, language);
         this.classId = classId;
     }
 
     /**
-     * Returns new instance of {@code Message} parsing {@code tweet} with {@code classId} = 0.
+     * Parses tweet's string to get word from it.
      *
-     * @param tweet         text of tweet
-     * @param configuration configuration for chosen language
+     * @param tweet    text of tweet
+     * @param language language of tweet
+     * @return tweet
      */
-    public Tweet(String tweet, Configuration configuration) {
-        this(tweet, 0, configuration);
-    }
-
-    /**
-     * Checks is {@code word} correct or not.
-     *
-     * @param word          word to be checked
-     * @param configuration configuration for chosen language
-     * @return {@code true} if word is correct, {@code false} - otherwise
-     */
-    private boolean isCorrect(String word, Configuration configuration) {
-        return configuration.getLang().isCorrectWord(word);
+    private List<String> parseTweet(String tweet, Language language) {
+        List<String> words = new ArrayList<>();
+        tweet = tweet.replaceAll(URL_REGEX, " ");
+        String[] wordsArray = tweet.split("[ ,.?!()-]");
+        for (String word : wordsArray) {
+            if (language.isCorrectWord(word)) {
+                words.add(word);
+            }
+        }
+        return words;
     }
 
     public int getClassId() {
