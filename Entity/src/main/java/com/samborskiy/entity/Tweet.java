@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Whiplash
  */
-public class Tweet implements Iterable<String> {
+public class Tweet extends Instance {
 
     /**
      * Regex for parse url.
@@ -18,7 +18,6 @@ public class Tweet implements Iterable<String> {
 
     private final List<String> words;
     private final String tweet;
-    private final int classId;
 
     /**
      * Returns new instance of {@code Message} parsing {@code tweet}.
@@ -28,9 +27,9 @@ public class Tweet implements Iterable<String> {
      * @param language language of tweet
      */
     public Tweet(String tweet, int classId, Language language) {
+        super(classId);
         this.tweet = tweet;
         this.words = parseTweet(tweet, language);
-        this.classId = classId;
     }
 
     /**
@@ -50,10 +49,6 @@ public class Tweet implements Iterable<String> {
             }
         }
         return words;
-    }
-
-    public int getClassId() {
-        return classId;
     }
 
     /**

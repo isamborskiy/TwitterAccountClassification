@@ -3,15 +3,6 @@
   "databasePath": "res/ru/sample.db",
   "types": [
     {
-      "id": -1,
-      "name": "fake",
-      "tweetPerUser": 500,
-      "constraints": false,
-      "data": {
-        "peopleNames": "res/ru/screen_names_-1"
-      }
-    },
-    {
       "id": 0,
       "name": "personal",
       "tweetPerUser": 150,
@@ -27,6 +18,15 @@
       "constraints": false,
       "data": {
         "screenNames": "res/ru/screen_names_1"
+      }
+    },
+    {
+      "id": 2,
+      "name": "fake",
+      "tweetPerUser": 500,
+      "constraints": false,
+      "data": {
+        "peopleNames": "res/ru/screen_names_-1"
       }
     }
   ]

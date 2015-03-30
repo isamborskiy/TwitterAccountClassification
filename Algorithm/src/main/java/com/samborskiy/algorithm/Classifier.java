@@ -1,51 +1,60 @@
 package com.samborskiy.algorithm;
 
-import com.samborskiy.entity.Tweet;
+import com.samborskiy.entity.Instance;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Whiplash on 24.02.2015.
+ * Abstract classifier.
+ *
+ * @author Whiplash
  */
-public abstract class Classifier {
+public abstract class Classifier<E extends Instance> {
 
-    private List<Tweet> data;
-
-    public Classifier(InputStream in) {
-        // use method read to initialize classifier
-        read(in);
+    /**
+     * Restores instance of {@code Classifier} from file.
+     *
+     * @param is where will be restored classifier
+     */
+    public Classifier(InputStream is) {
+        read(is);
     }
 
-    public Classifier(List<Tweet> data) {
-        this.data = data;
+    /**
+     * Creates instance of classifier with initialize {@code data}.<p>
+     * Recommends to train the classifier call method {@code train}.
+     */
+    public Classifier() {
     }
 
-    public List<Tweet> getData() {
-        return data;
-    }
+    /**
+     * Trains classifier using {@code data}.
+     *
+     * @param data training sample
+     */
+    public abstract void train(List<E> data);
 
-    public abstract void train();
+    public abstract void clear();
 
-    public int getClassId(List<Tweet> tweets) {
-        Map<Integer, Integer> classToCount = new HashMap<>();
-        for (Tweet tweet : tweets) {
-            int classId = getClassId(tweet);
-            int count = classToCount.getOrDefault(classId, 0);
-            classToCount.put(classId, count + 1);
-        }
-        if (!classToCount.isEmpty()) {
-            return maxElementKey(classToCount);
-        } else {
-            return 0;
-        }
-    }
+    /**
+     * Returns class id of instance.
+     *
+     * @param element instance for which will look for class id
+     * @return class id of instance
+     */
+    public abstract int getClassId(E element);
 
-    public abstract int getClassId(Tweet tweet);
-
+    /**
+     * Returns key of max value in map.
+     *
+     * @param map map where it will be searched
+     * @param <K> type of map key
+     * @param <V> type of map value
+     * @return key of max value in map
+     */
     protected <K, V extends Comparable<V>> K maxElementKey(Map<K, V> map) {
         V maxValue = null;
         K maxKey = null;
@@ -58,8 +67,18 @@ public abstract class Classifier {
         return maxKey;
     }
 
-    public abstract void read(InputStream in);
+    /**
+     * Restores instance of {@code Classifier} from file.<p>
+     * See {@link #Classifier(java.io.InputStream)}.
+     *
+     * @param is where will be restored classifier
+     */
+    protected abstract void read(InputStream in);
 
+    /**
+     * Writes snapshot of classifier to stream.
+     *
+     * @param out where will be stored classifier
+     */
     public abstract void write(OutputStream out);
-
 }

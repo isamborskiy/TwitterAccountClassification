@@ -11,12 +11,10 @@ import java.util.function.Consumer;
  *
  * @author Whiplash
  */
-public class Account implements Iterable<Tweet> {
+public class Account extends Instance {
 
-    private final List<Tweet> tweets;
-    private final int classId;
+    private final List<String> words;
     private final Language language;
-
 
     /**
      * Creates new instance of {@code Account} with init {@code classId},
@@ -26,8 +24,8 @@ public class Account implements Iterable<Tweet> {
      * @param language language of tweet
      */
     public Account(int classId, Language language) {
-        this.tweets = new ArrayList<>();
-        this.classId = classId;
+        super(classId);
+        this.words = new ArrayList<>();
         this.language = language;
     }
 
@@ -37,7 +35,9 @@ public class Account implements Iterable<Tweet> {
      * @param tweet tweet to be appended to this list
      */
     public void addTweet(Tweet tweet) {
-        tweets.add(tweet);
+        for (String word : tweet) {
+            words.add(word);
+        }
     }
 
     /**
@@ -46,7 +46,7 @@ public class Account implements Iterable<Tweet> {
      * @param tweet tweet to be appended to this list
      */
     public void addTweet(String tweet) {
-        tweets.add(new Tweet(tweet, classId, language));
+        addTweet(new Tweet(tweet, classId, language));
     }
 
 
@@ -56,21 +56,21 @@ public class Account implements Iterable<Tweet> {
      * @param tweet collection of tweets to be added
      */
     public void addAll(List<Tweet> tweets) {
-        this.tweets.addAll(tweets);
+        tweets.forEach(this::addTweet);
     }
 
     @Override
-    public Iterator<Tweet> iterator() {
-        return tweets.iterator();
+    public Iterator<String> iterator() {
+        return words.iterator();
     }
 
     @Override
-    public void forEach(Consumer<? super Tweet> action) {
-        tweets.forEach(action);
+    public void forEach(Consumer<? super String> action) {
+        words.forEach(action);
     }
 
     @Override
-    public Spliterator<Tweet> spliterator() {
-        return tweets.spliterator();
+    public Spliterator<String> spliterator() {
+        return words.spliterator();
     }
 }

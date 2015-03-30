@@ -1,6 +1,6 @@
 package com.samborskiy.algorithm;
 
-import com.samborskiy.entity.Tweet;
+import com.samborskiy.entity.Instance;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,9 +18,9 @@ import static java.lang.StrictMath.log;
 /**
  * Created by Whiplash on 12.02.2015.
  */
-public class NaiveBayesClassifier extends Classifier {
+public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
 
-    private static final double ALPHA = 1;
+    protected static final double ALPHA = 1;
 
     // class id -> (word -> probability)
     private Map<Integer, Map<String, Double>> probabilities;
@@ -29,36 +29,43 @@ public class NaiveBayesClassifier extends Classifier {
         super(in);
     }
 
-    public NaiveBayesClassifier(List<Tweet> data) {
-        super(data);
+    public NaiveBayesClassifier() {
+        super();
     }
 
     @Override
-    public void train() {
+    public void train(List<E> data) {
         probabilities = new HashMap<>();
-        Map<Integer, List<Tweet>> tweets = splitData();
-        Map<String, Double> count = calculateCount(getData());
+        Map<Integer, List<E>> tweets = splitData(data);
+        Map<String, Double> count = calculateCount(data);
         for (Integer classId : tweets.keySet()) {
             probabilities.put(classId, calculateCount(tweets.get(classId)));
             calculateProbabilityLn(count, probabilities.get(classId));
         }
     }
 
-    private Map<Integer, List<Tweet>> splitData() {
-        Map<Integer, List<Tweet>> tweets = new HashMap<>();
-        for (Tweet tweet : getData()) {
-            if (tweets.get(tweet.getClassId()) == null) {
-                tweets.put(tweet.getClassId(), new ArrayList<>());
-            }
-            tweets.get(tweet.getClassId()).add(tweet);
+    @Override
+    public void clear() {
+        if (probabilities != null) {
+            probabilities.clear();
         }
-        return tweets;
     }
 
-    private Map<String, Double> calculateCount(List<Tweet> tweets) {
+    protected Map<Integer, List<E>> splitData(List<E> data) {
+        Map<Integer, List<E>> elements = new HashMap<>();
+        for (E elem : data) {
+            if (elements.get(elem.getClassId()) == null) {
+                elements.put(elem.getClassId(), new ArrayList<>());
+            }
+            elements.get(elem.getClassId()).add(elem);
+        }
+        return elements;
+    }
+
+    private Map<String, Double> calculateCount(List<E> data) {
         Map<String, Double> probabilities = new HashMap<>();
-        for (Tweet tweet : tweets) {
-            for (String word : tweet) {
+        for (E elem : data) {
+            for (String word : elem) {
                 Double value = probabilities.getOrDefault(word, 0.);
                 probabilities.put(word, value + 1);
             }
@@ -75,16 +82,16 @@ public class NaiveBayesClassifier extends Classifier {
     }
 
     @Override
-    public int getClassId(Tweet tweet) {
+    public int getClassId(E elem) {
         Map<Integer, Double> classToProbability = new HashMap<>();
         for (Integer classId : probabilities.keySet()) {
-            classToProbability.put(classId, credibilityFunctionLn(tweet, classId));
+            classToProbability.put(classId, credibilityFunctionLn(elem, classId));
         }
         return maxElementKey(classToProbability);
     }
 
     @Override
-    public void read(InputStream in) {
+    protected void read(InputStream in) {
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(in))) {
             probabilities = new HashMap<>();
             Map<String, Double> classIdProbabilities = null;
@@ -115,10 +122,10 @@ public class NaiveBayesClassifier extends Classifier {
         }
     }
 
-    private double credibilityFunctionLn(Tweet tweet, int classId) {
+    private double credibilityFunctionLn(E elem, int classId) {
         Map<String, Double> probabilities = this.probabilities.get(classId);
         double probabilityLn = 0;
-        for (String word : tweet) {
+        for (String word : elem) {
             probabilityLn += probabilities.getOrDefault(word, 0.);
         }
         return probabilityLn;
