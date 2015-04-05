@@ -14,7 +14,7 @@ public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
     private static final int FOLD_COUNT = 5;
-    private static final int ROUNDS = 50;
+    private static final int ROUNDS = 1;
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);

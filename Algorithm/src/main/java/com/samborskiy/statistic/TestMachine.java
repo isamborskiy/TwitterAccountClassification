@@ -48,13 +48,13 @@ public class TestMachine<E extends Instance> {
                 trainingData.addAll(data.subList(r, size));
                 classifier.clear();
                 classifier.train(trainingData);
-                testInternal(trainingData, testData, parallelTest);
+                testInternal(testData, parallelTest);
             }
         }
         return getCurrentStatistic();
     }
 
-    private Statistics testInternal(List<E> trainingData, List<E> testData, boolean parallelTest) {
+    private Statistics testInternal(List<E> testData, boolean parallelTest) {
         clearConfusionMatrix();
         if (parallelTest) {
             testInternal(classifier, testData, testConfusionMatrix);
