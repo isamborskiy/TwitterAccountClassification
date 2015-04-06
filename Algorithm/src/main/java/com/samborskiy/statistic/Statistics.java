@@ -110,4 +110,9 @@ public class Statistics {
         ans[0] /= precisionCount;
         ans[1] /= recallCount;
     }
+
+    @Override
+    public String toString() {
+        return String.format("F-measure = %f\nPrecision = %f\nRecall = %f", fMeasure, precision, recall);
+    }
 }

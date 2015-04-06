@@ -28,7 +28,7 @@ public class TestMachine<E extends Instance> {
             throw new IllegalArgumentException("data must be not empty");
         }
         this.classifier = classifier;
-        this.data = data;
+        this.data = new ArrayList<>(data);
         this.size = data.size();
         this.testConfusionMatrix = new int[classNumber][classNumber];
     }
