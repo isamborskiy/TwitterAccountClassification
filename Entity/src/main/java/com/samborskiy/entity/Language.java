@@ -2,7 +2,8 @@ package com.samborskiy.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.samborskiy.entity.utils.PorterStemmerRu;
+import com.samborskiy.entity.utils.stemmers.PorterStemmerEn;
+import com.samborskiy.entity.utils.stemmers.PorterStemmerRu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,18 +22,13 @@ public enum Language {
     /**
      * English language.
      */
-    en,
-    /**
-     * All language.
-     */
-    all;
+    en;
 
     private static Map<String, Language> strToLang = new HashMap<>(Language.values().length);
 
     static {
         strToLang.put("ru", ru);
         strToLang.put("en", en);
-        strToLang.put("", all);
     }
 
     // the same as {'А', 'Я', 'а', 'я'};
@@ -62,6 +58,23 @@ public enum Language {
     }
 
     /**
+     * Stems word to simple form.
+     *
+     * @param word word that will normalize
+     * @return simple form of word
+     */
+    public String stem(String word) {
+        switch (this) {
+            case ru:
+                return PorterStemmerRu.stem(word);
+            case en:
+                return PorterStemmerEn.stem(word);
+            default:
+                throw new UnsupportedOperationException("Stemmed for this language not realized");
+        }
+    }
+
+    /**
      * Checks is this word belongs to this language.
      *
      * @param word word to be checked
@@ -74,19 +87,7 @@ public enum Language {
             case en:
                 return isCorrectWord(word, EN_RANGES);
             default:
-                return true;
-        }
-    }
-
-    public String stemmed(String word) {
-        switch (this) {
-            case ru:
-                return PorterStemmerRu.stemmed(word);
-            case en:
-                // TODO: find Porter stemmer impl for en language
-                throw new UnsupportedOperationException("Stemmed for en language not realized");
-            default:
-                throw new UnsupportedOperationException("Stemmed for en language not realized");
+                return false;
         }
     }
 

@@ -1,4 +1,4 @@
-package com.samborskiy.entity.utils;
+package com.samborskiy.entity.utils.stemmers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +25,7 @@ public class PorterStemmerRu {
     private PorterStemmerRu() {
     }
 
-    public static String stemmed(String word) {
+    public static String stem(String word) {
         Matcher m = RVRE.matcher(word.toLowerCase().replace('ё', 'е'));
         if (m.matches()) {
             String pre = m.group(1);
