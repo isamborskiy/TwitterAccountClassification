@@ -2,6 +2,7 @@ package com.samborskiy.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.samborskiy.entity.utils.PorterStemmerRu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,6 +75,18 @@ public enum Language {
                 return isCorrectWord(word, EN_RANGES);
             default:
                 return true;
+        }
+    }
+
+    public String stemmed(String word) {
+        switch (this) {
+            case ru:
+                return PorterStemmerRu.stemmed(word);
+            case en:
+                // TODO: find Porter stemmer impl for en language
+                throw new UnsupportedOperationException("Stemmed for en language not realized");
+            default:
+                throw new UnsupportedOperationException("Stemmed for en language not realized");
         }
     }
 
