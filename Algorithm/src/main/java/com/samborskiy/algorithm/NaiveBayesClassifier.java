@@ -1,6 +1,7 @@
 package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Instance;
+import com.samborskiy.entity.Language;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,19 +19,19 @@ import static java.lang.StrictMath.log;
 /**
  * Created by Whiplash on 12.02.2015.
  */
-public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
+public abstract class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
 
     protected static final double ALPHA = 1;
 
     // class id -> (word -> probability)
-    private Map<Integer, Map<String, Double>> probabilities;
+    protected Map<Integer, Map<String, Double>> probabilities;
 
-    public NaiveBayesClassifier(InputStream in) {
-        super(in);
+    public NaiveBayesClassifier(Language language, InputStream in) {
+        super(language, in);
     }
 
-    public NaiveBayesClassifier() {
-        super();
+    public NaiveBayesClassifier(Language language) {
+        super(language);
     }
 
     @Override
@@ -62,18 +63,23 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
         return elements;
     }
 
-    private Map<String, Double> calculateCount(List<E> data) {
+    protected Map<String, Double> calculateCount(List<E> data) {
         Map<String, Double> probabilities = new HashMap<>();
         for (E elem : data) {
             for (String word : elem) {
-                Double value = probabilities.getOrDefault(word, 0.);
-                probabilities.put(word, value + 1);
+                word = modifyWord(word);
+                if (word != null) {
+                    Double value = probabilities.getOrDefault(word, 0.);
+                    probabilities.put(word, value + 1);
+                }
             }
         }
         return probabilities;
     }
 
-    private void calculateProbabilityLn(Map<String, Double> all, Map<String, Double> part) {
+    protected abstract String modifyWord(String word);
+
+    protected void calculateProbabilityLn(Map<String, Double> all, Map<String, Double> part) {
         for (String word : all.keySet()) {
             Double allCountLn = log(all.get(word) + ALPHA);
             Double partCountLn = log(part.getOrDefault(word, 0.) + ALPHA * 2);
@@ -122,11 +128,14 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
         }
     }
 
-    private double credibilityFunctionLn(E elem, int classId) {
+    protected double credibilityFunctionLn(E elem, int classId) {
         Map<String, Double> probabilities = this.probabilities.get(classId);
         double probabilityLn = 0;
         for (String word : elem) {
-            probabilityLn += probabilities.getOrDefault(word, 0.);
+            word = modifyWord(word);
+            if (word != null) {
+                probabilityLn += probabilities.getOrDefault(word, 0.);
+            }
         }
         return probabilityLn;
     }

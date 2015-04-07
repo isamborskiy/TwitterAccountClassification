@@ -1,4 +1,4 @@
-package com.samborskiy;
+package com.samborskiy.tests;
 
 import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Configuration;

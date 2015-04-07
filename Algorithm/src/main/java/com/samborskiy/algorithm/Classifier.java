@@ -1,6 +1,7 @@
 package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Instance;
+import com.samborskiy.entity.Language;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,12 +15,15 @@ import java.util.Map;
  */
 public abstract class Classifier<E extends Instance> {
 
+    protected final Language language;
+
     /**
      * Restores instance of {@code Classifier} from file.
      *
      * @param is where will be restored classifier
      */
-    public Classifier(InputStream is) {
+    public Classifier(Language language, InputStream is) {
+        this(language);
         read(is);
     }
 
@@ -27,7 +31,8 @@ public abstract class Classifier<E extends Instance> {
      * Creates instance of classifier with initialize {@code data}.<p>
      * Recommends to train the classifier call method {@code train}.
      */
-    public Classifier() {
+    public Classifier(Language language) {
+        this.language = language;
     }
 
     /**

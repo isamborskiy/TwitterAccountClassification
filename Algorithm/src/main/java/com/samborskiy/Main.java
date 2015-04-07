@@ -4,6 +4,9 @@ import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Tweet;
 import com.samborskiy.misc.InstancesFromDatabase;
+import com.samborskiy.tests.NaiveBayesSimpleTest;
+import com.samborskiy.tests.NaiveBayesStemmerTest;
+import com.samborskiy.tests.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +21,8 @@ public class Main {
     private static final List<Test> testes = new ArrayList<>();
 
     static {
-        testes.add(new NaiveBayesAccountTest());
+        testes.add(new NaiveBayesSimpleTest());
+        testes.add(new NaiveBayesStemmerTest());
     }
 
     public static void main(String[] args) throws Exception {
