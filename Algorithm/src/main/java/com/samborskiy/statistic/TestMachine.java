@@ -1,7 +1,7 @@
 package com.samborskiy.statistic;
 
 import com.samborskiy.algorithm.Classifier;
-import com.samborskiy.entity.Instance;
+import com.samborskiy.entity.instances.Instance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +56,7 @@ public class TestMachine<E extends Instance> {
 
     private Statistics testInternal(List<E> testData, boolean parallelTest) {
         clearConfusionMatrix();
-        if (parallelTest) {
+        if (!parallelTest) {
             testInternal(classifier, testData, testConfusionMatrix);
         } else {
             parallelTestInternal(classifier, testData, testConfusionMatrix);

@@ -1,11 +1,13 @@
 package com.samborskiy;
 
-import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.Tweet;
+import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.instances.AccountWithTweet;
+import com.samborskiy.entity.instances.Tweet;
+import com.samborskiy.entity.instances.WordModify;
+import com.samborskiy.entity.instances.WordModifySimple;
 import com.samborskiy.misc.InstancesFromDatabase;
-import com.samborskiy.tests.NaiveBayesSimpleTest;
-import com.samborskiy.tests.NaiveBayesStemmerTest;
+import com.samborskiy.tests.NaiveBayesTest;
 import com.samborskiy.tests.Test;
 
 import java.io.File;
@@ -16,26 +18,27 @@ public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
     private static final int FOLD_COUNT = 5;
-    private static final int ROUNDS = 1;
+    private static final int ROUNDS = 50;
 
     private static final List<Test> testes = new ArrayList<>();
 
     static {
-        testes.add(new NaiveBayesSimpleTest());
-        testes.add(new NaiveBayesStemmerTest());
+        testes.add(new NaiveBayesTest());
     }
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration);
-        List<Tweet> tweets = InstancesFromDatabase.getAllTweets(configuration);
+        WordModify modifier = new WordModifySimple();
+        List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
+        List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
+        List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);
 
         for (Test test : testes) {
-            System.out.format("%s\nAccounts:\n%s\nTweets:\n%s\n",
-                    test.getName(),
-                    test.crossValidationAccount(configuration, FOLD_COUNT, ROUNDS, accounts),
-                    test.crossValidationTweet(configuration, FOLD_COUNT, ROUNDS, tweets));
+            System.out.format("%s\n", test.getName());
+            System.out.format("Accounts:\n%s\n", test.crossValidationAccount(configuration, FOLD_COUNT, ROUNDS, accounts));
+            System.out.format("Tweets:\n%s\n", test.crossValidationTweet(configuration, FOLD_COUNT, ROUNDS, tweets));
+            System.out.format("Account by tweet:\n%s\n", test.crossValidationAccountByTweet(configuration, FOLD_COUNT, ROUNDS, accountsWithTweet));
         }
     }
 }

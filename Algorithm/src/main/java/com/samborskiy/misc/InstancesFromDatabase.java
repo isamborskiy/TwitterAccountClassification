@@ -1,9 +1,12 @@
 package com.samborskiy.misc;
 
-import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.Tweet;
+import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.instances.AccountWithTweet;
+import com.samborskiy.entity.instances.Tweet;
+import com.samborskiy.entity.instances.TweetSimple;
+import com.samborskiy.entity.instances.WordModify;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 
@@ -24,18 +27,18 @@ public class InstancesFromDatabase {
     }
 
     /**
-     * Returns list of {@link Tweet} get from database.
+     * Returns list of {@link com.samborskiy.entity.instances.Tweet} get from database.
      *
      * @param configuration to get access to database describe in configuration
-     * @return list of {@link Tweet} get from database
+     * @return list of {@link com.samborskiy.entity.instances.TweetSimple} get from database
      */
-    public static List<Tweet> getAllTweets(Configuration configuration) {
+    public static List<Tweet> getAllSimpleTweets(Configuration configuration, WordModify function) {
         List<Tweet> instances = new ArrayList<>();
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
             ResultSet cursor = databaseHelper.getAll();
             while (cursor.next()) {
-                instances.addAll(parseRow(cursor, configuration.getLang()));
+                instances.addAll(parseRow(cursor, configuration.getLang(), function));
             }
             cursor.close();
         } catch (Exception e) {
@@ -45,19 +48,42 @@ public class InstancesFromDatabase {
     }
 
     /**
-     * Returns list of user {@link Tweet} get from database.
+     * Returns list of user {@link com.samborskiy.entity.instances.Account} get from database.
      *
      * @param configuration to get access to database describe in configuration
-     * @return list of user {@link Tweet} get from database
+     * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
      */
-    public static List<Account> getAllAccounts(Configuration configuration) {
+    public static List<Account> getAllAccounts(Configuration configuration, WordModify function) {
         List<Account> instances = new ArrayList<>();
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
             ResultSet cursor = databaseHelper.getAll();
             while (cursor.next()) {
-                Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE), configuration.getLang());
-                account.addAll(parseRow(cursor, configuration.getLang()));
+                Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE));
+                account.addAll(parseRow(cursor, configuration.getLang(), function));
+                instances.add(account);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return instances;
+    }
+
+    /**
+     * Returns list of user {@link com.samborskiy.entity.instances.AccountWithTweet} get from database.
+     *
+     * @param configuration to get access to database describe in configuration
+     * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
+     */
+    public static List<AccountWithTweet> getAllAccountsWithTweet(Configuration configuration, WordModify function) {
+        List<AccountWithTweet> instances = new ArrayList<>();
+        try {
+            DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
+            ResultSet cursor = databaseHelper.getAll();
+            while (cursor.next()) {
+                AccountWithTweet account = new AccountWithTweet(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE));
+                account.addAll(parseRow(cursor, configuration.getLang(), function));
                 instances.add(account);
             }
             cursor.close();
@@ -71,16 +97,16 @@ public class InstancesFromDatabase {
      * Returns list of parsed tweets.
      *
      * @param cursor   cursor on table row
-     * @param language to generate {@link Tweet}
+     * @param language to generate {@link com.samborskiy.entity.instances.TweetSimple}
      * @return list of parsed tweets
      * @throws SQLException trouble with database connect
      * @throws IOException  incorrect tweets json
      */
-    private static List<Tweet> parseRow(ResultSet cursor, Language language) throws SQLException, IOException {
-        List<Tweet> instances = new ArrayList<>();
+    private static List<TweetSimple> parseRow(ResultSet cursor, Language language, WordModify function) throws SQLException, IOException {
+        List<TweetSimple> instances = new ArrayList<>();
         String[] tweets = EntityUtil.deserialize(cursor.getString(DatabaseHelper.TWEETS).getBytes(), String[].class);
         for (String tweet : tweets) {
-            instances.add(new Tweet(tweet, cursor.getInt(DatabaseHelper.ACCOUNT_TYPE), language));
+            instances.add(new TweetSimple(tweet, cursor.getInt(DatabaseHelper.ACCOUNT_TYPE), language, function));
         }
         return instances;
     }

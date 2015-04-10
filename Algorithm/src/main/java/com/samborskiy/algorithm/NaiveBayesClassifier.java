@@ -1,7 +1,9 @@
 package com.samborskiy.algorithm;
 
-import com.samborskiy.entity.Instance;
 import com.samborskiy.entity.Language;
+import com.samborskiy.entity.instances.AccountWithTweet;
+import com.samborskiy.entity.instances.Instance;
+import com.samborskiy.entity.instances.TweetSimple;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,9 +21,9 @@ import static java.lang.StrictMath.log;
 /**
  * Created by Whiplash on 12.02.2015.
  */
-public abstract class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
+public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
 
-    protected static final double ALPHA = 1;
+    private static final double ALPHA = 1;
 
     // class id -> (word -> probability)
     protected Map<Integer, Map<String, Double>> probabilities;
@@ -47,37 +49,30 @@ public abstract class NaiveBayesClassifier<E extends Instance> extends Classifie
 
     @Override
     public void clear() {
-        if (probabilities != null) {
-            probabilities.clear();
-        }
+        probabilities = null;
     }
 
     protected Map<Integer, List<E>> splitData(List<E> data) {
-        Map<Integer, List<E>> elements = new HashMap<>();
-        for (E elem : data) {
-            if (elements.get(elem.getClassId()) == null) {
-                elements.put(elem.getClassId(), new ArrayList<>());
+        Map<Integer, List<E>> instances = new HashMap<>();
+        for (E instance : data) {
+            if (instances.get(instance.getClassId()) == null) {
+                instances.put(instance.getClassId(), new ArrayList<>());
             }
-            elements.get(elem.getClassId()).add(elem);
+            instances.get(instance.getClassId()).add(instance);
         }
-        return elements;
+        return instances;
     }
 
     protected Map<String, Double> calculateCount(List<E> data) {
         Map<String, Double> probabilities = new HashMap<>();
-        for (E elem : data) {
-            for (String word : elem) {
-                word = modifyWord(word);
-                if (word != null) {
-                    Double value = probabilities.getOrDefault(word, 0.);
-                    probabilities.put(word, value + 1);
-                }
+        for (E instance : data) {
+            for (String word : instance) {
+                Double value = probabilities.getOrDefault(word, 0.);
+                probabilities.put(word, value + 1);
             }
         }
         return probabilities;
     }
-
-    protected abstract String modifyWord(String word);
 
     protected void calculateProbabilityLn(Map<String, Double> all, Map<String, Double> part) {
         for (String word : all.keySet()) {
@@ -88,12 +83,31 @@ public abstract class NaiveBayesClassifier<E extends Instance> extends Classifie
     }
 
     @Override
-    public int getClassId(E elem) {
-        Map<Integer, Double> classToProbability = new HashMap<>();
-        for (Integer classId : probabilities.keySet()) {
-            classToProbability.put(classId, credibilityFunctionLn(elem, classId));
+    public int getClassId(Instance instance) {
+        if (instance instanceof AccountWithTweet) {
+            return getClassIdByTweet((AccountWithTweet) instance);
+        } else {
+            Map<Integer, Double> classToProbability = new HashMap<>();
+            for (Integer classId : probabilities.keySet()) {
+                classToProbability.put(classId, credibilityFunctionLn(instance, classId));
+            }
+            return maxElementKey(classToProbability);
         }
-        return maxElementKey(classToProbability);
+    }
+
+    public int getClassIdByTweet(AccountWithTweet account) {
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int i = 0; i < account.tweetNumber(); i++) {
+            TweetSimple tweetSimple = account.getTweet(i);
+            int classId = getClassId(tweetSimple);
+            int c = count.getOrDefault(classId, 0);
+            count.put(classId, c + 1);
+        }
+        if (count.isEmpty()) {
+            return 0;
+        } else {
+            return maxElementKey(count);
+        }
     }
 
     @Override
@@ -128,14 +142,11 @@ public abstract class NaiveBayesClassifier<E extends Instance> extends Classifie
         }
     }
 
-    protected double credibilityFunctionLn(E elem, int classId) {
+    protected double credibilityFunctionLn(Instance instance, int classId) {
         Map<String, Double> probabilities = this.probabilities.get(classId);
         double probabilityLn = 0;
-        for (String word : elem) {
-            word = modifyWord(word);
-            if (word != null) {
-                probabilityLn += probabilities.getOrDefault(word, 0.);
-            }
+        for (String word : instance) {
+            probabilityLn += probabilities.getOrDefault(word, 0.);
         }
         return probabilityLn;
     }

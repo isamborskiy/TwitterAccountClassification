@@ -1,4 +1,4 @@
-package com.samborskiy.entity;
+package com.samborskiy.entity.instances;
 
 /**
  * Created by Whiplash on 30.03.2015.
@@ -20,4 +20,5 @@ public abstract class Instance implements Iterable<String> {
         return classId;
     }
 
+    public abstract int size();
 }

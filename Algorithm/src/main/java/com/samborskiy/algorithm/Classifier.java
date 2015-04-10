@@ -1,7 +1,7 @@
 package com.samborskiy.algorithm;
 
-import com.samborskiy.entity.Instance;
 import com.samborskiy.entity.Language;
+import com.samborskiy.entity.instances.Instance;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,7 +50,7 @@ public abstract class Classifier<E extends Instance> {
      * @param element instance for which will look for class id
      * @return class id of instance
      */
-    public abstract int getClassId(E element);
+    public abstract int getClassId(Instance element);
 
     /**
      * Returns key of max value in map.
