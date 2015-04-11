@@ -24,7 +24,7 @@ public class TweetSimple extends Tweet {
      * @param classId  id of class (eg. 0 is personal, 1 is corporate)
      * @param language language of tweet
      */
-    public TweetSimple(String tweet, int classId, Language language, WordModify function) {
+    public TweetSimple(String tweet, int classId, Language language, WordModifier function) {
         super(tweet, classId, language, function);
     }
 

@@ -6,7 +6,7 @@ import com.samborskiy.entity.instances.Account;
 import com.samborskiy.entity.instances.AccountWithTweet;
 import com.samborskiy.entity.instances.Tweet;
 import com.samborskiy.entity.instances.TweetSimple;
-import com.samborskiy.entity.instances.WordModify;
+import com.samborskiy.entity.instances.WordModifier;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 
@@ -32,7 +32,7 @@ public class InstancesFromDatabase {
      * @param configuration to get access to database describe in configuration
      * @return list of {@link com.samborskiy.entity.instances.TweetSimple} get from database
      */
-    public static List<Tweet> getAllSimpleTweets(Configuration configuration, WordModify function) {
+    public static List<Tweet> getAllSimpleTweets(Configuration configuration, WordModifier function) {
         List<Tweet> instances = new ArrayList<>();
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
@@ -53,7 +53,7 @@ public class InstancesFromDatabase {
      * @param configuration to get access to database describe in configuration
      * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
      */
-    public static List<Account> getAllAccounts(Configuration configuration, WordModify function) {
+    public static List<Account> getAllAccounts(Configuration configuration, WordModifier function) {
         List<Account> instances = new ArrayList<>();
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
@@ -76,7 +76,7 @@ public class InstancesFromDatabase {
      * @param configuration to get access to database describe in configuration
      * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
      */
-    public static List<AccountWithTweet> getAllAccountsWithTweet(Configuration configuration, WordModify function) {
+    public static List<AccountWithTweet> getAllAccountsWithTweet(Configuration configuration, WordModifier function) {
         List<AccountWithTweet> instances = new ArrayList<>();
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
@@ -102,7 +102,7 @@ public class InstancesFromDatabase {
      * @throws SQLException trouble with database connect
      * @throws IOException  incorrect tweets json
      */
-    private static List<TweetSimple> parseRow(ResultSet cursor, Language language, WordModify function) throws SQLException, IOException {
+    private static List<TweetSimple> parseRow(ResultSet cursor, Language language, WordModifier function) throws SQLException, IOException {
         List<TweetSimple> instances = new ArrayList<>();
         String[] tweets = EntityUtil.deserialize(cursor.getString(DatabaseHelper.TWEETS).getBytes(), String[].class);
         for (String tweet : tweets) {

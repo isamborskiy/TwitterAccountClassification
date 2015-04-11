@@ -4,6 +4,6 @@ import com.samborskiy.entity.Language;
 
 import java.util.function.BiFunction;
 
-public interface WordModify extends BiFunction<String, Language, String> {
+public interface WordModifier extends BiFunction<String, Language, String> {
     // rename interface...
 }

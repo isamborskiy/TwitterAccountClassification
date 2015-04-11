@@ -14,7 +14,7 @@ public abstract class Tweet extends Instance {
 
     protected final List<String> words;
     protected final String tweet;
-    protected final WordModify function;
+    protected final WordModifier function;
 
     /**
      * Returns new instance of {@code Message} parsing {@code tweet}.
@@ -23,7 +23,7 @@ public abstract class Tweet extends Instance {
      * @param classId  id of class (eg. 0 is personal, 1 is corporate)
      * @param language language of tweet
      */
-    public Tweet(String tweet, int classId, Language language, WordModify function) {
+    public Tweet(String tweet, int classId, Language language, WordModifier function) {
         super(classId);
         this.tweet = tweet;
         this.function = function;

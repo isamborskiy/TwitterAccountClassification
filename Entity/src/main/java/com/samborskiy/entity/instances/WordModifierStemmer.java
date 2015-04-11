@@ -5,7 +5,7 @@ import com.samborskiy.entity.Language;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class WordModifyStemmer implements WordModify {
+public class WordModifierStemmer implements WordModifier {
 
     @Override
     public String apply(String word, Language language) {
