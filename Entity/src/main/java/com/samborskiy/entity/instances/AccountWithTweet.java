@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class AccountWithTweet extends Instance {
 
     private final List<String> words;
-    private final List<TweetSimple> tweetSimples;
+    private final List<Tweet> tweets;
 
     /**
      * Creates new instance of {@code Account} with init {@code classId},
@@ -25,17 +25,17 @@ public class AccountWithTweet extends Instance {
     public AccountWithTweet(int classId) {
         super(classId);
         this.words = new ArrayList<>();
-        this.tweetSimples = new ArrayList<>();
+        this.tweets = new ArrayList<>();
     }
 
     /**
      * Adds new tweet of account to collection.
      *
-     * @param tweetSimple tweet to be appended to this list
+     * @param tweet tweet to be appended to this list
      */
-    public void addTweet(TweetSimple tweetSimple) {
-        tweetSimples.add(tweetSimple);
-        for (String word : tweetSimple) {
+    public void addTweet(Tweet tweet) {
+        tweets.add(tweet);
+        for (String word : tweet) {
             words.add(word);
         }
     }
@@ -43,10 +43,10 @@ public class AccountWithTweet extends Instance {
     /**
      * Appends all of tweets to collection.
      *
-     * @param tweetSimples collection of tweets to be added
+     * @param tweets collection of tweets to be added
      */
-    public void addAll(List<TweetSimple> tweetSimples) {
-        tweetSimples.forEach(this::addTweet);
+    public void addAll(List<Tweet> tweets) {
+        tweets.forEach(this::addTweet);
     }
 
     @Override
@@ -70,10 +70,10 @@ public class AccountWithTweet extends Instance {
     }
 
     public int tweetNumber() {
-        return tweetSimples.size();
+        return tweets.size();
     }
 
-    public TweetSimple getTweet(int index) {
-        return tweetSimples.get(index);
+    public Tweet getTweet(int index) {
+        return tweets.get(index);
     }
 }

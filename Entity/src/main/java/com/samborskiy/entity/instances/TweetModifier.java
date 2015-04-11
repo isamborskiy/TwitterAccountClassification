@@ -2,8 +2,9 @@ package com.samborskiy.entity.instances;
 
 import com.samborskiy.entity.Language;
 
+import java.util.List;
 import java.util.function.BiFunction;
 
-public interface WordModifier extends BiFunction<String, Language, String> {
+public interface TweetModifier extends BiFunction<String, Language, List<String>> {
     // rename interface...
 }

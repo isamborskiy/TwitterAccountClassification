@@ -1,11 +1,7 @@
 package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.Account;
-import com.samborskiy.entity.instances.AccountWithTweet;
-import com.samborskiy.entity.instances.Tweet;
-import com.samborskiy.entity.instances.WordModifier;
-import com.samborskiy.entity.instances.WordModifierStemmer;
+import com.samborskiy.entity.instances.*;
 import com.samborskiy.misc.InstancesFromDatabase;
 import com.samborskiy.tests.NaiveBayesTest;
 import com.samborskiy.tests.Test;
@@ -29,7 +25,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        WordModifier modifier = new WordModifierStemmer();
+        TweetModifier modifier = new TweetModifierSmiles();
         List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
         List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
         List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);

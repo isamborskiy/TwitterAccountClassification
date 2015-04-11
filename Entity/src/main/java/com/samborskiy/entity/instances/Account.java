@@ -42,7 +42,7 @@ public class Account extends Instance {
      *
      * @param tweetSimples collection of tweets to be added
      */
-    public void addAll(List<TweetSimple> tweetSimples) {
+    public void addAll(List<Tweet> tweetSimples) {
         tweetSimples.forEach(this::addTweet);
     }
 

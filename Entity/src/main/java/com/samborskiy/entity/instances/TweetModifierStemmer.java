@@ -5,12 +5,12 @@ import com.samborskiy.entity.Language;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class WordModifierSimple implements WordModifier {
+public class TweetModifierStemmer extends TweetModifierSimple {
 
     @Override
-    public String apply(String word, Language language) {
+    public String modifyWord(String word, Language language) {
         if (language.isCorrectWord(word)) {
-            return word.toLowerCase();
+            return language.stem(word.toLowerCase());
         }
         return null;
     }

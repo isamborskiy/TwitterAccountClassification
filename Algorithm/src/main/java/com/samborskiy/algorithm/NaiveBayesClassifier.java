@@ -3,7 +3,7 @@ package com.samborskiy.algorithm;
 import com.samborskiy.entity.Language;
 import com.samborskiy.entity.instances.AccountWithTweet;
 import com.samborskiy.entity.instances.Instance;
-import com.samborskiy.entity.instances.TweetSimple;
+import com.samborskiy.entity.instances.Tweet;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -98,8 +98,8 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
     public int getClassIdByTweet(AccountWithTweet account) {
         Map<Integer, Integer> count = new HashMap<>();
         for (int i = 0; i < account.tweetNumber(); i++) {
-            TweetSimple tweetSimple = account.getTweet(i);
-            int classId = getClassId(tweetSimple);
+            Tweet tweet = account.getTweet(i);
+            int classId = getClassId(tweet);
             int c = count.getOrDefault(classId, 0);
             count.put(classId, c + 1);
         }

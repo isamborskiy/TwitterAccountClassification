@@ -10,11 +10,10 @@ import java.util.List;
  *
  * @author Whiplash
  */
-public abstract class Tweet extends Instance {
+public class Tweet extends Instance {
 
     protected final List<String> words;
     protected final String tweet;
-    protected final WordModifier function;
 
     /**
      * Returns new instance of {@code Message} parsing {@code tweet}.
@@ -23,21 +22,11 @@ public abstract class Tweet extends Instance {
      * @param classId  id of class (eg. 0 is personal, 1 is corporate)
      * @param language language of tweet
      */
-    public Tweet(String tweet, int classId, Language language, WordModifier function) {
+    public Tweet(String tweet, int classId, Language language, TweetModifier function) {
         super(classId);
         this.tweet = tweet;
-        this.function = function;
-        this.words = parseTweet(tweet, language);
+        this.words = function.apply(tweet, language);
     }
-
-    /**
-     * Parses tweet's string to get word from it.
-     *
-     * @param tweet    text of tweet
-     * @param language language of tweet
-     * @return tweet
-     */
-    protected abstract List<String> parseTweet(String tweet, Language language);
 
     /**
      * Returns size of tweet.
