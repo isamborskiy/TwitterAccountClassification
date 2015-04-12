@@ -9,6 +9,7 @@ import com.samborskiy.tests.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -27,14 +28,16 @@ public class Main {
         Configuration configuration = Configuration.build(configFileTrain);
         TweetModifier modifier = new TweetModifierSmiles();
         List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
-        List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
-        List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);
+//        List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
+//        List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);
+        List<Account> coorporateAccounts = accounts.stream().filter(account -> account.getClassId() == 1).collect(Collectors.toList());
+
 
         for (Test test : testes) {
             System.out.format("%s\n", test.getName());
             System.out.format("Accounts:\n%s\n", test.crossValidationAccount(configuration, FOLD_COUNT, ROUNDS, accounts));
-            System.out.format("Tweets:\n%s\n", test.crossValidationTweet(configuration, FOLD_COUNT, ROUNDS, tweets));
-            System.out.format("Account by tweet:\n%s\n", test.crossValidationAccountByTweet(configuration, FOLD_COUNT, ROUNDS, accountsWithTweet));
+//            System.out.format("Tweets:\n%s\n", test.crossValidationTweet(configuration, FOLD_COUNT, ROUNDS, tweets));
+//            System.out.format("Account by tweet:\n%s\n", test.crossValidationAccountByTweet(configuration, FOLD_COUNT, ROUNDS, accountsWithTweet));
         }
     }
 }
