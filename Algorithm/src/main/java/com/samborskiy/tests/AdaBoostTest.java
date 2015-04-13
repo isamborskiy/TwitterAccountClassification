@@ -33,7 +33,7 @@ public class AdaBoostTest implements Test {
     public Statistics crossValidationAccount(Configuration configuration, int foldCount, int round, List<Account> sample) {
         AdaBoostClassifier<Account> adaBoostClassifier = new AdaBoostClassifier<>(configuration.getLang(), classifiers, weights, modifiers);
         TestMachine<Account> machine = new TestMachine<>(adaBoostClassifier, sample, configuration.getTypes().size());
-        return machine.crossValidationTest(foldCount, round, false);
+        return machine.crossValidationTest(foldCount, round, true);
     }
 
     @Override

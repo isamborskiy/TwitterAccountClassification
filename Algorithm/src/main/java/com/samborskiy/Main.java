@@ -1,11 +1,11 @@
 package com.samborskiy;
 
-import com.samborskiy.algorithm.Classifier;
-import com.samborskiy.algorithm.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.*;
+import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.instances.TweetModifier;
+import com.samborskiy.entity.instances.TweetModifierStemmer;
 import com.samborskiy.misc.InstancesFromDatabase;
-import com.samborskiy.tests.AdaBoostTest;
+import com.samborskiy.tests.NaiveBayesTest;
 import com.samborskiy.tests.Test;
 
 import java.io.File;
@@ -16,12 +16,12 @@ public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
     private static final int FOLD_COUNT = 5;
-    private static final int ROUNDS = 50;
+    private static final int ROUNDS = 1;
 
     private static final List<Test> testes = new ArrayList<>();
 
     static {
-//        testes.add(new NaiveBayesTest());
+        testes.add(new NaiveBayesTest());
     }
 
     public static void main(String[] args) throws Exception {
@@ -29,26 +29,26 @@ public class Main {
         Configuration configuration = Configuration.build(configFileTrain);
 
         // -------------
-        List<Classifier<Account>> classifiers = new ArrayList<>();
-        List<Double> weights = new ArrayList<>();
-        List<TweetModifier> modifiers = new ArrayList<>();
-
-        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
-        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
-        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
-
-        weights.add(0.782);
-        weights.add(0.597);
-        weights.add(0.65);
-
-        modifiers.add(new TweetModifierStemmer());
-        modifiers.add(new TweetModifierSmiles());
-        modifiers.add(new TweetModifierLength());
-
-        testes.add(new AdaBoostTest(classifiers, weights, modifiers));
+//        List<Classifier<Account>> classifiers = new ArrayList<>();
+//        List<Double> weights = new ArrayList<>();
+//        List<TweetModifier> modifiers = new ArrayList<>();
+//
+//        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+//        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+//        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+//
+//        weights.add(0.9);
+//        weights.add(0.5);
+//        weights.add(0.6);
+//
+//        modifiers.add(new TweetModifierStemmer());
+//        modifiers.add(new TweetModifierSmiles());
+//        modifiers.add(new TweetModifierLength());
+//
+//        testes.add(new AdaBoostTest(classifiers, weights, modifiers));
         // -------------
 
-        TweetModifier modifier = new TweetModifierWithoutModifier();
+        TweetModifier modifier = new TweetModifierStemmer();
         List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
 //        List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
 //        List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);

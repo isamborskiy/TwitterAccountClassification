@@ -11,10 +11,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static java.lang.StrictMath.log;
 
@@ -45,7 +47,21 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
             probabilities.put(classId, calculateCount(tweets.get(classId)));
             calculateProbabilityLn(count, probabilities.get(classId));
         }
+
+//        List<Entry<String, Double>> sortedMap = entriesSortedByValues(probabilities.get(0));
+//        int i = 100;
+//        for (Entry<String, Double> entry : sortedMap) {
+//            System.out.format("%s, %d\n", entry.getKey(), i);
+//            i--;
+//            if (i == 0) break;
+//        }
     }
+
+//    static <K, V extends Comparable<? super V>> List<Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
+//        List<Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
+//        Collections.sort(sortedEntries, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+//        return sortedEntries;
+//    }
 
     @Override
     public void clear() {
