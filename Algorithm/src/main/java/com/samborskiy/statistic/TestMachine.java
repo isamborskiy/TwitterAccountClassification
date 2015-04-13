@@ -36,8 +36,7 @@ public class TestMachine<E extends Instance> {
     public Statistics crossValidationTest(int foldCount, int rounds, boolean parallelTest) {
         int foldSize = size / foldCount;
         for (int k = 0; k < rounds; k++) {
-            System.out.format("ITER %d\n", k);
-            Collections.shuffle(data);
+//            Collections.shuffle(data);
             List<E> trainingData = new ArrayList<>(size - foldSize);
             List<E> testData;
             for (int i = 0; i < foldCount; i++) {
