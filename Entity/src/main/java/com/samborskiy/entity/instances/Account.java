@@ -37,6 +37,10 @@ public class Account extends Instance {
         }
     }
 
+    public void addWords(List<String> words) {
+        this.words.addAll(words);
+    }
+
     /**
      * Appends all of tweets to collection.
      *

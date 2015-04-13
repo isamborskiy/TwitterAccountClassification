@@ -1,15 +1,16 @@
 package com.samborskiy;
 
+import com.samborskiy.algorithm.Classifier;
+import com.samborskiy.algorithm.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.*;
 import com.samborskiy.misc.InstancesFromDatabase;
-import com.samborskiy.tests.NaiveBayesTest;
+import com.samborskiy.tests.AdaBoostTest;
 import com.samborskiy.tests.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -20,18 +21,37 @@ public class Main {
     private static final List<Test> testes = new ArrayList<>();
 
     static {
-        testes.add(new NaiveBayesTest());
+//        testes.add(new NaiveBayesTest());
     }
 
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        TweetModifier modifier = new TweetModifierSmiles();
+
+        // -------------
+        List<Classifier<Account>> classifiers = new ArrayList<>();
+        List<Double> weights = new ArrayList<>();
+        List<TweetModifier> modifiers = new ArrayList<>();
+
+        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+        classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
+
+        weights.add(0.782);
+        weights.add(0.597);
+        weights.add(0.65);
+
+        modifiers.add(new TweetModifierStemmer());
+        modifiers.add(new TweetModifierSmiles());
+        modifiers.add(new TweetModifierLength());
+
+        testes.add(new AdaBoostTest(classifiers, weights, modifiers));
+        // -------------
+
+        TweetModifier modifier = new TweetModifierWithoutModifier();
         List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
 //        List<Tweet> tweets = InstancesFromDatabase.getAllSimpleTweets(configuration, modifier);
 //        List<AccountWithTweet> accountsWithTweet = InstancesFromDatabase.getAllAccountsWithTweet(configuration, modifier);
-        List<Account> coorporateAccounts = accounts.stream().filter(account -> account.getClassId() == 1).collect(Collectors.toList());
-
 
         for (Test test : testes) {
             System.out.format("%s\n", test.getName());
