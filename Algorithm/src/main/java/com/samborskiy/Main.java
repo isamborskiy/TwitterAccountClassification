@@ -24,7 +24,7 @@ public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
     private static final int FOLD_COUNT = 5;
-    private static final int ROUNDS = 1;
+    private static final int ROUNDS = 50;
 
     public static void main(String[] args) throws Exception {
         testAdaBoost();
@@ -47,9 +47,9 @@ public class Main {
         Collections.shuffle(accounts);
         double maxF = 0.;
         String ijk = "";
-        for (double i = 0.; i <= 1; i += 0.1) {
-            for (double j = 0.; j <= 1; j += 0.1) {
-                for (double k = 0.; k <= 1; k += 0.1) {
+        for (double i = 0.; i <= .2; i += 0.1) {
+            for (double j = 0.; j <= .2; j += 0.1) {
+                for (double k = 0.; k <= .2; k += 0.1) {
                     List<Classifier<Account>> classifiers = new ArrayList<>();
                     List<Double> weights = new ArrayList<>();
                     List<TweetModifier> modifiers = new ArrayList<>();
@@ -58,9 +58,9 @@ public class Main {
                     classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
                     classifiers.add(new NaiveBayesClassifier<>(configuration.getLang()));
 
-                    weights.add(0.7);
-                    weights.add(0.5);
-                    weights.add(0.6);
+                    weights.add(i);
+                    weights.add(j);
+                    weights.add(k);
 
                     modifiers.add(new TweetModifierStemmer());
                     modifiers.add(new TweetModifierSmiles());
