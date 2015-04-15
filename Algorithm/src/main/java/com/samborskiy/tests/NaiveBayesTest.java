@@ -10,9 +10,9 @@ import com.samborskiy.statistic.TestMachine;
 
 import java.util.List;
 
-public class NaiveBayesTest implements Test {
+public class NaiveBayesTest /*implements Test*/ {
 
-    @Override
+    /*@Override
     public String getName() {
         return "Naive Bayes (simple)";
     }
@@ -33,5 +33,5 @@ public class NaiveBayesTest implements Test {
     public Statistics crossValidationAccountByTweet(Configuration configuration, int foldCount, int round, List<AccountWithTweet> sample) {
         TestMachine<AccountWithTweet> machine = new TestMachine<>(new NaiveBayesClassifier<>(configuration.getLang()), sample, configuration.getTypes().size());
         return machine.crossValidationTest(foldCount, round, false);
-    }
+    }*/
 }

@@ -1,14 +1,15 @@
 package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.instances.*;
+import com.samborskiy.entity.instances.Instance;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by whiplash on 13.04.2015.
@@ -16,67 +17,46 @@ import java.util.stream.Collectors;
 public class AdaBoostClassifier<E extends Instance> extends Classifier<E> {
 
     private final List<Classifier<E>> classifiers;
-    private final List<Double> weights;
-    private final List<TweetModifier> modifiers;
 
-    public AdaBoostClassifier(Language language, InputStream is, List<Classifier<E>> classifiers, List<Double> weights, List<TweetModifier> modifiers) {
+    public AdaBoostClassifier(Language language, InputStream is, List<Classifier<E>> classifiers) {
         super(language, is);
         this.classifiers = classifiers;
-        this.weights = weights;
-        this.modifiers = modifiers;
     }
 
-    public AdaBoostClassifier(Language language, List<Classifier<E>> classifiers, List<Double> weights, List<TweetModifier> modifiers) {
+    public AdaBoostClassifier(Language language, List<Classifier<E>> classifiers) {
         super(language);
         this.classifiers = classifiers;
-        this.weights = weights;
-        this.modifiers = modifiers;
     }
 
     @Override
-    public void train(List<E> data) {
+    public void train(List<List<E>> data) {
         for (int i = 0; i < classifiers.size(); i++) {
             Classifier<E> classifier = classifiers.get(i);
-            TweetModifier modifier = modifiers.get(i);
-            List<E> modifiedData = data.stream().map(instance -> modify(instance, modifier)).collect(Collectors.toList());
-            classifier.train(modifiedData);
+            Collections.shuffle(data.get(i));
+            List<E> trainData = data.get(i).subList(0, data.get(i).size() / 2);
+            classifier.train(wrap(trainData));
         }
     }
 
-    private E modify(Instance instance, TweetModifier modifier) {
-        String text = "";
-        for (String str : instance) {
-            text += " " + str;
-        }
-        if (instance instanceof Tweet) {
-            return (E) new Tweet(text, instance.getClassId(), language, modifier);
-        } else if (instance instanceof Account) {
-            Account account = new Account(instance.getClassId());
-            account.addWords(modifier.apply(text, language));
-            return (E) account;
-        } else if (instance instanceof AccountWithTweet) {
-            throw new UnsupportedOperationException("Method not realised");
-        }
-        return null;
+    private <T> List<T> wrap(T list) {
+        List<T> wrapper = new ArrayList<>();
+        wrapper.add(list);
+        return wrapper;
     }
 
     @Override
     public void clear() {
-        for (Classifier classifier : classifiers) {
-            classifier.clear();
-        }
+        classifiers.forEach(com.samborskiy.algorithm.Classifier::clear);
     }
 
     @Override
-    public int getClassId(Instance element) {
-        Map<Integer, Double> poll = new HashMap<>();
+    public int getClassId(List<Instance> element) {
+        Map<Integer, Integer> poll = new HashMap<>();
         for (int i = 0; i < classifiers.size(); i++) {
             Classifier<E> classifier = classifiers.get(i);
-            TweetModifier modifier = modifiers.get(i);
-            E instance = modify(element, modifier);
-            int classId = classifier.getClassId(instance);
-            double weight = poll.getOrDefault(classId, 0.);
-            poll.put(classId, weight + weights.get(i));
+            int classId = classifier.getClassId(wrap(element.get(i)));
+            int weight = poll.getOrDefault(classId, 0) + 1;
+            poll.put(classId, weight + 1);
         }
         return maxElementKey(poll);
     }

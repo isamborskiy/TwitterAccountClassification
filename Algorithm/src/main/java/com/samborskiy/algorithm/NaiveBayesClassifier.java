@@ -1,9 +1,7 @@
 package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.instances.AccountWithTweet;
 import com.samborskiy.entity.instances.Instance;
-import com.samborskiy.entity.instances.Tweet;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,12 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import static java.lang.StrictMath.log;
 
@@ -39,10 +35,10 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
     }
 
     @Override
-    public void train(List<E> data) {
+    public void train(List<List<E>> data) {
         probabilities = new HashMap<>();
-        Map<Integer, List<E>> tweets = splitData(data);
-        Map<String, Double> count = calculateCount(data);
+        Map<Integer, List<E>> tweets = splitData(data.get(0));
+        Map<String, Double> count = calculateCount(data.get(0));
         for (Integer classId : tweets.keySet()) {
             probabilities.put(classId, calculateCount(tweets.get(classId)));
             calculateProbabilityLn(count, probabilities.get(classId));
@@ -99,32 +95,32 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
     }
 
     @Override
-    public int getClassId(Instance instance) {
-        if (instance instanceof AccountWithTweet) {
-            return getClassIdByTweet((AccountWithTweet) instance);
-        } else {
-            Map<Integer, Double> classToProbability = new HashMap<>();
-            for (Integer classId : probabilities.keySet()) {
-                classToProbability.put(classId, credibilityFunctionLn(instance, classId));
-            }
-            return maxElementKey(classToProbability);
+    public int getClassId(List<Instance> instance) {
+//        if (instance.get(0) instanceof AccountWithTweet) {
+//            return getClassIdByTweet((AccountWithTweet) instance.get(0));
+//        } else {
+        Map<Integer, Double> classToProbability = new HashMap<>();
+        for (Integer classId : probabilities.keySet()) {
+            classToProbability.put(classId, credibilityFunctionLn(instance.get(0), classId));
         }
+        return maxElementKey(classToProbability);
+//        }
     }
 
-    public int getClassIdByTweet(AccountWithTweet account) {
-        Map<Integer, Integer> count = new HashMap<>();
-        for (int i = 0; i < account.tweetNumber(); i++) {
-            Tweet tweet = account.getTweet(i);
-            int classId = getClassId(tweet);
-            int c = count.getOrDefault(classId, 0);
-            count.put(classId, c + 1);
-        }
-        if (count.isEmpty()) {
-            return 0;
-        } else {
-            return maxElementKey(count);
-        }
-    }
+//    public int getClassIdByTweet(AccountWithTweet account) {
+//        Map<Integer, Integer> count = new HashMap<>();
+//        for (int i = 0; i < account.tweetNumber(); i++) {
+//            Tweet tweet = account.getTweet(i);
+//            int classId = getClassId(tweet);
+//            int c = count.getOrDefault(classId, 0);
+//            count.put(classId, c + 1);
+//        }
+//        if (count.isEmpty()) {
+//            return 0;
+//        } else {
+//            return maxElementKey(count);
+//        }
+//    }
 
     @Override
     protected void read(InputStream in) {

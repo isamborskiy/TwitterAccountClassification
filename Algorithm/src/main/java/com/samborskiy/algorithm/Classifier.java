@@ -40,7 +40,7 @@ public abstract class Classifier<E extends Instance> {
      *
      * @param data training sample
      */
-    public abstract void train(List<E> data);
+    public abstract void train(List<List<E>> data);
 
     public abstract void clear();
 
@@ -50,7 +50,7 @@ public abstract class Classifier<E extends Instance> {
      * @param element instance for which will look for class id
      * @return class id of instance
      */
-    public abstract int getClassId(Instance element);
+    public abstract int getClassId(List<Instance> element);
 
     /**
      * Returns key of max value in map.

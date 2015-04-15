@@ -9,9 +9,9 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Random;
 
-public class SVMClassifier<E extends Instance> extends Classifier<E> {
+public class SVMClassifier/*<E extends Instance> extends Classifier<E>*/ {
 
-    private static final int MAX_PASSES = 1;
+   /* private static final int MAX_PASSES = 1;
     private static final double EPS = 10e-8;
     private static final Random random = new Random();
 
@@ -162,5 +162,5 @@ public class SVMClassifier<E extends Instance> extends Classifier<E> {
         }
         result += b;
         return result;
-    }
+    }*/
 }
