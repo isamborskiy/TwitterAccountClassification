@@ -3,9 +3,8 @@ package com.samborskiy.misc;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
 import com.samborskiy.entity.instances.Account;
-import com.samborskiy.entity.instances.AccountWithTweet;
-import com.samborskiy.entity.instances.Tweet;
 import com.samborskiy.entity.instances.Modifier;
+import com.samborskiy.entity.instances.Tweet;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 
@@ -59,29 +58,6 @@ public class InstancesFromDatabase {
             ResultSet cursor = databaseHelper.getAll();
             while (cursor.next()) {
                 Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE));
-                account.addAll(parseRow(cursor, configuration.getLang(), function));
-                instances.add(account);
-            }
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return instances;
-    }
-
-    /**
-     * Returns list of user {@link com.samborskiy.entity.instances.AccountWithTweet} get from database.
-     *
-     * @param configuration to get access to database describe in configuration
-     * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
-     */
-    public static List<AccountWithTweet> getAllAccountsWithTweet(Configuration configuration, Modifier function) {
-        List<AccountWithTweet> instances = new ArrayList<>();
-        try {
-            DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
-            ResultSet cursor = databaseHelper.getAll();
-            while (cursor.next()) {
-                AccountWithTweet account = new AccountWithTweet(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE));
                 account.addAll(parseRow(cursor, configuration.getLang(), function));
                 instances.add(account);
             }

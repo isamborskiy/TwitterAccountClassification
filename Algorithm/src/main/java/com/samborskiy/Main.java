@@ -2,6 +2,7 @@ package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.test.BaggingTest;
+import com.samborskiy.test.StemmerTest;
 
 import java.io.File;
 
@@ -14,6 +15,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        System.out.println(new BaggingTest(configuration, ROUNDS, FOLD_COUNT).testAccounts(false));
+        System.out.println(new StemmerTest(configuration, ROUNDS, FOLD_COUNT).testAccounts(false));
     }
 }
