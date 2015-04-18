@@ -14,16 +14,16 @@ import java.util.Map;
 /**
  * Created by whiplash on 13.04.2015.
  */
-public class AdaBoostClassifier<E extends Instance> extends Classifier<E> {
+public class BaggingClassifier<E extends Instance> extends Classifier<E> {
 
     private final List<Classifier<E>> classifiers;
 
-    public AdaBoostClassifier(Language language, InputStream is, List<Classifier<E>> classifiers) {
+    public BaggingClassifier(Language language, InputStream is, List<Classifier<E>> classifiers) {
         super(language, is);
         this.classifiers = classifiers;
     }
 
-    public AdaBoostClassifier(Language language, List<Classifier<E>> classifiers) {
+    public BaggingClassifier(Language language, List<Classifier<E>> classifiers) {
         super(language);
         this.classifiers = classifiers;
     }

@@ -1,7 +1,7 @@
 package com.samborskiy.statistic;
 
 /**
- * Structure for holding statistics of test.
+ * Structure for holding statistics of testAccounts.
  * <p>
  * Created by warrior on 19.09.14.
  */

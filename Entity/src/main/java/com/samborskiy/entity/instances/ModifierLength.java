@@ -5,7 +5,7 @@ import com.samborskiy.entity.Language;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class TweetModifierLength extends TweetModifierSimple {
+public class ModifierLength extends ModifierSimple {
 
     @Override
     public String modifyWord(String word, Language language) {

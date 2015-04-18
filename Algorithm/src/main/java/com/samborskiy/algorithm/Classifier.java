@@ -42,6 +42,9 @@ public abstract class Classifier<E extends Instance> {
      */
     public abstract void train(List<List<E>> data);
 
+    /**
+     * Resets classifier to default.
+     */
     public abstract void clear();
 
     /**

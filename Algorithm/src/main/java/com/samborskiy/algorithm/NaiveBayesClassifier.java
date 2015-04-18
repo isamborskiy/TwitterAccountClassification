@@ -37,27 +37,13 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
     @Override
     public void train(List<List<E>> data) {
         probabilities = new HashMap<>();
-        Map<Integer, List<E>> tweets = splitData(data.get(0));
+        Map<Integer, List<E>> classIdToInstance = splitData(data.get(0));
         Map<String, Double> count = calculateCount(data.get(0));
-        for (Integer classId : tweets.keySet()) {
-            probabilities.put(classId, calculateCount(tweets.get(classId)));
+        for (Integer classId : classIdToInstance.keySet()) {
+            probabilities.put(classId, calculateCount(classIdToInstance.get(classId)));
             calculateProbabilityLn(count, probabilities.get(classId));
         }
-
-//        List<Entry<String, Double>> sortedMap = entriesSortedByValues(probabilities.get(0));
-//        int i = 100;
-//        for (Entry<String, Double> entry : sortedMap) {
-//            System.out.format("%s, %d\n", entry.getKey(), i);
-//            i--;
-//            if (i == 0) break;
-//        }
     }
-
-//    static <K, V extends Comparable<? super V>> List<Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
-//        List<Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
-//        Collections.sort(sortedEntries, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-//        return sortedEntries;
-//    }
 
     @Override
     public void clear() {
@@ -96,31 +82,21 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
 
     @Override
     public int getClassId(List<Instance> instance) {
-//        if (instance.get(0) instanceof AccountWithTweet) {
-//            return getClassIdByTweet((AccountWithTweet) instance.get(0));
-//        } else {
         Map<Integer, Double> classToProbability = new HashMap<>();
         for (Integer classId : probabilities.keySet()) {
             classToProbability.put(classId, credibilityFunctionLn(instance.get(0), classId));
         }
         return maxElementKey(classToProbability);
-//        }
     }
 
-//    public int getClassIdByTweet(AccountWithTweet account) {
-//        Map<Integer, Integer> count = new HashMap<>();
-//        for (int i = 0; i < account.tweetNumber(); i++) {
-//            Tweet tweet = account.getTweet(i);
-//            int classId = getClassId(tweet);
-//            int c = count.getOrDefault(classId, 0);
-//            count.put(classId, c + 1);
-//        }
-//        if (count.isEmpty()) {
-//            return 0;
-//        } else {
-//            return maxElementKey(count);
-//        }
-//    }
+    protected double credibilityFunctionLn(Instance instance, int classId) {
+        Map<String, Double> probabilities = this.probabilities.get(classId);
+        double probabilityLn = 0;
+        for (String word : instance) {
+            probabilityLn += probabilities.getOrDefault(word, 0.);
+        }
+        return probabilityLn;
+    }
 
     @Override
     protected void read(InputStream in) {
@@ -153,14 +129,4 @@ public class NaiveBayesClassifier<E extends Instance> extends Classifier<E> {
             }
         }
     }
-
-    protected double credibilityFunctionLn(Instance instance, int classId) {
-        Map<String, Double> probabilities = this.probabilities.get(classId);
-        double probabilityLn = 0;
-        for (String word : instance) {
-            probabilityLn += probabilities.getOrDefault(word, 0.);
-        }
-        return probabilityLn;
-    }
-
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class TweetModifierSimple implements TweetModifier {
+public class ModifierSimple implements Modifier {
 
     protected static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 

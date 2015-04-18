@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class TweetModifierSmiles implements TweetModifier {
+public class ModifierSmiles implements Modifier {
 
     protected static final File SMILES_FILE = new File("res/smiles");
 

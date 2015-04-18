@@ -22,7 +22,7 @@ public class Tweet extends Instance {
      * @param classId  id of class (eg. 0 is personal, 1 is corporate)
      * @param language language of tweet
      */
-    public Tweet(String tweet, int classId, Language language, TweetModifier function) {
+    public Tweet(String tweet, int classId, Language language, Modifier function) {
         super(classId);
         this.tweet = tweet;
         this.words = function.apply(tweet, language);
