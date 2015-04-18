@@ -42,12 +42,12 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private static void tweetsExtraction(TwitterHelper twitterHelper, DatabaseHelper dbHelper, Type type, User user) throws InterruptedException {
         String tweets = new TweetsRequest(twitterHelper, user, type.getTweetPerUser()).make();
-        dbHelper.insert(user.getId(), user.getScreenName(), tweets, 0);
+        dbHelper.insert(user.getId(), user.getScreenName(), tweets, type.getId());
         System.out.format("Get information about %s: %s\n", type.getName(), user.getScreenName());
     }
-
 }

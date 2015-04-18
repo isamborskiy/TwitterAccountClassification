@@ -50,6 +50,8 @@ public class DatabaseHelper implements AutoCloseable {
     private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
     private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME + ";";
+    private static final String DELETE_QUERY_EMPTY_ROW = "DELETE FROM " + TABLE_NAME + " WHERE " + TWEETS + " = '[]';";
+    private static final String DELETE_QUERY_SCREEN_NAME = "DELETE FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = '%s';";
 
     private Configuration configuration;
     private Connection connection;
@@ -224,6 +226,12 @@ public class DatabaseHelper implements AutoCloseable {
         }
     }
 
+    /**
+     * Checks has user with {@code screenName} in database.
+     *
+     * @param screenName screen name of user
+     * @return {@code true} if database contains user with this {@code screenName}, {@code false} otherwise
+     */
     public boolean hasUser(String screenName) {
         try (Statement statement = connection.createStatement()) {
             String selectQuery = String.format(SELECT_QUERY_SCREEN_NAME, TWEETS, screenName);
@@ -232,6 +240,31 @@ public class DatabaseHelper implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * Removes all row where tweet field is empty (= []).
+     */
+    public void deleteEmptyTweetsRow() {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(DELETE_QUERY_EMPTY_ROW);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes row from database by {@code screenName}.
+     *
+     * @param screenName screen name of user
+     */
+    public void deleteByScreenName(String screenName) {
+        try (Statement statement = connection.createStatement()) {
+            String query = String.format(DELETE_QUERY_SCREEN_NAME, screenName);
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
