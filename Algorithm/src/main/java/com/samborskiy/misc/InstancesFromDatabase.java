@@ -3,7 +3,7 @@ package com.samborskiy.misc;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
 import com.samborskiy.entity.instances.Account;
-import com.samborskiy.entity.instances.Modifier;
+import com.samborskiy.entity.instances.modifiers.Modifier;
 import com.samborskiy.entity.instances.Tweet;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;

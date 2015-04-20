@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances;
+package com.samborskiy.entity.instances.modifiers;
 
 import com.samborskiy.entity.Language;
 

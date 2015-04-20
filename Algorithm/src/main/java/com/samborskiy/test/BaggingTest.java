@@ -5,11 +5,11 @@ import com.samborskiy.algorithm.Classifier;
 import com.samborskiy.algorithm.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.Instance;
-import com.samborskiy.entity.instances.Modifier;
-import com.samborskiy.entity.instances.ModifierLength;
-import com.samborskiy.entity.instances.ModifierSimple;
-import com.samborskiy.entity.instances.ModifierSmiles;
-import com.samborskiy.entity.instances.ModifierStemmer;
+import com.samborskiy.entity.instances.modifiers.Modifier;
+import com.samborskiy.entity.instances.modifiers.ModifierLength;
+import com.samborskiy.entity.instances.modifiers.ModifierSimple;
+import com.samborskiy.entity.instances.modifiers.ModifierSmiles;
+import com.samborskiy.entity.instances.modifiers.ModifierStemmer;
 
 import java.util.ArrayList;
 import java.util.List;

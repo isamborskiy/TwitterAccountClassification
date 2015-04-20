@@ -4,7 +4,7 @@ import com.samborskiy.algorithm.Classifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.Account;
 import com.samborskiy.entity.instances.Instance;
-import com.samborskiy.entity.instances.Modifier;
+import com.samborskiy.entity.instances.modifiers.Modifier;
 import com.samborskiy.entity.instances.Tweet;
 import com.samborskiy.misc.InstancesFromDatabase;
 import com.samborskiy.statistic.Statistics;

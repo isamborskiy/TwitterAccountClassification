@@ -1,6 +1,7 @@
 package com.samborskiy.entity.instances;
 
 import com.samborskiy.entity.Language;
+import com.samborskiy.entity.instances.modifiers.Modifier;
 
 import java.util.Iterator;
 import java.util.List;

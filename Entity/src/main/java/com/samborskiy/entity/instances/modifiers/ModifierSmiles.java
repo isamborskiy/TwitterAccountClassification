@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances;
+package com.samborskiy.entity.instances.modifiers;
 
 import com.samborskiy.entity.Language;
 
@@ -19,7 +19,7 @@ public class ModifierSmiles implements Modifier {
     @Override
     public List<String> apply(String tweet, Language language) {
         List<String> words = new ArrayList<>();
-        List<String> smiles = getSmiles();
+        List<String> smiles = getDelimiters();
         for (String smile : smiles) {
             int pos = 0;
             while ((pos = tweet.indexOf(smile, pos)) != -1) {
@@ -31,7 +31,7 @@ public class ModifierSmiles implements Modifier {
         return words;
     }
 
-    private List<String> getSmiles() {
+    protected List<String> getDelimiters() {
         List<String> smiles = new ArrayList<>();
         try (BufferedReader bf = new BufferedReader(new FileReader(SMILES_FILE))) {
             String line;
