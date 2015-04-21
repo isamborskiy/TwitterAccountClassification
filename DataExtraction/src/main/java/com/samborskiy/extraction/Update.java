@@ -12,7 +12,7 @@ import twitter4j.User;
 import java.io.File;
 import java.util.List;
 
-public class Main {
+public class Update {
 
     public static void main(String[] args) throws Exception {
         File file = new File("res/ru/config.json");
@@ -39,6 +39,7 @@ public class Main {
                     }
                 }
             }
+            dbHelper.deleteEmptyTweetsRow();
         } catch (Exception e) {
             e.printStackTrace();
         }
