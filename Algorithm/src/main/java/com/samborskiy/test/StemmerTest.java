@@ -3,7 +3,7 @@ package com.samborskiy.test;
 import com.samborskiy.algorithm.Classifier;
 import com.samborskiy.algorithm.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.Instance;
+import com.samborskiy.entity.instances.string.Instance;
 import com.samborskiy.entity.instances.modifiers.Modifier;
 import com.samborskiy.entity.instances.modifiers.ModifierStemmer;
 

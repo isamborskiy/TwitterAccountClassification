@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class ModifierSmiles implements Modifier {
+public class ModifierSmiles extends Modifier {
 
     protected static final File SMILES_FILE = new File("res/smiles");
 
     @Override
-    public List<String> apply(String tweet, Language language) {
+    public List<String> modifyTweet(String tweet, Language language) {
         List<String> words = new ArrayList<>();
         List<String> smiles = getDelimiters();
         for (String smile : smiles) {

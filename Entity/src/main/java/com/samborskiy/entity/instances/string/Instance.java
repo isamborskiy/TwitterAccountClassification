@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances;
+package com.samborskiy.entity.instances.string;
 
 /**
  * Created by Whiplash on 30.03.2015.

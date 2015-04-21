@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances;
+package com.samborskiy.entity.instances.string;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,10 +35,6 @@ public class Account extends Instance {
         for (String word : tweet) {
             words.add(word);
         }
-    }
-
-    public void addWords(List<String> words) {
-        this.words.addAll(words);
     }
 
     /**

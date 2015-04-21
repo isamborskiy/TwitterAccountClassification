@@ -1,14 +1,5 @@
 package com.samborskiy.algorithm.svm;
 
-import com.samborskiy.algorithm.Classifier;
-import com.samborskiy.entity.instances.Instance;
-import com.samborskiy.entity.Language;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Random;
-
 public class SVMClassifier/*<E extends Instance> extends Classifier<E>*/ {
 
    /* private static final int MAX_PASSES = 1;

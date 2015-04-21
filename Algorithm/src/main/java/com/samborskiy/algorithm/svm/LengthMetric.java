@@ -1,6 +1,6 @@
 package com.samborskiy.algorithm.svm;
 
-import com.samborskiy.entity.instances.Instance;
+import com.samborskiy.entity.instances.string.Instance;
 
 import java.util.ArrayList;
 import java.util.List;

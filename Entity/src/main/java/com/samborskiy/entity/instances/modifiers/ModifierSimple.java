@@ -8,14 +8,11 @@ import java.util.List;
 /**
  * Created by Whiplash on 10.04.2015.
  */
-public class ModifierSimple implements Modifier {
-
-    protected static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+public class ModifierSimple extends Modifier {
 
     @Override
-    public List<String> apply(String tweet, Language language) {
+    public List<String> modifyTweet(String tweet, Language language) {
         List<String> words = new ArrayList<>();
-        tweet = tweet.replaceAll(URL_REGEX, " ");
         String[] wordsArray = tweet.split("[ ,.?!()-]");
         for (String word : wordsArray) {
             word = modifyWord(word, language);

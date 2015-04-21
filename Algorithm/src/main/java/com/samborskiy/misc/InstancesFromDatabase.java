@@ -2,9 +2,9 @@ package com.samborskiy.misc;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.instances.string.Account;
 import com.samborskiy.entity.instances.modifiers.Modifier;
-import com.samborskiy.entity.instances.Tweet;
+import com.samborskiy.entity.instances.string.Tweet;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;
 
@@ -25,7 +25,7 @@ public class InstancesFromDatabase {
     }
 
     /**
-     * Returns list of {@link com.samborskiy.entity.instances.Tweet} get from database.
+     * Returns list of {@link com.samborskiy.entity.instances.string.Tweet} get from database.
      *
      * @param configuration to get access to database describe in configuration
      * @return list of {@link com.samborskiy.entity.instances.TweetSimple} get from database
@@ -46,7 +46,7 @@ public class InstancesFromDatabase {
     }
 
     /**
-     * Returns list of user {@link com.samborskiy.entity.instances.Account} get from database.
+     * Returns list of user {@link com.samborskiy.entity.instances.string.Account} get from database.
      *
      * @param configuration to get access to database describe in configuration
      * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database

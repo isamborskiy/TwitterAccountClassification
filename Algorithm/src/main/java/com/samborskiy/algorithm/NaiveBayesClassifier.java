@@ -1,7 +1,7 @@
 package com.samborskiy.algorithm;
 
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.instances.Instance;
+import com.samborskiy.entity.instances.string.Instance;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

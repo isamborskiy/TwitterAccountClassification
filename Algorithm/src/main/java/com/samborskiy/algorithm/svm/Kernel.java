@@ -1,6 +1,6 @@
 package com.samborskiy.algorithm.svm;
 
-import com.samborskiy.entity.instances.Instance;
+import com.samborskiy.entity.instances.string.Instance;
 
 /**
  * Created by Whiplash on 19.10.2014.
