@@ -1,5 +1,7 @@
 package com.samborskiy.entity.instances.attrs;
 
+import com.samborskiy.entity.instances.attributes.Attribute;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,5 @@ public abstract class Instance {
         return attrs.get(i);
     }
 
-    protected void add(double val) {
-        attrs.add(val);
-    }
+    public abstract void addAttr(Attribute attribute);
 }
