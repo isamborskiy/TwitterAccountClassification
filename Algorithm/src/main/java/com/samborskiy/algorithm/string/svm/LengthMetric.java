@@ -1,4 +1,4 @@
-package com.samborskiy.algorithm.svm;
+package com.samborskiy.algorithm.string.svm;
 
 import com.samborskiy.entity.instances.string.Instance;
 

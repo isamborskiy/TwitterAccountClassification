@@ -1,4 +1,4 @@
-package com.samborskiy.algorithm.svm;
+package com.samborskiy.algorithm.string.svm;
 
 public class SVMClassifier/*<E extends Instance> extends Classifier<E>*/ {
 

@@ -1,7 +1,8 @@
-package com.samborskiy.statistic;
+package com.samborskiy.test.string;
 
-import com.samborskiy.algorithm.Classifier;
+import com.samborskiy.algorithm.string.Classifier;
 import com.samborskiy.entity.instances.string.Instance;
+import com.samborskiy.test.Statistics;
 
 import java.util.ArrayList;
 import java.util.Arrays;

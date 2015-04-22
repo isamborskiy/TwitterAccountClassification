@@ -1,11 +1,11 @@
-package com.samborskiy.test;
+package com.samborskiy.test.string;
 
-import com.samborskiy.algorithm.Classifier;
-import com.samborskiy.algorithm.NaiveBayesClassifier;
+import com.samborskiy.algorithm.string.Classifier;
+import com.samborskiy.algorithm.string.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.string.Instance;
 import com.samborskiy.entity.instances.modifiers.Modifier;
-import com.samborskiy.entity.instances.modifiers.ModifierSmiles;
+import com.samborskiy.entity.instances.modifiers.ModifierLength;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
 /**
  * Created by Whiplash on 18.04.2015.
  */
-public class SmilesTest extends Test {
+public class LengthTest extends Test {
 
-    public SmilesTest(Configuration configuration, int rounds, int folds) {
+    public LengthTest(Configuration configuration, int rounds, int folds) {
         super(configuration, rounds, folds);
     }
 
     @Override
     protected List<Modifier> getModifiers() {
         List<Modifier> modifiers = new ArrayList<>();
-        modifiers.add(new ModifierSmiles());
+        modifiers.add(new ModifierLength());
         return modifiers;
     }
 

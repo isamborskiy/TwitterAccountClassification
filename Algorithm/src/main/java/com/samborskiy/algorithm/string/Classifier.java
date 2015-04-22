@@ -1,4 +1,4 @@
-package com.samborskiy.algorithm;
+package com.samborskiy.algorithm.string;
 
 import com.samborskiy.entity.Language;
 import com.samborskiy.entity.instances.string.Instance;

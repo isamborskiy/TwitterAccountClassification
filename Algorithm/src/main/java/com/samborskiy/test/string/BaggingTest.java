@@ -1,8 +1,8 @@
-package com.samborskiy.test;
+package com.samborskiy.test.string;
 
-import com.samborskiy.algorithm.BaggingClassifier;
-import com.samborskiy.algorithm.Classifier;
-import com.samborskiy.algorithm.NaiveBayesClassifier;
+import com.samborskiy.algorithm.string.BaggingClassifier;
+import com.samborskiy.algorithm.string.Classifier;
+import com.samborskiy.algorithm.string.NaiveBayesClassifier;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.string.Instance;
 import com.samborskiy.entity.instances.modifiers.Modifier;

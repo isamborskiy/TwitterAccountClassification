@@ -1,4 +1,4 @@
-package com.samborskiy;
+package com.samborskiy.misc;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

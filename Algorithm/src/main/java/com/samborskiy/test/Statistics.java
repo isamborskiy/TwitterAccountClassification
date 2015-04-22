@@ -1,4 +1,4 @@
-package com.samborskiy.statistic;
+package com.samborskiy.test;
 
 /**
  * Structure for holding statistics of testAccounts.

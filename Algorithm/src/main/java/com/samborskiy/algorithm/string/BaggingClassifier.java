@@ -1,4 +1,4 @@
-package com.samborskiy.algorithm;
+package com.samborskiy.algorithm.string;
 
 import com.samborskiy.entity.Language;
 import com.samborskiy.entity.instances.string.Instance;
@@ -46,7 +46,7 @@ public class BaggingClassifier<E extends Instance> extends Classifier<E> {
 
     @Override
     public void clear() {
-        classifiers.forEach(com.samborskiy.algorithm.Classifier::clear);
+        classifiers.forEach(Classifier::clear);
     }
 
     @Override

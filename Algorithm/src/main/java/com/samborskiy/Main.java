@@ -1,8 +1,7 @@
 package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.test.BaggingTest;
-import com.samborskiy.test.StemmerTest;
+import com.samborskiy.test.string.StemmerTest;
 
 import java.io.File;
 
