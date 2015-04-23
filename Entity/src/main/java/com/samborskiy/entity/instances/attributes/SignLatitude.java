@@ -8,7 +8,7 @@ import java.util.List;
  * number of different signs in sentences, divided by the number
  * of possible characters.
  */
-public class SingLatitude extends SignAttribute {
+public class SignLatitude extends SignAttribute {
 
     @Override
     public List<Double> apply(List<String> tweets) {

@@ -2,8 +2,8 @@ package com.samborskiy.misc;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.instances.string.Account;
 import com.samborskiy.entity.instances.modifiers.Modifier;
+import com.samborskiy.entity.instances.string.Account;
 import com.samborskiy.entity.instances.string.Tweet;
 import com.samborskiy.entity.utils.EntityUtil;
 import com.samborskiy.extraction.utils.DatabaseHelper;
@@ -19,16 +19,16 @@ import java.util.List;
  *
  * @author Whiplash
  */
-public class InstancesFromDatabase {
+public class StringInstancesFromDatabase {
 
-    private InstancesFromDatabase() {
+    private StringInstancesFromDatabase() {
     }
 
     /**
      * Returns list of {@link com.samborskiy.entity.instances.string.Tweet} get from database.
      *
      * @param configuration to get access to database describe in configuration
-     * @return list of {@link com.samborskiy.entity.instances.TweetSimple} get from database
+     * @return list of {@link com.samborskiy.entity.instances.string.Tweet} get from database
      */
     public static List<Tweet> getAllTweets(Configuration configuration, Modifier function) {
         List<Tweet> instances = new ArrayList<>();
@@ -49,7 +49,7 @@ public class InstancesFromDatabase {
      * Returns list of user {@link com.samborskiy.entity.instances.string.Account} get from database.
      *
      * @param configuration to get access to database describe in configuration
-     * @return list of user {@link com.samborskiy.entity.instances.TweetSimple} get from database
+     * @return list of user {@link com.samborskiy.entity.instances.string.Account} get from database
      */
     public static List<Account> getAllAccounts(Configuration configuration, Modifier function) {
         List<Account> instances = new ArrayList<>();

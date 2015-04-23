@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * The number of appearances of any sign divided by the total number of tweets.
  */
-public class SingsPerTweet extends SignAttribute {
+public class SignsPerTweet extends SignAttribute {
 
     @Override
     public List<Double> apply(List<String> tweets) {

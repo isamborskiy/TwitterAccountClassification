@@ -1,4 +1,4 @@
-package com.samborskiy.test.attrs;
+package com.samborskiy.test.attrs.testmachines;
 
 import com.samborskiy.algorithm.attrs.Classifier;
 import com.samborskiy.entity.instances.attrs.Account;

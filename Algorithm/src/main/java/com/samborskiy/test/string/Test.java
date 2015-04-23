@@ -6,7 +6,7 @@ import com.samborskiy.entity.instances.string.Account;
 import com.samborskiy.entity.instances.string.Instance;
 import com.samborskiy.entity.instances.modifiers.Modifier;
 import com.samborskiy.entity.instances.string.Tweet;
-import com.samborskiy.misc.InstancesFromDatabase;
+import com.samborskiy.misc.StringInstancesFromDatabase;
 import com.samborskiy.test.Statistics;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public abstract class Test {
     protected List<List<Account>> getAccountLists(List<Modifier> modifiers) {
         List<List<Account>> instances = new ArrayList<>();
         for (Modifier modifier : modifiers) {
-            List<Account> accounts = InstancesFromDatabase.getAllAccounts(configuration, modifier);
+            List<Account> accounts = StringInstancesFromDatabase.getAllAccounts(configuration, modifier);
             instances.add(accounts);
         }
         return instances;
@@ -69,7 +69,7 @@ public abstract class Test {
     protected List<List<Tweet>> getTweetLists(List<Modifier> modifiers) {
         List<List<Tweet>> instances = new ArrayList<>();
         for (Modifier modifier : modifiers) {
-            List<Tweet> tweets = InstancesFromDatabase.getAllTweets(configuration, modifier);
+            List<Tweet> tweets = StringInstancesFromDatabase.getAllTweets(configuration, modifier);
             instances.add(tweets);
         }
         return instances;
