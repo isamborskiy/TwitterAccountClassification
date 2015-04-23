@@ -15,11 +15,11 @@ public class DatabaseToArff {
     private DatabaseToArff() {
     }
 
-    public static void write(Configuration configuration, String relationshipName, List<AttributeFunction> functions) throws FileNotFoundException {
+    public static void write(Configuration configuration, String relationName, List<AttributeFunction> functions) throws FileNotFoundException {
         List<Account> data = DatabaseToData.getAllAccounts(configuration);
         for (Account account : data) {
             functions.forEach(account::addAttr);
         }
-        DataToArff.write(configuration, data, relationshipName);
+        DataToArff.write(configuration, data, relationName);
     }
 }
