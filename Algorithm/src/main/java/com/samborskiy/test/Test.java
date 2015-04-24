@@ -27,8 +27,8 @@ public abstract class Test {
         this.configuration = configuration;
     }
 
-    public void test(String relationName, int foldCount) throws Exception {
-        DatabaseToArff.write(configuration, relationName, getAttributes());
+    public void test(String relationName, int foldCount, List<AttributeFunction> functions) throws Exception {
+        DatabaseToArff.write(configuration, relationName, functions);
 
         BufferedReader datafile = new BufferedReader(new FileReader(relationName + ".arff"));
         Instances data = new Instances(datafile);
@@ -67,8 +67,6 @@ public abstract class Test {
         }
         throw new IllegalStateException("Run test before getting result");
     }
-
-    protected abstract List<AttributeFunction> getAttributes();
 
     protected abstract Classifier getClassifier();
 }
