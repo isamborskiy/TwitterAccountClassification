@@ -8,7 +8,7 @@ import com.samborskiy.entity.instances.functions.SignPerTweet;
 import com.samborskiy.entity.instances.functions.SignsPerTweet;
 import com.samborskiy.entity.instances.functions.TweetsWithSign;
 import com.samborskiy.entity.instances.functions.TweetsWithSigns;
-import com.samborskiy.test.NaiveBayesTest;
+import com.samborskiy.test.SVMTest;
 import com.samborskiy.test.Statistics;
 import com.samborskiy.test.Test;
 
@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new NaiveBayesTest(configuration);
+        Test test = new SVMTest(configuration);
         test.test("test_file", FOLD_COUNT, getPunctuationAttributes());
         System.out.print(new Statistics(test));
     }
