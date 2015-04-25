@@ -6,3 +6,5 @@ gen/
 *.iml
 *.class
 .DS_Store
+
+res/ru/russian.par
