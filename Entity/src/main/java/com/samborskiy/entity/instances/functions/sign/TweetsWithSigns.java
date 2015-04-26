@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances.functions;
+package com.samborskiy.entity.instances.functions.sign;
 
 import com.samborskiy.entity.instances.Attribute;
 
@@ -6,31 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Latitude author use punctuation, equal to the maximum on the
- * number of different signs in sentences, divided by the number
- * of possible characters.
+ * The number of tweets where is find any sign divided by the total number of tweets.
  */
-public class SignLatitude extends SignAttributeFunction {
+public class TweetsWithSigns extends SignFunction {
 
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<Attribute> attrs = new ArrayList<>();
-        double max = 0;
+        double count = 0;
         for (String tweet : tweets) {
-            double count = 0.;
             for (String sign : SIGNS.keySet()) {
                 if (tweet.contains(sign)) {
                     count++;
+                    break;
                 }
             }
-            max = Math.max(max, count);
         }
-        attrs.add(getAttribute(max / SIGNS.size()));
+        attrs.add(getAttribute(count / tweets.size()));
         return attrs;
     }
 
     @Override
     protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "sign_latitude");
+        return new Attribute(val, "tweets_with_signs");
     }
 }

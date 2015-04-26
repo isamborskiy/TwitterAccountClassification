@@ -13,7 +13,10 @@ public interface MorphologicalAnalyzer {
         ADVERB,
         NUMERAL,
         CONJUNCTION,
-        PREPOSITION
+        PREPOSITION,
+        PERSONAL_PRONOUN,
+        PRONOUN,
+        PARTICLE
     }
 
     public PartOfSpeech get(String word);

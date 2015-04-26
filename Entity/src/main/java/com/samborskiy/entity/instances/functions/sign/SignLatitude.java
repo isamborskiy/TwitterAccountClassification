@@ -1,4 +1,4 @@
-package com.samborskiy.entity.instances.functions;
+package com.samborskiy.entity.instances.functions.sign;
 
 import com.samborskiy.entity.instances.Attribute;
 
@@ -6,27 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The average number of different signs in a tweets.
+ * Latitude author use punctuation, equal to the maximum on the
+ * number of different signs in sentences, divided by the number
+ * of possible characters.
  */
-public class AvrSignsNumber extends SignAttributeFunction {
+public class SignLatitude extends SignFunction {
 
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<Attribute> attrs = new ArrayList<>();
-        double count = 0.;
+        double max = 0;
         for (String tweet : tweets) {
+            double count = 0.;
             for (String sign : SIGNS.keySet()) {
                 if (tweet.contains(sign)) {
                     count++;
                 }
             }
+            max = Math.max(max, count);
         }
-        attrs.add(getAttribute(count / tweets.size()));
+        attrs.add(getAttribute(max / SIGNS.size()));
         return attrs;
     }
 
     @Override
     protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "average_signs_number");
+        return new Attribute(val, "sign_latitude");
     }
 }

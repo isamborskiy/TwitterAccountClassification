@@ -2,8 +2,12 @@ package com.samborskiy.entity.analyzers.morphological;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech.*;
 
 /**
  * Created by Whiplash on 25.04.2015.
@@ -21,36 +25,64 @@ public class SimpleMorphologicalAnalyzer implements MorphologicalAnalyzer {
         String[] numeralEndings = {"чуть", "много", "мало", "еро", "вое", "рое", "еро", "сти", "одной", "двух", "рех", "еми", "яти", "ьми", "ати", "дного", "сто", "ста", "тысяча", "тысячи", "две", "три", "одна", "умя", "тью", "мя", "тью", "мью", "тью", "одним"};
         String[] conjunctionEndings = {"более", "менее", "очень", "крайне", "скоре", "некотор", "кажд", "други", "котор", "когд", "однак", "если", "чтоб", "хот", "смотря", "как", "также", "так", "зато", "что", "или", "потом", "эт", "тог", "тоже", "словно", "ежели", "кабы", "коли", "ничем", "чем"};
         String[] prepositionEndings = {"в", "на", "по", "из"};
+        String[] personalPronounEndings = {"я", "ты", "он", "она", "оно", "они", "вы", "меня", "мне", "меня", "мной", "мною", "тебя", "тебе", "тобой", "тобою", "его", "него", "ему", "нему", "его", "им", "ним", "ее", "нее", "ей", "ней", "ею", "нею", "его", "него", "ему", "нему", "им", "ним"};
+        String[] pronounEndings = {"кто", "что", "какой", "каков", "чей", "который", "сколько", "этот", "эта", "это", "эти", "тот", "та", "то", "те", "такой", "такая", "такое", "такие", "таков", "такова", "таково", "таковы", "сей", "сия", "сие", "сии", "все", "весь", "всяк", "всякий", "любой", "каждый", "сам", "самый", "другой", "иной", "никто", "ничто", "некого", "нечего", "нисколько", "никакой", "ничей", "некто", "нечто", "некий", "некторый", "несколько"};
+        String[] particleEndings = {"то", "либо", "нибудь", "не", "ни", "бы", "же"};
 
-        ENDINGS.put(PartOfSpeech.ADJECTIVE, Arrays.asList(adjectiveEndings));
-        ENDINGS.put(PartOfSpeech.COMMUNION, Arrays.asList(communionEndings));
-        ENDINGS.put(PartOfSpeech.VERB, Arrays.asList(verbEndings));
-        ENDINGS.put(PartOfSpeech.NOUN, Arrays.asList(nounEndings));
-        ENDINGS.put(PartOfSpeech.ADVERB, Arrays.asList(adverbEndings));
-        ENDINGS.put(PartOfSpeech.NUMERAL, Arrays.asList(numeralEndings));
-        ENDINGS.put(PartOfSpeech.CONJUNCTION, Arrays.asList(conjunctionEndings));
-        ENDINGS.put(PartOfSpeech.PREPOSITION, Arrays.asList(prepositionEndings));
+        ENDINGS.put(ADJECTIVE, Arrays.asList(adjectiveEndings));
+        ENDINGS.put(COMMUNION, Arrays.asList(communionEndings));
+        ENDINGS.put(VERB, Arrays.asList(verbEndings));
+        ENDINGS.put(NOUN, Arrays.asList(nounEndings));
+        ENDINGS.put(ADVERB, Arrays.asList(adverbEndings));
+        ENDINGS.put(NUMERAL, Arrays.asList(numeralEndings));
+        ENDINGS.put(CONJUNCTION, Arrays.asList(conjunctionEndings));
+        ENDINGS.put(PREPOSITION, Arrays.asList(prepositionEndings));
+        ENDINGS.put(PERSONAL_PRONOUN, Arrays.asList(personalPronounEndings));
+        ENDINGS.put(PRONOUN, Arrays.asList(pronounEndings));
+        ENDINGS.put(PARTICLE, Arrays.asList(particleEndings));
     }
 
     @Override
     public PartOfSpeech get(String word) {
+        Set<PartOfSpeech> supposedPartOfSpeech = new HashSet<>();
         for (PartOfSpeech partOfSpeech : ENDINGS.keySet()) {
             for (String part : ENDINGS.get(partOfSpeech)) {
                 switch (partOfSpeech) {
+                    case PERSONAL_PRONOUN:
+                    case PRONOUN:
                     case PREPOSITION:
+                    case PARTICLE:
                         if (word.equals(part)) {
-                            return partOfSpeech;
+                            supposedPartOfSpeech.add(partOfSpeech);
                         }
                         break;
                     case CONJUNCTION:
                         if (word.startsWith(part)) {
-                            return partOfSpeech;
+                            supposedPartOfSpeech.add(partOfSpeech);
                         }
                         break;
                     default:
                         if (word.endsWith(part)) {
-                            return partOfSpeech;
+                            supposedPartOfSpeech.add(partOfSpeech);
                         }
+                }
+            }
+        }
+
+        if (supposedPartOfSpeech.contains(PERSONAL_PRONOUN)) {
+            return PERSONAL_PRONOUN;
+        } else if (supposedPartOfSpeech.contains(PRONOUN)) {
+            return PRONOUN;
+        } else if (supposedPartOfSpeech.contains(PREPOSITION)) {
+            return PREPOSITION;
+        } else if (supposedPartOfSpeech.contains(PARTICLE)) {
+            return PARTICLE;
+        } else if (supposedPartOfSpeech.contains(CONJUNCTION)) {
+            return CONJUNCTION;
+        } else if (!supposedPartOfSpeech.isEmpty()) {
+            for (PartOfSpeech partOfSpeech : ENDINGS.keySet()) {
+                if (supposedPartOfSpeech.contains(partOfSpeech)) {
+                    return partOfSpeech;
                 }
             }
         }

@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Created by Whiplash on 23.04.2015.
@@ -44,7 +45,8 @@ class DataToArff {
         for (Attribute attribute : instance) {
             writer.println(attribute);
         }
-        writer.println("@attribute class {0, 1, 2}"); // FIXME: use configuration to create nominal set
+        String nominal = String.format("{%s}", String.join(", ", configuration.getTypes().stream().map(i -> String.valueOf(i.getId())).collect(Collectors.toList())));
+        writer.format("@attribute class %s\n", nominal);
         writer.println();
     }
 
