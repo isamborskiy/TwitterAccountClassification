@@ -18,7 +18,7 @@ public class PartOfSpeechPerTweet extends PartOfSpeechFunction {
             double count = 0;
             for (List<MorphologicalAnalyzer.PartOfSpeech> partsOfSpeech : partsOfSpeechList) {
                 for (int i = 0; i < partsOfSpeech.size(); i++) {
-                    count += sequence.match(partsOfSpeech, i) ? 0 : 1;
+                    count += sequence.match(partsOfSpeech, i) ? 1 : 0;
                 }
             }
             attrs.add(getAttribute(count / partsOfSpeechList.size(), sequence.toString()));
