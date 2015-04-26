@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Number of appearance part of speech in the text or a combination divided by the total number of tweets.
+ * Number of appearance part of speech in the tweets or a combination divided by the total number of tweets.
  */
 public class PartOfSpeechPerTweet extends PartOfSpeechFunction {
 
