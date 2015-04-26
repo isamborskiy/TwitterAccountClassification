@@ -3,13 +3,14 @@ package com.samborskiy.entity.instances.functions.partofspeech;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech;
 import com.samborskiy.entity.analyzers.morphological.SimpleMorphologicalAnalyzer;
+import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import com.samborskiy.entity.instances.Attribute;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import static com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech.*;
 
@@ -36,14 +37,9 @@ public abstract class PartOfSpeechFunction extends AttributeFunction {
     public List<Attribute> apply(List<String> tweets) {
         List<List<PartOfSpeech>> partsOfSpeechList = new ArrayList<>();
         MorphologicalAnalyzer morphologicalAnalyzer = new SimpleMorphologicalAnalyzer();
+        TweetParser tweetParser = TweetParser.get();
         for (String tweet : tweets) {
-            // TODO: improve tweet parser
-            StringTokenizer tokenizer = new StringTokenizer(tweet, "[,;:.!?\\\\s]+");
-            List<PartOfSpeech> partsOfSpeech = new ArrayList<>();
-            while (tokenizer.hasMoreTokens()) {
-                partsOfSpeech.add(morphologicalAnalyzer.get(tokenizer.nextToken().toLowerCase()));
-            }
-            partsOfSpeechList.add(partsOfSpeech);
+            partsOfSpeechList.add(tweetParser.parse(tweet).stream().map(word -> morphologicalAnalyzer.get(word.toLowerCase())).collect(Collectors.toList()));
         }
         return count(partsOfSpeechList);
     }

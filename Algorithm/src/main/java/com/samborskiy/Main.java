@@ -31,6 +31,7 @@ public class Main {
         attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
         attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.sign"));
         attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.smile"));
+        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.length"));
         return attributeFunctions;
     }
 
