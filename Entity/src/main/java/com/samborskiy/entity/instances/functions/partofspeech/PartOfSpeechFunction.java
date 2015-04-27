@@ -2,7 +2,6 @@ package com.samborskiy.entity.instances.functions.partofspeech;
 
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech;
-import com.samborskiy.entity.analyzers.morphological.SimpleMorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import com.samborskiy.entity.instances.Attribute;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
@@ -36,7 +35,7 @@ public abstract class PartOfSpeechFunction extends AttributeFunction {
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<List<PartOfSpeech>> partsOfSpeechList = new ArrayList<>();
-        MorphologicalAnalyzer morphologicalAnalyzer = new SimpleMorphologicalAnalyzer();
+        MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
         TweetParser tweetParser = TweetParser.get();
         for (String tweet : tweets) {
             partsOfSpeechList.add(tweetParser.parse(tweet).stream().map(word -> morphologicalAnalyzer.get(word.toLowerCase())).collect(Collectors.toList()));
