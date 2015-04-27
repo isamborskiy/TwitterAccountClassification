@@ -27,8 +27,10 @@ public abstract class Test {
         this.configuration = configuration;
     }
 
-    public void test(String relationName, int foldCount, List<AttributeFunction> functions) throws Exception {
-        DatabaseToArff.write(configuration, relationName, functions);
+    public void test(String relationName, int foldCount, List<AttributeFunction> functions, boolean createNewArffFile) throws Exception {
+        if (createNewArffFile) {
+            DatabaseToArff.write(configuration, relationName, functions);
+        }
 
         BufferedReader datafile = new BufferedReader(new FileReader(relationName + ".arff"));
         Instances data = new Instances(datafile);
