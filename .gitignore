@@ -9,3 +9,4 @@ gen/
 
 res/ru/russian.par
 Entity/src/main/java/com/samborskiy/entity/Test.java
+*.arff
