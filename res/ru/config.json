@@ -1,14 +1,14 @@
 {
   "lang": "ru",
-  "databasePath": "res/ru/sample.db",
+  "databasePath": "res/ru/test.db",
   "types": [
     {
       "id": 0,
       "name": "personal",
-      "tweetPerUser": 150,
-      "constraints": true,
+      "tweetPerUser": 500,
+      "constraints": false,
       "data": {
-        "peopleNames": "res/ru/people_names_0"
+        "screenNames": "res/ru/screen_names_0"
       }
     },
     {

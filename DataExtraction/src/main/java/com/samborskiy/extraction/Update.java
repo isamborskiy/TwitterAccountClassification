@@ -20,9 +20,9 @@ public class Update {
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 
         try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
-            if (!new File(configuration.getDatabasePath()).exists()) {
-                dbHelper.createTable();
-            }
+//            if (!new File(configuration.getDatabasePath()).exists()) {
+//                dbHelper.createTable();
+//            }
             for (Type type : configuration) {
                 for (String screenName : type.getData().extractScreenNames()) {
                     if (!dbHelper.hasUser(screenName)) {
