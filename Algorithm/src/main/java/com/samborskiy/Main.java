@@ -49,12 +49,13 @@ public class Main {
 
     private static List<AttributeFunction> getAttributes() throws InstantiationException, IllegalAccessException {
         List<AttributeFunction> attributeFunctions = new ArrayList<>();
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.sign"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.smile"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.length"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.grammar"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.sign"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.smile"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.length"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.grammar"));
+//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
+        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.hashtag"));
         return attributeFunctions;
     }
 
