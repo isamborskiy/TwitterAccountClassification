@@ -31,9 +31,6 @@ public class Main {
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new Test(configuration);
         test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
-        BestFirst bestFirst = new BestFirst();
-        bestFirst.setOptions(new String[]{"-D", "1"});
-        bestFirst.search(new CfsSubsetEval(), null);
     }
 
     private static Map<Classifier, String> getClassifiers() {
