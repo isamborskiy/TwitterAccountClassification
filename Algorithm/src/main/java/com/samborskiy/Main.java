@@ -20,10 +20,10 @@ public class Main {
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
     private static final String TEST_FILE_PATH = "res/ru/old_config.json";
     private static final int FOLD_COUNT = 5;
-    private static final String RELATION_NAME = "test_file";
+    private static final String RELATION_NAME = "test";
 
     public static void main(String[] args) throws Exception {
-        File configFileTrain = new File(TRAIN_FILE_PATH);
+        File configFileTrain = new File(TEST_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new Test(configuration);
         test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
@@ -32,13 +32,14 @@ public class Main {
     private static Map<Classifier, String> getClassifiers() {
         Map<Classifier, String> classifiers = new HashMap<>();
         classifiers.put(new LibSVM(), "SVM");
-        classifiers.put(new IBk(), "KNN");
+        classifiers.put(new IBk(1), "KNN1");
+        classifiers.put(new IBk(5), "KNN5");
         classifiers.put(new J48(), "Decision Tree (J48)");
         classifiers.put(new NaiveBayes(), "Naive Bayes");
         return classifiers;
     }
 
-    public static List<AccountFunction> getAccountFunctions() {
+    private static List<AccountFunction> getAccountFunctions() {
         List<AccountFunction> accountFunctions = new ArrayList<>();
 //        accountFunctions.add(new HashTagAttribute());
 //        accountFunctions.add(new VocabularyAttribute());
