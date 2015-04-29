@@ -1,19 +1,20 @@
 package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
-import com.samborskiy.test.DecisionTreeTest;
-import com.samborskiy.test.KNNTest;
-import com.samborskiy.test.NaiveBayesTest;
-import com.samborskiy.test.SVMTest;
-import com.samborskiy.test.Statistics;
-import com.samborskiy.test.Test;
+import com.samborskiy.entity.instances.functions.account.AccountFunction;
+import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import org.reflections.Reflections;
+import weka.classifiers.Classifier;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.J48;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Main {
@@ -25,49 +26,46 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        {
-            Test test = new SVMTest(configuration);
-            test.test(RELATION_NAME, FOLD_COUNT, getAttributes(), true);
-            System.out.format("SVM test:\n%s\n\n", new Statistics(test));
-        }
-        {
-            Test test = new KNNTest(configuration);
-            test.test(RELATION_NAME, FOLD_COUNT, getAttributes(), false);
-            System.out.format("KNN test:\n%s\n\n", new Statistics(test));
-        }
-        {
-            Test test = new NaiveBayesTest(configuration);
-            test.test(RELATION_NAME, FOLD_COUNT, getAttributes(), false);
-            System.out.format("Naive bayes test:\n%s\n\n", new Statistics(test));
-        }
-        {
-            Test test = new DecisionTreeTest(configuration);
-            test.test(RELATION_NAME, FOLD_COUNT, getAttributes(), false);
-            System.out.format("Decision test test:\n%s\n\n", new Statistics(test));
-        }
+        Test test = new Test(configuration);
+        test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
     }
 
-    private static List<AttributeFunction> getAttributes() throws InstantiationException, IllegalAccessException {
-        List<AttributeFunction> attributeFunctions = new ArrayList<>();
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.sign"));
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.smile"));
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.length"));
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.grammar"));
-//        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
-        attributeFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.hashtag"));
-        return attributeFunctions;
+    private static Map<Classifier, String> getClassifiers() {
+        Map<Classifier, String> classifiers = new HashMap<>();
+//        classifiers.put(new LibSVM(), "SVM");
+        classifiers.put(new IBk(), "KNN");
+        classifiers.put(new J48(), "Decision Tree (J48)");
+        classifiers.put(new NaiveBayes(), "Naive Bayes");
+        return classifiers;
     }
 
-    private static List<AttributeFunction> getAttributes(String packageName) throws IllegalAccessException, InstantiationException {
+    public static List<AccountFunction> getAccountFunctions() {
+        List<AccountFunction> accountFunctions = new ArrayList<>();
+//        accountFunctions.add(new HashTagAttribute());
+        return accountFunctions;
+    }
+
+    private static List<TweetFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
+        List<TweetFunction> tweetFunctions = new ArrayList<>();
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.partofspeech"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
+//        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
+        return tweetFunctions;
+    }
+
+    private static List<TweetFunction> getAttributes(String packageName) throws IllegalAccessException, InstantiationException {
         Reflections reflections = new Reflections(packageName);
-        Set<Class<? extends AttributeFunction>> allClasses = reflections.getSubTypesOf(AttributeFunction.class);
-        List<AttributeFunction> attributeFunctions = new ArrayList<>();
+        Set<Class<? extends TweetFunction>> allClasses = reflections.getSubTypesOf(TweetFunction.class);
+        List<TweetFunction> tweetFunctions = new ArrayList<>();
         for (Class clazz : allClasses) {
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                attributeFunctions.add((AttributeFunction) clazz.newInstance());
+                tweetFunctions.add((TweetFunction) clazz.newInstance());
             }
         }
-        return attributeFunctions;
+        return tweetFunctions;
     }
 }
