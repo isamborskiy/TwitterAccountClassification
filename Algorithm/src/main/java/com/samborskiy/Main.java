@@ -47,13 +47,13 @@ public class Main {
 
     private static List<TweetFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
         List<TweetFunction> tweetFunctions = new ArrayList<>();
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.partofspeech"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
-//        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.partofspeech"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
         return tweetFunctions;
     }
 

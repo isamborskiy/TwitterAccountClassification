@@ -8,19 +8,23 @@ import java.util.List;
 /**
  * Created by Whiplash on 29.04.2015.
  */
-public class HashTagPerTweet extends HashTagFunction {
+public class HashTagLength extends HashTagFunction {
 
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<Attribute> attributes = new ArrayList<>();
-        attributes.add(getAttribute(tweets.stream()
-                .mapToDouble(t -> getHashTags(t).size())
-                .average().getAsDouble()));
+        double length = 0.;
+        for (String tweet : tweets) {
+            for (String hashTag : getHashTags(tweet)) {
+                length += hashTag.length();
+            }
+        }
+        attributes.add(getAttribute(length / tweets.size()));
         return attributes;
     }
 
     @Override
     protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "hash_tag_per_tweet");
+        return new Attribute(val, "hash_tag_length");
     }
 }
