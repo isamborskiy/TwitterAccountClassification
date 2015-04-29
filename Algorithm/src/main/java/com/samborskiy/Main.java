@@ -2,7 +2,6 @@ package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
-import com.samborskiy.entity.instances.functions.account.HashTagAttribute;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import org.reflections.Reflections;
 import weka.classifiers.Classifier;
@@ -13,17 +12,21 @@ import weka.classifiers.trees.J48;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
-    private static final String TEST_FILE_PATH = "res/ru/old_config.json";
+//    private static final String TEST_FILE_PATH = "res/ru/old_config.json";
     private static final int FOLD_COUNT = 5;
-    private static final String RELATION_NAME = "test";
+    private static final String RELATION_NAME = "train";
 
     public static void main(String[] args) throws Exception {
-        File configFileTrain = new File(TEST_FILE_PATH);
+        File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new Test(configuration);
         test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
@@ -53,7 +56,7 @@ public class Main {
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.reference"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.personal"));
