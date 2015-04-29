@@ -4,7 +4,6 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Type;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
-import com.samborskiy.weka.DatabaseToArff;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -29,7 +28,7 @@ public class Test {
     }
 
     public void test(String relationName, int foldCount, Map<Classifier, String> classifiers, List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions) throws Exception {
-        DatabaseToArff.write(configuration, relationName, tweetFunctions, accountFunctions);
+//        DatabaseToArff.write(configuration, relationName, tweetFunctions, accountFunctions);
 
         BufferedReader datafile = new BufferedReader(new FileReader(relationName + ".arff"));
         Instances data = new Instances(datafile);

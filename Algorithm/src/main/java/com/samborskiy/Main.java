@@ -4,9 +4,10 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import org.reflections.Reflections;
+import weka.attributeSelection.BestFirst;
+import weka.attributeSelection.CfsSubsetEval;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.LibSVM;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.trees.J48;
 
@@ -21,7 +22,7 @@ import java.util.Set;
 public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
-//    private static final String TEST_FILE_PATH = "res/ru/old_config.json";
+    //    private static final String TEST_FILE_PATH = "res/ru/old_config.json";
     private static final int FOLD_COUNT = 5;
     private static final String RELATION_NAME = "train";
 
@@ -30,13 +31,18 @@ public class Main {
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new Test(configuration);
         test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
+        BestFirst bestFirst = new BestFirst();
+        bestFirst.setOptions(new String[]{"-D", "1"});
+        bestFirst.search(new CfsSubsetEval(), null);
     }
 
     private static Map<Classifier, String> getClassifiers() {
         Map<Classifier, String> classifiers = new HashMap<>();
-        classifiers.put(new LibSVM(), "SVM");
+//        classifiers.put(new LibSVM(), "SVM");
         classifiers.put(new IBk(1), "KNN1");
-        classifiers.put(new IBk(5), "KNN5");
+        classifiers.put(new IBk(26), "KNN26");
+        classifiers.put(new IBk(27), "KNN27");
+        classifiers.put(new IBk(28), "KNN28");
         classifiers.put(new J48(), "Decision Tree (J48)");
         classifiers.put(new NaiveBayes(), "Naive Bayes");
         return classifiers;
