@@ -2,24 +2,23 @@ package com.samborskiy;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
+import com.samborskiy.entity.instances.functions.account.HashTagAttribute;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import org.reflections.Reflections;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.LibSVM;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.trees.J48;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
+    private static final String TEST_FILE_PATH = "res/ru/old_config.json";
     private static final int FOLD_COUNT = 5;
     private static final String RELATION_NAME = "test_file";
 
@@ -32,7 +31,7 @@ public class Main {
 
     private static Map<Classifier, String> getClassifiers() {
         Map<Classifier, String> classifiers = new HashMap<>();
-//        classifiers.put(new LibSVM(), "SVM");
+        classifiers.put(new LibSVM(), "SVM");
         classifiers.put(new IBk(), "KNN");
         classifiers.put(new J48(), "Decision Tree (J48)");
         classifiers.put(new NaiveBayes(), "Naive Bayes");
@@ -42,6 +41,7 @@ public class Main {
     public static List<AccountFunction> getAccountFunctions() {
         List<AccountFunction> accountFunctions = new ArrayList<>();
 //        accountFunctions.add(new HashTagAttribute());
+//        accountFunctions.add(new VocabularyAttribute());
         return accountFunctions;
     }
 
@@ -51,9 +51,11 @@ public class Main {
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
-//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
+//        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
         tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.reference"));
+        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.personal"));
         return tweetFunctions;
     }
 
