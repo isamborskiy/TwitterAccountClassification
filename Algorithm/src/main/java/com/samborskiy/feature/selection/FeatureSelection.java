@@ -3,6 +3,7 @@ package com.samborskiy.feature.selection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.core.Instances;
+import weka.core.OptionHandler;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 
@@ -12,10 +13,14 @@ import weka.filters.supervised.attribute.AttributeSelection;
 public abstract class FeatureSelection {
 
     public Instances select(Instances instances) {
-        AttributeSelection filter = new AttributeSelection();
-        filter.setSearch(getSearcher());
-        filter.setEvaluator(getEvaluator());
         try {
+            AttributeSelection filter = new AttributeSelection();
+            ASSearch searcher = getSearcher();
+            if (searcher instanceof OptionHandler) {
+                ((OptionHandler) searcher).setOptions(getOptions());
+            }
+            filter.setSearch(searcher);
+            filter.setEvaluator(getEvaluator());
             filter.setInputFormat(instances);
             return Filter.useFilter(instances, filter);
         } catch (Exception e) {
@@ -26,5 +31,12 @@ public abstract class FeatureSelection {
 
     protected abstract ASSearch getSearcher();
 
+    protected abstract String[] getOptions();
+
     protected abstract ASEvaluation getEvaluator();
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

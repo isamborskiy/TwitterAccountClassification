@@ -3,9 +3,8 @@ package com.samborskiy;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
+import com.samborskiy.feature.selection.FeatureSelection;
 import org.reflections.Reflections;
-import weka.attributeSelection.BestFirst;
-import weka.attributeSelection.CfsSubsetEval;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.lazy.IBk;
@@ -29,8 +28,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new Test(configuration);
-        test.test(RELATION_NAME, FOLD_COUNT, getClassifiers(), getTweetAttributes(), getAccountFunctions());
+        Test test = new Test(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getAccountFunctions(), getFeatureSelections());
+        test.test(FOLD_COUNT);
     }
 
     private static Map<Classifier, String> getClassifiers() {
@@ -45,6 +44,12 @@ public class Main {
         return classifiers;
     }
 
+    private static List<FeatureSelection> getFeatureSelections() throws InstantiationException, IllegalAccessException {
+        List<FeatureSelection> featureSelections = new ArrayList<>();
+        featureSelections.addAll(getFeatureSelections("com.samborskiy.feature.selection"));
+        return featureSelections;
+    }
+
     private static List<AccountFunction> getAccountFunctions() {
         List<AccountFunction> accountFunctions = new ArrayList<>();
 //        accountFunctions.add(new HashTagAttribute());
@@ -54,27 +59,44 @@ public class Main {
 
     private static List<TweetFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
         List<TweetFunction> tweetFunctions = new ArrayList<>();
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.partofspeech"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.reference"));
-        tweetFunctions.addAll(getAttributes("com.samborskiy.entity.instances.functions.tweet.personal"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.partofspeech"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.sign"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.smile"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.length"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.grammar"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.vocabulary"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.reference"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.personal"));
         return tweetFunctions;
     }
 
-    private static List<TweetFunction> getAttributes(String packageName) throws IllegalAccessException, InstantiationException {
+    private static List<FeatureSelection> getFeatureSelections(String packageName) throws IllegalAccessException, InstantiationException {
+        return getClasses(packageName, FeatureSelection.class);
+    }
+
+    private static List<TweetFunction> getTweetAttributes(String packageName) throws IllegalAccessException, InstantiationException {
+        return getClasses(packageName, TweetFunction.class);
+//        Reflections reflections = new Reflections(packageName);
+//        Set<Class<? extends TweetFunction>> allClasses = reflections.getSubTypesOf(TweetFunction.class);
+//        List<TweetFunction> tweetFunctions = new ArrayList<>();
+//        for (Class clazz : allClasses) {
+//            if (!Modifier.isAbstract(clazz.getModifiers())) {
+//                tweetFunctions.add((TweetFunction) clazz.newInstance());
+//            }
+//        }
+//        return tweetFunctions;
+    }
+
+    private static <E> List<E> getClasses(String packageName, Class<E> type) throws IllegalAccessException, InstantiationException {
         Reflections reflections = new Reflections(packageName);
-        Set<Class<? extends TweetFunction>> allClasses = reflections.getSubTypesOf(TweetFunction.class);
-        List<TweetFunction> tweetFunctions = new ArrayList<>();
+        Set<Class<? extends E>> allClasses = reflections.getSubTypesOf(type);
+        List<E> classes = new ArrayList<>();
         for (Class clazz : allClasses) {
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                tweetFunctions.add((TweetFunction) clazz.newInstance());
+                classes.add((E) clazz.newInstance());
             }
         }
-        return tweetFunctions;
+        return classes;
     }
 }
