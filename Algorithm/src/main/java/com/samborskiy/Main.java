@@ -9,9 +9,13 @@ import com.samborskiy.statistic.Test;
 import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
 import weka.classifiers.Classifier;
+import weka.classifiers.bayes.BayesNet;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.LibSVM;
 import weka.classifiers.lazy.IBk;
+import weka.classifiers.rules.PART;
 import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -40,12 +44,15 @@ public class Main {
 
     private static Map<Classifier, String> getClassifiers() {
         Map<Classifier, String> classifiers = new HashMap<>();
-//        classifiers.put(new LibSVM(), "SVM");
+        classifiers.put(new LibSVM(), "SVM");
         for (int i = 1; i <= 30; i++) {
             classifiers.put(new IBk(i), "KNN" + i);
         }
+        classifiers.put(new BayesNet(), "Bayes network");
         classifiers.put(new J48(), "Decision Tree (J48)");
         classifiers.put(new NaiveBayes(), "Naive Bayes");
+        classifiers.put(new RandomForest(), "Random forest");
+        classifiers.put(new PART(), "Rule-based PART");
         return classifiers;
     }
 
