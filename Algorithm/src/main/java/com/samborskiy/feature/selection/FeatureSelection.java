@@ -16,13 +16,17 @@ public abstract class FeatureSelection {
         try {
             AttributeSelection filter = new AttributeSelection();
             ASSearch searcher = getSearcher();
-            if (searcher instanceof OptionHandler) {
-                ((OptionHandler) searcher).setOptions(getOptions());
+            if (searcher != null) {
+                if (searcher instanceof OptionHandler) {
+                    ((OptionHandler) searcher).setOptions(getOptions());
+                }
+                filter.setSearch(searcher);
+                filter.setEvaluator(getEvaluator());
+                filter.setInputFormat(instances);
+                return Filter.useFilter(instances, filter);
+            } else {
+                return instances;
             }
-            filter.setSearch(searcher);
-            filter.setEvaluator(getEvaluator());
-            filter.setInputFormat(instances);
-            return Filter.useFilter(instances, filter);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
