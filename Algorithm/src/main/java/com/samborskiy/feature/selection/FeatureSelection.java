@@ -16,12 +16,13 @@ public abstract class FeatureSelection {
         try {
             AttributeSelection filter = new AttributeSelection();
             ASSearch searcher = getSearcher();
-            if (searcher != null) {
+            ASEvaluation evaluation = getEvaluator();
+            if (searcher != null && evaluation != null) {
                 if (searcher instanceof OptionHandler) {
                     ((OptionHandler) searcher).setOptions(getOptions());
                 }
                 filter.setSearch(searcher);
-                filter.setEvaluator(getEvaluator());
+                filter.setEvaluator(evaluation);
                 filter.setInputFormat(instances);
                 return Filter.useFilter(instances, filter);
             } else {

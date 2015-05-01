@@ -4,6 +4,9 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import com.samborskiy.feature.selection.FeatureSelection;
+import com.samborskiy.statistic.Statistic;
+import com.samborskiy.statistic.Test;
+import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
@@ -13,6 +16,7 @@ import weka.classifiers.trees.J48;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,17 +32,18 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new Test(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getAccountFunctions(), getFeatureSelections());
-        test.test(FOLD_COUNT);
+        Test test = new WekaTest(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getAccountFunctions(), getFeatureSelections());
+        List<Statistic> statistics = test.test(FOLD_COUNT, true);
+        Collections.sort(statistics);
+        statistics.forEach(System.out::println);
     }
 
     private static Map<Classifier, String> getClassifiers() {
         Map<Classifier, String> classifiers = new HashMap<>();
 //        classifiers.put(new LibSVM(), "SVM");
-        classifiers.put(new IBk(1), "KNN1");
-        classifiers.put(new IBk(26), "KNN26");
-        classifiers.put(new IBk(27), "KNN27");
-        classifiers.put(new IBk(28), "KNN28");
+        for (int i = 1; i <= 30; i++) {
+            classifiers.put(new IBk(i), "KNN" + i);
+        }
         classifiers.put(new J48(), "Decision Tree (J48)");
         classifiers.put(new NaiveBayes(), "Naive Bayes");
         return classifiers;
