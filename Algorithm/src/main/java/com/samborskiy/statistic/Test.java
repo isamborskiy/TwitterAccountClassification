@@ -50,7 +50,10 @@ public abstract class Test {
         List<Statistic> statistics = new ArrayList<>();
         for (FeatureSelection featureSelection : featureSelections) {
             long time = System.currentTimeMillis();
-            statistics.addAll(test(instances, foldCount, featureSelection));
+            Instances newInstances = featureSelection.select(instances);
+            for (Classifier classifier : classifiers.keySet()) {
+                statistics.add(test(newInstances, foldCount, classifier, featureSelection.toString()));
+            }
             currentIteration++;
             System.out.format("%.2f%% %s (%d)\n",
                     currentIteration / iterationNumber * 100, featureSelection.toString(), System.currentTimeMillis() - time);
@@ -58,5 +61,5 @@ public abstract class Test {
         return statistics;
     }
 
-    protected abstract List<Statistic> test(Instances instances, int foldCount, FeatureSelection featureSelection) throws Exception;
+    protected abstract Statistic test(Instances instances, int foldCount, Classifier classifier, String featureSelectionName) throws Exception;
 }

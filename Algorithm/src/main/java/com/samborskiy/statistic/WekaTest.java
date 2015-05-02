@@ -9,7 +9,6 @@ import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +26,10 @@ public class WekaTest extends Test {
     }
 
     @Override
-    protected List<Statistic> test(Instances instances, int foldCount, FeatureSelection featureSelection) throws Exception {
-        List<Statistic> statistics = new ArrayList<>();
-        Instances newInstances = featureSelection.select(instances);
-        for (Classifier classifier : classifiers.keySet()) {
-            Evaluation evaluation = new Evaluation(newInstances);
-            evaluation.crossValidateModel(classifier, newInstances, foldCount, new Random(1));
-            statistics.add(new Statistic(getFMeasure(evaluation), evaluation.pctCorrect(), featureSelection.toString(), classifiers.get(classifier), newInstances.numAttributes()));
-        }
-        return statistics;
+    protected Statistic test(Instances instances, int foldCount, Classifier classifier, String featureSelectionName) throws Exception {
+        Evaluation evaluation = new Evaluation(instances);
+        evaluation.crossValidateModel(classifier, instances, foldCount, new Random(1));
+        return new Statistic(getFMeasure(evaluation), evaluation.pctCorrect(), featureSelectionName, classifiers.get(classifier), instances.numAttributes());
     }
 
     private double getFMeasure(Evaluation evaluation) {
