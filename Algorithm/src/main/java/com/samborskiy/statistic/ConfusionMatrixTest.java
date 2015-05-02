@@ -19,7 +19,6 @@ import java.util.Map;
 public class ConfusionMatrixTest extends Test {
 
     private static final int ROUNDS = 50;
-    private int[][] confusionMatrix;
 
     public ConfusionMatrixTest(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
                                List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<FeatureSelection> featureSelections) {
@@ -33,18 +32,20 @@ public class ConfusionMatrixTest extends Test {
         for (int t = 0; t < ROUNDS; t++) {
             Collections.shuffle(instances);
             for (int i = 0; i < foldCount; i++) {
-                confusionMatrix = new int[instances.size()][instances.size()];
+                int[][] confusionMatrix = new int[instances.numClasses()][instances.numClasses()];
                 Instances test = instances.testCV(foldCount, i);
                 Instances train = instances.trainCV(foldCount, i);
                 classifier.buildClassifier(train);
+                double acc = 0.;
                 for (Instance instance : test) {
                     int classId = (int) classifier.classifyInstance(instance);
-                    if (classId == instance.classIndex()) {
-                        accuracy++;
+                    if (classId == instance.classValue()) {
+                        acc++;
                     }
-                    confusionMatrix[classId][instance.classIndex()]++;
-                    fMeasure += getFMeasure(confusionMatrix);
+                    confusionMatrix[classId][((int) instance.classValue())]++;
                 }
+                accuracy += acc / test.size();
+                fMeasure += getFMeasure(confusionMatrix);
             }
         }
         accuracy /= (ROUNDS * foldCount);
