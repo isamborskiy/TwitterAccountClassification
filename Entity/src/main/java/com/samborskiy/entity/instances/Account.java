@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances;
 
-import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
+import com.samborskiy.entity.instances.functions.AttributeFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,8 @@ public class Account extends Instance {
     }
 
     @Override
-    public void addAttr(TweetFunction tweetFunction) {
-        attrs.addAll(tweetFunction.apply(tweets));
+    public void addAttr(AttributeFunction attributeFunction) {
+        attrs.addAll(attributeFunction.apply(tweets));
     }
 
     public void addTweet(String tweet) {

@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances;
 
-import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
+import com.samborskiy.entity.instances.functions.AttributeFunction;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +25,7 @@ public abstract class Instance implements Iterable<Attribute> {
         return classId;
     }
 
-    public abstract void addAttr(TweetFunction tweetFunction);
+    public abstract void addAttr(AttributeFunction attributeFunction);
 
     public void addAttr(Attribute attribute) {
         attrs.add(attribute);
