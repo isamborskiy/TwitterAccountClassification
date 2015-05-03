@@ -5,11 +5,13 @@ import java.util.List;
 /**
  * Created by Whiplash on 27.04.2015.
  */
-public interface TweetParser {
+public abstract class TweetParser {
 
-    public List<String> parse(String tweet);
+    private static final TweetParser parser = new SimpleTweetParser();
+
+    public abstract List<String> parse(String tweet);
 
     public static TweetParser get() {
-        return new SimpleTweetParser();
+        return parser;
     }
 }

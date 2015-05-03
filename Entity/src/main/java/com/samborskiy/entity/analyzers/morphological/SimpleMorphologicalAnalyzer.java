@@ -12,7 +12,7 @@ import static com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyze
 /**
  * Created by Whiplash on 25.04.2015.
  */
-public class SimpleMorphologicalAnalyzer implements MorphologicalAnalyzer {
+public class SimpleMorphologicalAnalyzer extends MorphologicalAnalyzer {
 
     private static final Map<PartOfSpeech, List<String>> ENDINGS = new HashMap<>();
 

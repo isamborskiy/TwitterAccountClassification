@@ -4,7 +4,6 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import com.samborskiy.feature.Feature;
-import com.samborskiy.feature.selection.CFS_LS;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import com.samborskiy.statistic.WekaTest;
@@ -32,7 +31,7 @@ public class Main {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new WekaTest(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getAccountFunctions(), getFeatures());
-        List<Statistic> statistics = test.test(FOLD_COUNT, false);
+        List<Statistic> statistics = test.test(FOLD_COUNT, true);
         Collections.sort(statistics);
         statistics.forEach(System.out::println);
     }
@@ -53,9 +52,9 @@ public class Main {
 
     private static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
-        featureSelections.add(new CFS_LS());
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+//        featureSelections.add(new NoFeatureSelection());
+        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
+        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
         return featureSelections;
     }
 

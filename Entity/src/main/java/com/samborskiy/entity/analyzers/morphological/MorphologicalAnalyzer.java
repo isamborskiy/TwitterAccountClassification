@@ -3,7 +3,9 @@ package com.samborskiy.entity.analyzers.morphological;
 /**
  * Created by Whiplash on 25.04.2015.
  */
-public interface MorphologicalAnalyzer {
+public abstract class MorphologicalAnalyzer {
+
+    private static final MorphologicalAnalyzer analyzer = new SimpleMorphologicalAnalyzer();
 
     public enum PartOfSpeech {
         ADJECTIVE,
@@ -19,9 +21,9 @@ public interface MorphologicalAnalyzer {
         PARTICLE
     }
 
-    public PartOfSpeech get(String word);
+    public abstract PartOfSpeech get(String word);
 
     public static MorphologicalAnalyzer get() {
-        return new FrequencyMorphologicalAnalyzer();
+        return analyzer;
     }
 }

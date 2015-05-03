@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class UnknownWordsPerTweet extends TweetFunction {
 
+    private final MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
+
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<Attribute> attributes = new ArrayList<>();
         TweetParser parser = TweetParser.get();
-        MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
         double count = 0.;
         for (String tweet : tweets) {
             for (String word : parser.parse(tweet)) {

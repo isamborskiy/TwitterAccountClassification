@@ -35,8 +35,8 @@ public abstract class PartOfSpeechFunction extends TweetFunction {
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<List<PartOfSpeech>> partsOfSpeechList = new ArrayList<>();
-        MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
         TweetParser tweetParser = TweetParser.get();
+        MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
         for (String tweet : tweets) {
             partsOfSpeechList.add(tweetParser.parse(tweet).stream().map(word -> morphologicalAnalyzer.get(word.toLowerCase())).collect(Collectors.toList()));
         }

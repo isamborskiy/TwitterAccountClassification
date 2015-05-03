@@ -8,15 +8,17 @@ import java.util.Map;
 /**
  * Created by Whiplash on 03.05.2015.
  */
-public interface FrequencyAnalyzer {
+public abstract class FrequencyAnalyzer {
 
-    public double getFrequency(String word);
+    private static final FrequencyAnalyzer analyzer = new FrequencyDictionary();
+
+    public abstract double getFrequency(String word);
 
     public static FrequencyAnalyzer get() {
-        return new FrequencyDictionary();
+        return analyzer;
     }
 
-    public class WordFrequency {
+    public static class WordFrequency {
 
         private static final Map<String, PartOfSpeech> abbreviateToClass = new HashMap<>();
 

@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by Whiplash on 28.04.2015.
  */
-public class JLanguageToolGrammarChecker implements GrammarAnalyzer {
+public class JLanguageToolGrammarChecker extends GrammarAnalyzer {
 
     protected final JLanguageTool languageTool;
 

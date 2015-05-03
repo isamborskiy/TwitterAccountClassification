@@ -3,8 +3,9 @@ package com.samborskiy.entity.analyzers.frequency;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -12,10 +13,9 @@ import java.util.StringTokenizer;
 /**
  * Created by Whiplash on 03.05.2015.
  */
-public class FrequencyDictionary implements FrequencyAnalyzer {
+public class FrequencyDictionary extends FrequencyAnalyzer {
 
     private static final double DEFAULT_FREQUENCY = 1.;
-
     private static final String DEFAULT_DICTIONARY_PATH = "res/ru/lemma.al";
     private final Map<String, WordFrequency> words = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class FrequencyDictionary implements FrequencyAnalyzer {
     }
 
     public FrequencyDictionary(String filePath) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"))) {
             reader.readLine(); // skip meta info line
             String line;
             while ((line = reader.readLine()) != null) {
