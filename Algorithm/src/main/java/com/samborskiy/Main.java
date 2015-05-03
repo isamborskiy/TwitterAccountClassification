@@ -4,6 +4,7 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
 import com.samborskiy.feature.Feature;
+import com.samborskiy.feature.selection.CFS_LS;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import com.samborskiy.statistic.WekaTest;
@@ -31,7 +32,7 @@ public class Main {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
         Test test = new WekaTest(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getAccountFunctions(), getFeatures());
-        List<Statistic> statistics = test.test(FOLD_COUNT, true);
+        List<Statistic> statistics = test.test(FOLD_COUNT, false);
         Collections.sort(statistics);
         statistics.forEach(System.out::println);
     }
@@ -52,8 +53,9 @@ public class Main {
 
     private static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
+        featureSelections.add(new CFS_LS());
 //        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
         return featureSelections;
     }
 
@@ -75,6 +77,7 @@ public class Main {
         tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.hashtag"));
         tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.reference"));
         tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.personal"));
+        tweetFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.tweet.frequency"));
         return tweetFunctions;
     }
 
@@ -84,15 +87,6 @@ public class Main {
 
     private static List<TweetFunction> getTweetAttributes(String packageName) throws IllegalAccessException, InstantiationException {
         return getClasses(packageName, TweetFunction.class);
-//        Reflections reflections = new Reflections(packageName);
-//        Set<Class<? extends TweetFunction>> allClasses = reflections.getSubTypesOf(TweetFunction.class);
-//        List<TweetFunction> tweetFunctions = new ArrayList<>();
-//        for (Class clazz : allClasses) {
-//            if (!Modifier.isAbstract(clazz.getModifiers())) {
-//                tweetFunctions.add((TweetFunction) clazz.newInstance());
-//            }
-//        }
-//        return tweetFunctions;
     }
 
     private static <E> List<E> getClasses(String packageName, Class<E> type) throws IllegalAccessException, InstantiationException {

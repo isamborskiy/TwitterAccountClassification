@@ -22,6 +22,6 @@ public interface MorphologicalAnalyzer {
     public PartOfSpeech get(String word);
 
     public static MorphologicalAnalyzer get() {
-        return new SimpleMorphologicalAnalyzer();
+        return new FrequencyMorphologicalAnalyzer();
     }
 }
