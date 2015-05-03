@@ -30,7 +30,7 @@ public class Statistic implements Comparable<Statistic> {
 
     @Override
     public String toString() {
-        return String.format("Classifier %s with feature subset selection algorithm %s(%d):\nAccuracy: %f\nF-measure: %f\n",
+        return String.format("Classifier %s with %s(%d):\nAccuracy: %f\nF-measure: %f\n",
                 classifierName, featureSelectionName, attributeNumber, accuracy, fMeasure);
     }
 }
