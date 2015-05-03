@@ -4,7 +4,7 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Type;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
-import com.samborskiy.feature.selection.FeatureSelection;
+import com.samborskiy.feature.Feature;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -19,10 +19,9 @@ import java.util.Random;
  */
 public class WekaTest extends Test {
 
-
     public WekaTest(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
-                    List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<FeatureSelection> featureSelections) {
-        super(configuration, relationName, classifiers, tweetFunctions, accountFunctions, featureSelections);
+                    List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<Feature> features) {
+        super(configuration, relationName, classifiers, tweetFunctions, accountFunctions, features);
     }
 
     @Override

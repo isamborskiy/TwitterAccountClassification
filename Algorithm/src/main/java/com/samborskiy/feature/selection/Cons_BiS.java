@@ -16,7 +16,7 @@ public class Cons_BiS extends FeatureSelection {
     }
 
     @Override
-    protected String[] getOptions() {
+    protected String[] getSearcherOptions() {
         return new String[]{"-D", "2"};
     }
 

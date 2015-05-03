@@ -16,7 +16,7 @@ public class CFS_SFS extends FeatureSelection {
     }
 
     @Override
-    protected String[] getOptions() {
+    protected String[] getSearcherOptions() {
         return new String[]{"-D", "1"};
     }
 

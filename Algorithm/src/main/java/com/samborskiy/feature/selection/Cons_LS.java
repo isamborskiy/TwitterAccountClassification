@@ -3,7 +3,6 @@ package com.samborskiy.feature.selection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.ConsistencySubsetEval;
-import weka.attributeSelection.GeneticSearch;
 import weka.attributeSelection.LinearForwardSelection;
 
 /**
@@ -14,11 +13,6 @@ public class Cons_LS extends FeatureSelection {
     @Override
     protected ASSearch getSearcher() {
         return new LinearForwardSelection();
-    }
-
-    @Override
-    protected String[] getOptions() {
-        return new String[]{};
     }
 
     @Override

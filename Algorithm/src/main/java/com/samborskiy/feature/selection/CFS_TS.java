@@ -3,7 +3,6 @@ package com.samborskiy.feature.selection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.CfsSubsetEval;
-import weka.attributeSelection.RankSearch;
 import weka.attributeSelection.TabuSearch;
 
 /**
@@ -14,11 +13,6 @@ public class CFS_TS extends FeatureSelection {
     @Override
     protected ASSearch getSearcher() {
         return new TabuSearch();
-    }
-
-    @Override
-    protected String[] getOptions() {
-        return new String[]{};
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.samborskiy.feature.selection;
 
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
-import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.LinearForwardSelection;
 
@@ -14,11 +13,6 @@ public class CFS_LS extends FeatureSelection {
     @Override
     protected ASSearch getSearcher() {
         return new LinearForwardSelection();
-    }
-
-    @Override
-    protected String[] getOptions() {
-        return new String[]{};
     }
 
     @Override

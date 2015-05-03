@@ -16,11 +16,6 @@ public class Cons_SWS extends FeatureSelection {
     }
 
     @Override
-    protected String[] getOptions() {
-        return new String[]{};
-    }
-
-    @Override
     protected ASEvaluation getEvaluator() {
         return new ConsistencySubsetEval();
     }

@@ -16,7 +16,7 @@ public class Signific extends FeatureSelection {
     }
 
     @Override
-    protected String[] getOptions() {
+    protected String[] getSearcherOptions() {
         return new String[]{"-T", "0.01"};
     }
 

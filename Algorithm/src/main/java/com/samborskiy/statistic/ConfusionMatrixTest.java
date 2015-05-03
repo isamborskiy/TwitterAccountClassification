@@ -3,7 +3,7 @@ package com.samborskiy.statistic;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
-import com.samborskiy.feature.selection.FeatureSelection;
+import com.samborskiy.feature.Feature;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -21,8 +21,8 @@ public class ConfusionMatrixTest extends Test {
     private static final int ROUNDS = 50;
 
     public ConfusionMatrixTest(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
-                               List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<FeatureSelection> featureSelections) {
-        super(configuration, relationName, classifiers, tweetFunctions, accountFunctions, featureSelections);
+                               List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<Feature> features) {
+        super(configuration, relationName, classifiers, tweetFunctions, accountFunctions, features);
     }
 
     @Override

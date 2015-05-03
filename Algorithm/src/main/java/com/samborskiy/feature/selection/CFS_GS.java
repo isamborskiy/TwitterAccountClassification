@@ -16,11 +16,6 @@ public class CFS_GS extends FeatureSelection {
     }
 
     @Override
-    protected String[] getOptions() {
-        return new String[]{};
-    }
-
-    @Override
     protected ASEvaluation getEvaluator() {
         return new CfsSubsetEval();
     }

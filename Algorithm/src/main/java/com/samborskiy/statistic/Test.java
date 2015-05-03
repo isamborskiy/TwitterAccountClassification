@@ -3,7 +3,7 @@ package com.samborskiy.statistic;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.account.AccountFunction;
 import com.samborskiy.entity.instances.functions.tweet.TweetFunction;
-import com.samborskiy.feature.selection.FeatureSelection;
+import com.samborskiy.feature.Feature;
 import com.samborskiy.weka.DatabaseToArff;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
@@ -24,16 +24,16 @@ public abstract class Test {
     protected final Map<Classifier, String> classifiers;
     protected final List<TweetFunction> tweetFunctions;
     protected final List<AccountFunction> accountFunctions;
-    protected final List<FeatureSelection> featureSelections;
+    protected final List<Feature> features;
 
     public Test(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
-                List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<FeatureSelection> featureSelections) {
+                List<TweetFunction> tweetFunctions, List<AccountFunction> accountFunctions, List<Feature> features) {
         this.configuration = configuration;
         this.relationName = relationName;
         this.classifiers = classifiers;
         this.tweetFunctions = tweetFunctions;
         this.accountFunctions = accountFunctions;
-        this.featureSelections = featureSelections;
+        this.features = features;
     }
 
     public List<Statistic> test(int foldCount, boolean useExistArffFile) throws Exception {
@@ -46,17 +46,17 @@ public abstract class Test {
         instances.setClassIndex(instances.numAttributes() - 1);
 
         double currentIteration = 0.;
-        double iterationNumber = featureSelections.size();
+        double iterationNumber = features.size();
         List<Statistic> statistics = new ArrayList<>();
-        for (FeatureSelection featureSelection : featureSelections) {
+        for (Feature feature : features) {
             long time = System.currentTimeMillis();
-            Instances newInstances = featureSelection.select(instances);
+            Instances newInstances = feature.select(instances);
             for (Classifier classifier : classifiers.keySet()) {
-                statistics.add(test(newInstances, foldCount, classifier, featureSelection.toString()));
+                statistics.add(test(newInstances, foldCount, classifier, feature.toString()));
             }
             currentIteration++;
             System.out.format("%.2f%% %s (%d)\n",
-                    currentIteration / iterationNumber * 100, featureSelection.toString(), System.currentTimeMillis() - time);
+                    currentIteration / iterationNumber * 100, feature.toString(), System.currentTimeMillis() - time);
         }
         return statistics;
     }
