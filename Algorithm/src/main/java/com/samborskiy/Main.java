@@ -1,5 +1,7 @@
 package com.samborskiy;
 
+import com.samborskiy.classifiers.ClassifierWrapper;
+import com.samborskiy.classifiers.RandomForestVariation;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
 import com.samborskiy.feature.Feature;
@@ -7,22 +9,12 @@ import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
-import weka.classifiers.Classifier;
-import weka.classifiers.bayes.BayesNet;
-import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.LibSVM;
-import weka.classifiers.lazy.IBk;
-import weka.classifiers.rules.PART;
-import weka.classifiers.trees.J48;
-import weka.classifiers.trees.RandomForest;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class Main {
@@ -35,24 +27,26 @@ public class Main {
     public static void main(String[] args) throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new WekaTest(configuration, RELATION_NAME, getClassifiers(), getTweetAttributes(), getFeatures());
+        Test test = new WekaTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
         List<Statistic> statistics = test.test(FOLD_COUNT, true);
         Collections.sort(statistics);
         statistics.forEach(System.out::println);
     }
 
-    private static Map<Classifier, String> getClassifiers() {
-        Map<Classifier, String> classifiers = new HashMap<>();
-        classifiers.put(new LibSVM(), "SVM");
-        for (int i = 1; i <= 30; i++) {
-            classifiers.put(new IBk(i), "KNN" + i);
-        }
-        classifiers.put(new BayesNet(), "Bayes network");
-        classifiers.put(new J48(), "Decision Tree (J48)");
-        classifiers.put(new NaiveBayes(), "Naive Bayes");
-        classifiers.put(new PART(), "Rule-based PART");
-        classifiers.put(new RandomForest(), "Random forest");
-        return classifiers;
+    private static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
+        List<ClassifierWrapper> wrappers = new ArrayList<>();
+        wrappers.addAll(new RandomForestVariation().getClassifiers());
+//        Map<Classifier, String> classifiers = new HashMap<>();
+//        classifiers.put(new LibSVM(), "SVM");
+//        for (int i = 1; i <= 30; i++) {
+//            classifiers.put(new IBk(i), "KNN" + i);
+//        }
+//        classifiers.put(new BayesNet(), "Bayes network");
+//        classifiers.put(new J48(), "Decision Tree (J48)");
+//        classifiers.put(new NaiveBayes(), "Naive Bayes");
+//        classifiers.put(new PART(), "Rule-based PART");
+//        classifiers.put(new RandomForest(), "Random forest");
+        return wrappers;
     }
 
     private static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {

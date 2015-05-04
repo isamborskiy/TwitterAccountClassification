@@ -1,17 +1,16 @@
 package com.samborskiy.statistic;
 
+import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.weka.DatabaseToArff;
-import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Whiplash on 01.05.2015.
@@ -20,15 +19,15 @@ public abstract class Test {
 
     protected final Configuration configuration;
     protected final String relationName;
-    protected final Map<Classifier, String> classifiers;
+    protected final List<ClassifierWrapper> classifierWrappers;
     protected final List<AttributeFunction> attributeFunctions;
     protected final List<Feature> features;
 
-    public Test(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
+    public Test(Configuration configuration, String relationName, List<ClassifierWrapper> classifierWrappers,
                 List<AttributeFunction> attributeFunctions, List<Feature> features) {
         this.configuration = configuration;
         this.relationName = relationName;
-        this.classifiers = classifiers;
+        this.classifierWrappers = classifierWrappers;
         this.attributeFunctions = attributeFunctions;
         this.features = features;
     }
@@ -48,8 +47,9 @@ public abstract class Test {
         for (Feature feature : features) {
             long time = System.currentTimeMillis();
             Instances newInstances = feature.select(instances);
-            for (Classifier classifier : classifiers.keySet()) {
-                statistics.add(test(newInstances, foldCount, classifier, feature.toString()));
+            for (ClassifierWrapper classifierWrapper : classifierWrappers) {
+                Statistic statistic = test(newInstances, foldCount, classifierWrapper, feature.toString());
+                statistics.add(statistic);
             }
             currentIteration++;
             System.out.format("%.2f%% %s (%d)\n",
@@ -58,5 +58,5 @@ public abstract class Test {
         return statistics;
     }
 
-    protected abstract Statistic test(Instances instances, int foldCount, Classifier classifier, String featureSelectionName) throws Exception;
+    protected abstract Statistic test(Instances instances, int foldCount, ClassifierWrapper classifierWrapper, String featureSelectionName) throws Exception;
 }

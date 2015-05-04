@@ -1,5 +1,6 @@
 package com.samborskiy.statistic;
 
+import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
 import com.samborskiy.feature.Feature;
@@ -10,7 +11,6 @@ import weka.core.Instances;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Whiplash on 02.05.2015.
@@ -19,15 +19,16 @@ public class ConfusionMatrixTest extends Test {
 
     private static final int ROUNDS = 50;
 
-    public ConfusionMatrixTest(Configuration configuration, String relationName, Map<Classifier, String> classifiers,
+    public ConfusionMatrixTest(Configuration configuration, String relationName, List<ClassifierWrapper> classifiers,
                                List<AttributeFunction> attributeFunctions, List<Feature> features) {
         super(configuration, relationName, classifiers, attributeFunctions, features);
     }
 
     @Override
-    protected Statistic test(Instances instances, int foldCount, Classifier classifier, String featureSelectionName) throws Exception {
+    protected Statistic test(Instances instances, int foldCount, ClassifierWrapper classifierWrapper, String featureSelectionName) throws Exception {
         double fMeasure = 0.;
         double accuracy = 0.;
+        Classifier classifier = classifierWrapper.getClassifier();
         for (int t = 0; t < ROUNDS; t++) {
             Collections.shuffle(instances);
             for (int i = 0; i < foldCount; i++) {
@@ -49,7 +50,7 @@ public class ConfusionMatrixTest extends Test {
         }
         accuracy /= (ROUNDS * foldCount);
         fMeasure /= (ROUNDS * foldCount);
-        return new Statistic(fMeasure, accuracy, featureSelectionName, classifiers.get(classifier), instances.numAttributes());
+        return new Statistic(fMeasure, accuracy, featureSelectionName, classifierWrappers.toString(), instances.numAttributes());
     }
 
     private double getFMeasure(int[][] confusionMatrix) {
