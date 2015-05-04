@@ -17,6 +17,7 @@ dependencies {
     compile 'nz.ac.waikato.cms.weka:linearForwardSelection:1.0.2'
     compile 'nz.ac.waikato.cms.weka:probabilisticSignificanceAE:1.0.2'
     compile 'nz.ac.waikato.cms.weka:tabuAndScatterSearch:1.0.2'
+    compile 'nz.ac.waikato.cms.weka:latentSemanticAnalysis:1.0.2'
 
     compile project(':DataExtraction')
 }

@@ -13,14 +13,14 @@ public class RandomForestVariation extends ClassifierVariation {
 
     {
         List<String> iValues = new ArrayList<>();
-        for (int i = 50; i < 150; i++) {
+        for (int i = 90; i < 110; i++) {
             iValues.add(String.valueOf(i));
         }
         params.put("-I", iValues);
         paramsName.add("-I");
 
         List<String> kValues = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 30; i++) {
             kValues.add(String.valueOf(i));
         }
         params.put("-K", kValues);
