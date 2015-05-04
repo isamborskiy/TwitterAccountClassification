@@ -51,7 +51,7 @@ public class ConfusionMatrixTest extends Test {
         }
         accuracy /= (ROUNDS * foldCount);
         fMeasure /= (ROUNDS * foldCount);
-        return new Statistic(fMeasure, accuracy, featureSelectionName, classifierWrappers.toString(), instances.numAttributes());
+        return new Statistic(fMeasure, accuracy, featureSelectionName, classifierWrapper.toString(), instances.numAttributes());
     }
 
     private double getFMeasure(int[][] confusionMatrix) {
