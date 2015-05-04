@@ -4,6 +4,7 @@ import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.functions.AttributeFunction;
 import com.samborskiy.feature.Feature;
+import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -28,7 +29,7 @@ public class ConfusionMatrixTest extends Test {
     protected Statistic test(Instances instances, int foldCount, ClassifierWrapper classifierWrapper, String featureSelectionName) throws Exception {
         double fMeasure = 0.;
         double accuracy = 0.;
-        Classifier classifier = classifierWrapper.getClassifier();
+        Classifier classifier = AbstractClassifier.makeCopy(classifierWrapper.getClassifier());
         for (int t = 0; t < ROUNDS; t++) {
             Collections.shuffle(instances);
             for (int i = 0; i < foldCount; i++) {
