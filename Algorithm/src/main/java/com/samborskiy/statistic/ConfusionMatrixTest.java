@@ -66,7 +66,9 @@ public class ConfusionMatrixTest extends Test {
             for (int j = 0; j < precisions.length; j++) {
                 precisions[i] += confusionMatrix[i][j];
             }
-            precisions[i] = confusionMatrix[i][i] / precisions[i];
+            if (confusionMatrix[i][i] != 0) {
+                precisions[i] = confusionMatrix[i][i] / precisions[i];
+            }
         }
         return Arrays.stream(precisions).average().getAsDouble();
     }
@@ -77,7 +79,9 @@ public class ConfusionMatrixTest extends Test {
             for (int j = 0; j < recalls.length; j++) {
                 recalls[i] += confusionMatrix[j][i];
             }
-            recalls[i] = confusionMatrix[i][i] / recalls[i];
+            if (confusionMatrix[i][i] != 0) {
+                recalls[i] = confusionMatrix[i][i] / recalls[i];
+            }
         }
         return Arrays.stream(recalls).average().getAsDouble();
     }
