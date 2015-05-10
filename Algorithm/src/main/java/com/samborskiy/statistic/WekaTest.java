@@ -3,7 +3,7 @@ package com.samborskiy.statistic;
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Type;
-import com.samborskiy.entity.instances.functions.AccountFunction;
+import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;

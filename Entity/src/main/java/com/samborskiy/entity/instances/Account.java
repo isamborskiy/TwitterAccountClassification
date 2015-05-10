@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances;
 
-import com.samborskiy.entity.instances.functions.AccountFunction;
+import com.samborskiy.entity.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.List;

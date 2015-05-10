@@ -2,7 +2,7 @@ package com.samborskiy;
 
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.functions.AccountFunction;
+import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.feature.NoFeatureSelection;
 import com.samborskiy.statistic.Statistic;
@@ -95,16 +95,16 @@ public class Main {
 
     private static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
         List<AccountFunction> accountFunctions = new ArrayList<>();
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.sign"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.smile"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.length"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.grammar"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.hashtag"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.reference"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.personal"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.frequency"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.partofspeech"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.sign"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.smile"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.length"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.grammar"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.vocabulary"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.hashtag"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.reference"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.personal"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.frequency"));
         return accountFunctions;
     }
 
