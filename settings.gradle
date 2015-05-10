@@ -6,3 +6,5 @@ include 'Algorithm'
 
 include 'Entity'
 
+include 'WordGenerator'
+

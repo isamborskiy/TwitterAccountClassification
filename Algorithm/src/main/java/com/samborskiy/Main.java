@@ -69,7 +69,7 @@ public class Main {
         }
     }
 
-    private static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
+    public static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
         List<ClassifierWrapper> wrappers = new ArrayList<>();
 //        wrappers.addAll(new RandomForestVariation().getClassifiers());
 
@@ -81,7 +81,7 @@ public class Main {
         return wrappers;
     }
 
-    private static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
+    public static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
         featureSelections.add(new NoFeatureSelection());
 //        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
@@ -93,7 +93,7 @@ public class Main {
         return getClasses(packageName, Feature.class);
     }
 
-    private static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
+    public static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
         List<AccountFunction> accountFunctions = new ArrayList<>();
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.partofspeech"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.sign"));
