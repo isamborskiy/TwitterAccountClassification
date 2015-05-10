@@ -6,9 +6,9 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.feature.selection.CFS_GS;
+import com.samborskiy.statistic.ConfusionMatrixTest;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
-import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class Main {
     public static List<Statistic> getStatistics() throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new WekaTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
+        Test test = new ConfusionMatrixTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
         return test.test(FOLD_COUNT, true);
     }
 
