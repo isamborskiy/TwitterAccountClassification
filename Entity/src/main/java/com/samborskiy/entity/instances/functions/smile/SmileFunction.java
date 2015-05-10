@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances.functions.smile;
 
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Whiplash on 26.04.2015.
  */
-public abstract class SmileFunction extends AttributeFunction {
+public abstract class SmileFunction extends AccountFunction {
 
     protected static final List<SmileSequence> SMILES = new ArrayList<>();
 

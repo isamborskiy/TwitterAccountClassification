@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances.functions.sign;
 
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Whiplash on 22.04.2015.
  */
-public abstract class SignFunction extends AttributeFunction {
+public abstract class SignFunction extends AccountFunction {
 
     protected static final Map<String, String> SIGNS = new HashMap<>();
 

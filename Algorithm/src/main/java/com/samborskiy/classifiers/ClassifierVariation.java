@@ -19,7 +19,10 @@ public abstract class ClassifierVariation {
     public List<ClassifierWrapper> getClassifiers() throws Exception {
         List<ClassifierWrapper> wrappers = new ArrayList<>();
         int[] vector = new int[paramsName.size()];
-        int iterationNumber = params.values().stream().mapToInt(List::size).sum();
+        int iterationNumber = 1;
+        for (List<String> paramsValues : params.values()) {
+            iterationNumber *= paramsValues.size();
+        }
         for (int i = 0; i < iterationNumber; i++) {
             Classifier classifier = getClassifier();
             ((OptionHandler) classifier).setOptions(generateParam(vector));

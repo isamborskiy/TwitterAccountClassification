@@ -4,7 +4,7 @@ import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import com.samborskiy.entity.instances.Attribute;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import static com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyze
 /**
  * Created by Whiplash on 26.04.2015.
  */
-public abstract class PartOfSpeechFunction extends AttributeFunction {
+public abstract class PartOfSpeechFunction extends AccountFunction {
 
     protected static final List<PartOfSpeechSequence> SEQUENCES = new ArrayList<>();
 

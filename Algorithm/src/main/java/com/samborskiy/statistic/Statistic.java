@@ -28,9 +28,25 @@ public class Statistic implements Comparable<Statistic> {
         return Double.compare(getFMeasure(), o.getFMeasure());
     }
 
+    public String getClassifierName() {
+        return classifierName;
+    }
+
+    public String getFeatureSelectionName() {
+        return featureSelectionName;
+    }
+
+    public String getAccuracyString() {
+        return String.format("%.3f", accuracy);
+    }
+
+    public String getFMeasureString() {
+        return String.format("%.3f", fMeasure);
+    }
+
     @Override
     public String toString() {
-        return String.format("Classifier %s with %s(%d):\nAccuracy: %f\nF-measure: %f\n",
+        return String.format("Classifier %s with %s(%d):\nAccuracy: %.3f\nF-measure: %.3f\n",
                 classifierName, featureSelectionName, attributeNumber, accuracy, fMeasure);
     }
 }

@@ -3,7 +3,7 @@ package com.samborskiy.entity.instances.functions.frequency;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import com.samborskiy.entity.instances.Attribute;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Whiplash on 03.05.2015.
  */
-public class FrecuencyPerWord extends AttributeFunction {
+public class FrecuencyPerWord extends AccountFunction {
 
     @Override
     public List<Attribute> apply(List<String> tweets) {

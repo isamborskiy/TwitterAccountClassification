@@ -1,14 +1,14 @@
 package com.samborskiy.entity.instances.functions.personal;
 
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.Arrays;
 
 /**
  * Created by whiplash on 29.04.2015.
  */
-public abstract class PersonalFunction extends AttributeFunction {
+public abstract class PersonalFunction extends AccountFunction {
 
     protected final String[] WORDS = {"я", "ты", "буду"};
     protected final String[] SUFFIXES = {"ил", "ыл", "ал", "ила", "ыла", "ала"};

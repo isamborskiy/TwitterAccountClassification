@@ -21,6 +21,10 @@ public class ClassifierWrapper {
         return classifier;
     }
 
+    public String getName() {
+        return classifier.getClass().getSimpleName();
+    }
+
     @Override
     public String toString() {
         if (classifier instanceof OptionHandler) {

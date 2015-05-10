@@ -2,7 +2,7 @@ package com.samborskiy.statistic;
 
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.weka.DatabaseToArff;
 import weka.core.Instances;
@@ -20,21 +20,21 @@ public abstract class Test {
     protected final Configuration configuration;
     protected final String relationName;
     protected final List<ClassifierWrapper> classifierWrappers;
-    protected final List<AttributeFunction> attributeFunctions;
+    protected final List<AccountFunction> accountFunctions;
     protected final List<Feature> features;
 
     public Test(Configuration configuration, String relationName, List<ClassifierWrapper> classifierWrappers,
-                List<AttributeFunction> attributeFunctions, List<Feature> features) {
+                List<AccountFunction> accountFunctions, List<Feature> features) {
         this.configuration = configuration;
         this.relationName = relationName;
         this.classifierWrappers = classifierWrappers;
-        this.attributeFunctions = attributeFunctions;
+        this.accountFunctions = accountFunctions;
         this.features = features;
     }
 
     public List<Statistic> test(int foldCount, boolean useExistArffFile) throws Exception {
         if (!useExistArffFile) {
-            DatabaseToArff.write(configuration, relationName, attributeFunctions);
+            DatabaseToArff.write(configuration, relationName, accountFunctions);
         }
 
         BufferedReader datafile = new BufferedReader(new FileReader(relationName + ".arff"));

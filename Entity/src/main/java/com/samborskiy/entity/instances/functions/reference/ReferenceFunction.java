@@ -1,6 +1,6 @@
 package com.samborskiy.entity.instances.functions.reference;
 
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Whiplash on 28.04.2015.
  */
-public abstract class ReferenceFunction extends AttributeFunction {
+public abstract class ReferenceFunction extends AccountFunction {
 
     protected List<String> getReferences(String tweet) {
         Pattern pattern = Pattern.compile("@(\\w)+");

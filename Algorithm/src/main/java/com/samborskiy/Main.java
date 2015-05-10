@@ -1,16 +1,26 @@
 package com.samborskiy;
 
 import com.samborskiy.classifiers.ClassifierWrapper;
-import com.samborskiy.classifiers.RandomForestVariation;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
+import com.samborskiy.feature.NoFeatureSelection;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import com.samborskiy.statistic.WekaTest;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.reflections.Reflections;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.LibSVM;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +30,6 @@ import java.util.Set;
 public class Main {
 
     private static final String TRAIN_FILE_PATH = "res/ru/config.json";
-    //        private static final String TEST_FILE_PATH = "res/ru/old_config.json";
     private static final int FOLD_COUNT = 5;
     private static final String RELATION_NAME = "train";
 
@@ -33,26 +42,50 @@ public class Main {
         statistics.forEach(System.out::println);
     }
 
+    private static void writeWordFile(List<Statistic> statistics, int classifierNumber) throws IOException {
+        int fss = statistics.size() / classifierNumber;
+        int rows = fss * (classifierNumber + 1) + 1;
+        XWPFDocument doc = new XWPFDocument();
+        XWPFTable table = doc.createTable(rows, 3);
+
+        int featureNameRow = 1;
+        int firstAlgorithmRow = 2;
+        for (int i = 0; i < fss; i++) {
+            int firstStatisticIndex = i * classifierNumber;
+            table.getRow(featureNameRow).getCell(0).setText(statistics.get(firstStatisticIndex).getFeatureSelectionName());
+            for (int j = 0; j < classifierNumber; j++) {
+                Statistic statistic = statistics.get(firstStatisticIndex + j);
+                XWPFTableRow row = table.getRow(firstAlgorithmRow + j);
+                row.getCell(0).setText(statistic.getClassifierName());
+                row.getCell(1).setText(statistic.getAccuracyString());
+                row.getCell(2).setText(statistic.getFMeasureString());
+            }
+            featureNameRow += classifierNumber + 1;
+            firstAlgorithmRow += classifierNumber + 1;
+        }
+
+        try (FileOutputStream out = new FileOutputStream("simpleTable.docx")) {
+            doc.write(out);
+        }
+    }
+
     private static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
         List<ClassifierWrapper> wrappers = new ArrayList<>();
-        wrappers.addAll(new RandomForestVariation().getClassifiers());
-//        Map<Classifier, String> classifiers = new HashMap<>();
-//        classifiers.put(new LibSVM(), "SVM");
-//        for (int i = 1; i <= 30; i++) {
-//            classifiers.put(new IBk(i), "KNN" + i);
-//        }
-//        classifiers.put(new BayesNet(), "Bayes network");
-//        classifiers.put(new J48(), "Decision Tree (J48)");
-//        classifiers.put(new NaiveBayes(), "Naive Bayes");
-//        classifiers.put(new PART(), "Rule-based PART");
-//        classifiers.put(new RandomForest(), "Random forest");
+//        wrappers.addAll(new RandomForestVariation().getClassifiers());
+
+        wrappers.add(new ClassifierWrapper(new IBk()));
+        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
+        wrappers.add(new ClassifierWrapper(new LibSVM()));
+        wrappers.add(new ClassifierWrapper(new J48()));
+        wrappers.add(new ClassifierWrapper(new RandomForest()));
         return wrappers;
     }
 
     private static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
-        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+        featureSelections.add(new NoFeatureSelection());
+//        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
+//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
         return featureSelections;
     }
 
@@ -60,23 +93,23 @@ public class Main {
         return getClasses(packageName, Feature.class);
     }
 
-    private static List<AttributeFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
-        List<AttributeFunction> attributeFunctions = new ArrayList<>();
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.sign"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.smile"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.length"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.grammar"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.hashtag"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.reference"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.personal"));
-        attributeFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.frequency"));
-        return attributeFunctions;
+    private static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
+        List<AccountFunction> accountFunctions = new ArrayList<>();
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.partofspeech"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.sign"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.smile"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.length"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.grammar"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.vocabulary"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.hashtag"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.reference"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.personal"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.instances.functions.frequency"));
+        return accountFunctions;
     }
 
-    private static List<AttributeFunction> getTweetAttributes(String packageName) throws IllegalAccessException, InstantiationException {
-        return getClasses(packageName, AttributeFunction.class);
+    private static List<AccountFunction> getTweetAttributes(String packageName) throws IllegalAccessException, InstantiationException {
+        return getClasses(packageName, AccountFunction.class);
     }
 
     private static <E> List<E> getClasses(String packageName, Class<E> type) throws IllegalAccessException, InstantiationException {

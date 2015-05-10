@@ -2,7 +2,7 @@ package com.samborskiy.entity.instances.functions.vocabulary;
 
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import com.samborskiy.entity.instances.Attribute;
-import com.samborskiy.entity.instances.functions.AttributeFunction;
+import com.samborskiy.entity.instances.functions.AccountFunction;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by Whiplash on 28.04.2015.
  */
-public class RichnessOfVocabulary extends AttributeFunction {
+public class RichnessOfVocabulary extends AccountFunction {
 
     @Override
     public List<Attribute> apply(List<String> tweets) {

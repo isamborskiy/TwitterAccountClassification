@@ -20,7 +20,7 @@ public class RandomForestVariation extends ClassifierVariation {
         paramsName.add("-I");
 
         List<String> kValues = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             kValues.add(String.valueOf(i));
         }
         params.put("-K", kValues);
