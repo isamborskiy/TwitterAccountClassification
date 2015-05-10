@@ -12,5 +12,5 @@ dependencies {
     compile 'org.apache.poi:poi-ooxml:3.9'
     compile 'org.apache.poi:poi:3.9'
 
-    compile project(':DataExtraction')
+    compile project(':Algorithm')
 }

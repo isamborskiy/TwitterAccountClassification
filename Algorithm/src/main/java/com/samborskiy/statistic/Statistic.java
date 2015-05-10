@@ -44,6 +44,10 @@ public class Statistic implements Comparable<Statistic> {
         return String.format("%.3f", fMeasure);
     }
 
+    public int getAttributeNumber() {
+        return attributeNumber;
+    }
+
     @Override
     public String toString() {
         return String.format("Classifier %s with %s(%d):\nAccuracy: %.3f\nF-measure: %.3f\n",
