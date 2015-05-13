@@ -1,15 +1,15 @@
 package com.samborskiy;
 
 import com.samborskiy.classifiers.ClassifierWrapper;
-import com.samborskiy.classifiers.RandomForestVariation;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
-import com.samborskiy.feature.selection.CFS_GS;
+import com.samborskiy.feature.NoFeatureSelection;
 import com.samborskiy.statistic.ConfusionMatrixTest;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import org.reflections.Reflections;
+import weka.classifiers.functions.LibSVM;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -39,11 +39,11 @@ public class Main {
 
     public static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
         List<ClassifierWrapper> wrappers = new ArrayList<>();
-        wrappers.addAll(new RandomForestVariation().getClassifiers());
-//
+//        wrappers.addAll(new RandomForestVariation().getClassifiers());
+
 //        wrappers.add(new ClassifierWrapper(new IBk()));
 //        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
-//        wrappers.add(new ClassifierWrapper(new LibSVM()));
+        wrappers.add(new ClassifierWrapper(new LibSVM()));
 //        wrappers.add(new ClassifierWrapper(new J48()));
 //        wrappers.add(new ClassifierWrapper(new RandomForest()));
         return wrappers;
@@ -51,8 +51,8 @@ public class Main {
 
     public static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
-        featureSelections.add(new CFS_GS());
-//        featureSelections.add(new NoFeatureSelection());
+//        featureSelections.add(new CFS_GS());
+        featureSelections.add(new NoFeatureSelection());
 //        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
 //        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
         return featureSelections;
