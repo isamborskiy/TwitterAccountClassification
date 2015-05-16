@@ -47,7 +47,7 @@ public class FSSTableGenerator extends WordGenerator {
         int row = fssNumber * (classifiers + 1) + 1;
         String fssName = statistics.get(row - 1).getFeatureSelectionName();
         int attributeNumber = statistics.get(row - 1).getAttributeNumber();
-        table.getRow(row).getCell(0).setText(String.format("%s (осталось %d %s)", fssName.replace("_", "-"), attributeNumber, attributeForm(attributeNumber)));
+        table.getRow(row).getCell(0).setText(String.format("%s (%ы %d %s)", fssName.replace("_", "-"), leftForm(attributeNumber), attributeNumber, attributeForm(attributeNumber)));
         for (int i = 1; i <= classifiers; i++) {
             Statistic statistic = statistics.get(fssNumber * classifiers + i - 1);
             XWPFTableRow tableRow = table.getRow(row + i);
@@ -57,18 +57,33 @@ public class FSSTableGenerator extends WordGenerator {
         }
     }
 
-    private String attributeForm(int count) {
+    private String leftForm(int count) {
         count %= 100;
         if (count >= 10 && count <= 20) {
-            return "атрибутов";
+            return "осталось";
         }
         count %= 10;
         if (count == 1) {
-            return "атрибут";
+            return "остался";
         }
         if (count <= 4) {
-            return "атрибута";
+            return "осталось";
         }
-        return "атрибутов";
+        return "осталось";
+    }
+
+    private String attributeForm(int count) {
+        count %= 100;
+        if (count >= 10 && count <= 20) {
+            return "признаков";
+        }
+        count %= 10;
+        if (count == 1) {
+            return "признак";
+        }
+        if (count <= 4) {
+            return "признака";
+        }
+        return "признаков";
     }
 }

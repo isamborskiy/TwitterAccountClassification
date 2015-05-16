@@ -8,6 +8,6 @@ public class Main {
     private static final String FILE_NAME = "randomForestResults.docx";
 
     public static void main(String[] args) throws Exception {
-        new ClassifierParamsTableGenerator(FILE_NAME).generate();
+        new FSSTableGenerator(FILE_NAME).generate();
     }
 }
