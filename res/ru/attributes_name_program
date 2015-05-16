@@ -126,3 +126,11 @@ personal_words_per_tweet
 frequency_per_word
 frequency_per_tweet
 class
+follower_number
+following_number
+is_verified
+favourite_number
+instagram_per_tweet
+tweets_with_instagram
+urls_per_tweet
+tweets_with_urls

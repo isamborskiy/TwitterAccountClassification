@@ -1,6 +1,7 @@
-package com.samborskiy.extraction.utils;
+package com.samborskiy.entity.utils;
 
 import com.samborskiy.entity.Configuration;
+import twitter4j.User;
 
 import java.io.File;
 import java.sql.Connection;
@@ -9,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 /**
  * Class which help user interact with database.
@@ -18,20 +18,14 @@ import java.util.List;
  */
 public class DatabaseHelper implements AutoCloseable {
 
-    private static final String DATABASE_URL = "jdbc:sqlite:%s";
-
-    /**
-     * Name of table.
-     */
-    private static final String TABLE_NAME = "twitter_data";
     /**
      * Name of table column with user's id.
      */
-    private static final String USER_ID = "user_id";
+    public static final String USER_ID = "user_id";
     /**
      * Name of table column with user's screen name.
      */
-    private static final String SCREEN_NAME = "screen_name";
+    public static final String SCREEN_NAME = "screen_name";
     /**
      * Name of table column with tweets.
      */
@@ -40,14 +34,25 @@ public class DatabaseHelper implements AutoCloseable {
      * Name of table column with user type (0 - personal account, 1 - corporate account).
      */
     public static final String ACCOUNT_TYPE = "account_type";
-
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
-            + USER_ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + SCREEN_NAME + " VARCHAR(40) UNIQUE NOT NULL, "
-            + TWEETS + " TEXT, "
-            + ACCOUNT_TYPE + " INTEGER NOT NULL);";
-    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?);";
+    public static final String FOLLOWERS = "follower_number";
+    public static final String FOLLOWING = "following_number";
+    public static final String VERIFIED = "is_verified";
+    public static final String FAVOURITE = "favourite_number";
+    private static final String DATABASE_URL = "jdbc:sqlite:%s";
+    /**
+     * Name of table.
+     */
+    private static final String TABLE_NAME = "twitter_data";
+    //    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
+//            + USER_ID + " INTEGER PRIMARY KEY NOT NULL, "
+//            + SCREEN_NAME + " VARCHAR(40) UNIQUE NOT NULL, "
+//            + TWEETS + " TEXT, "
+//            + ACCOUNT_TYPE + " INTEGER NOT NULL);";
+    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String UPDATE_EXTRA_QUERY = "UPDATE " + TABLE_NAME + " SET " + FOLLOWERS + " = ?, " +
+            FOLLOWING + " = ?, " + VERIFIED + " = ?, " + FAVOURITE + " = ? " + "WHERE " + SCREEN_NAME + " = ?;";
     private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
+    private static final String SELECT_QUERY_USER_ROW = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
     private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME + ";";
     private static final String DELETE_QUERY_EMPTY_ROW = "DELETE FROM " + TABLE_NAME + " WHERE " + TWEETS + " = '[]';";
@@ -93,14 +98,14 @@ public class DatabaseHelper implements AutoCloseable {
      *
      * @return {@code true} if table is create
      */
-    public boolean createTable() {
-        try (Statement statement = connection.createStatement()) {
-            return statement.execute(CREATE_TABLE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean createTable() {
+//        try (Statement statement = connection.createStatement()) {
+//            return statement.execute(CREATE_TABLE);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     /**
      * Inserts value into table.
@@ -111,12 +116,16 @@ public class DatabaseHelper implements AutoCloseable {
      * @param accountType {@code 0} if it personal account else {@code 1}
      * @return {@code true} if insert is complete
      */
-    public boolean insert(long userId, String screenName, String tweets, int accountType) {
+    public boolean insert(long userId, User user, String tweets, int accountType) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
             statement.setLong(1, userId);
-            statement.setString(2, screenName);
+            statement.setString(2, user.getScreenName());
             statement.setString(3, tweets);
             statement.setInt(4, accountType);
+            statement.setInt(5, user.getFollowersCount());
+            statement.setInt(6, user.getFriendsCount());
+            statement.setInt(7, user.isVerified() ? 1 : 0);
+            statement.setInt(8, user.getFavouritesCount());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -125,20 +134,19 @@ public class DatabaseHelper implements AutoCloseable {
         }
     }
 
-    /**
-     * Inserts all values into table.
-     *
-     * @param userIds     users' twitter ids
-     * @param screenNames accounts owner screen name
-     * @param tweets      users' tweets
-     * @param accountType {@code 0} if it personal account else {@code 1}
-     * @return {@code true} if insert is complete
-     */
-    public boolean insertAll(List<Long> userIds, List<String> screenNames, List<String> tweets, int accountType) {
-        for (int i = 1; i < userIds.size(); i++) {
-            insert(userIds.get(i), screenNames.get(i), tweets.get(i), accountType);
+    public boolean addExtra(User user) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_EXTRA_QUERY)) {
+            statement.setInt(1, user.getFollowersCount());
+            statement.setInt(2, user.getFriendsCount());
+            statement.setInt(3, user.isVerified() ? 1 : 0);
+            statement.setInt(4, user.getFavouritesCount());
+            statement.setString(5, user.getScreenName());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     /**
@@ -278,6 +286,16 @@ public class DatabaseHelper implements AutoCloseable {
         try {
             Statement statement = connection.createStatement();
             return statement.executeQuery(SELECT_ALL_QUERY);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getUser(String screenName) {
+        try {
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(String.format(SELECT_QUERY_USER_ROW, screenName));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

@@ -2,8 +2,8 @@ package com.samborskiy.weka;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.utils.DatabaseHelper;
 import com.samborskiy.entity.utils.EntityUtil;
-import com.samborskiy.extraction.utils.DatabaseHelper;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -30,11 +30,11 @@ class DatabaseToData {
      */
     public static List<Account> getAllAccounts(Configuration configuration) {
         List<Account> instances = new ArrayList<>();
-        try {
-            DatabaseHelper databaseHelper = new DatabaseHelper(configuration);
+        try (DatabaseHelper databaseHelper = new DatabaseHelper(configuration)) {
             ResultSet cursor = databaseHelper.getAll();
             while (cursor.next()) {
-                Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE));
+                Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE),
+                        cursor.getString(DatabaseHelper.SCREEN_NAME), databaseHelper);
                 account.addTweets(parseRow(cursor));
                 instances.add(account);
             }

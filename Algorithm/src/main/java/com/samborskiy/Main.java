@@ -5,11 +5,11 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.feature.NoFeatureSelection;
-import com.samborskiy.statistic.ConfusionMatrixTest;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
+import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
-import weka.classifiers.functions.LibSVM;
+import weka.classifiers.trees.RandomForest;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -33,7 +33,7 @@ public class Main {
     public static List<Statistic> getStatistics() throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new ConfusionMatrixTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
+        Test test = new WekaTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
         return test.test(FOLD_COUNT, true);
     }
 
@@ -43,18 +43,18 @@ public class Main {
 
 //        wrappers.add(new ClassifierWrapper(new IBk()));
 //        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
-        wrappers.add(new ClassifierWrapper(new LibSVM()));
+//        wrappers.add(new ClassifierWrapper(new LibSVM()));
 //        wrappers.add(new ClassifierWrapper(new J48()));
-//        wrappers.add(new ClassifierWrapper(new RandomForest()));
+        wrappers.add(new ClassifierWrapper(new RandomForest()));
         return wrappers;
     }
 
     public static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
-//        featureSelections.add(new CFS_GS());
+//        featureSelections.add(new CFS_SFS());
         featureSelections.add(new NoFeatureSelection());
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
+        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
         return featureSelections;
     }
 

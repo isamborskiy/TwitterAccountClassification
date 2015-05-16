@@ -1,8 +1,7 @@
-package com.samborskiy.extraction.utils;
+package com.samborskiy.entity.utils;
 
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Language;
-import com.samborskiy.entity.utils.EntityUtil;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -139,25 +138,15 @@ public class TwitterHelper {
      * @return user's followers
      * @throws TwitterException if twitter service or network is unavailable
      */
-    public List<User> getFollowers(User user) throws TwitterException {
+    public Set<User> getFollowers(User user) throws TwitterException {
         long cursor = -1;
         PagableResponseList<User> followers;
-        List<User> users = new ArrayList<>();
+        Set<User> users = new HashSet<>();
         do {
             followers = twitter.getFollowersList(user.getId(), cursor);
-            users.addAll(filterFollowers(followers));
+            users.addAll(followers);
         } while ((cursor = followers.getNextCursor()) != 0);
         return users;
-    }
-
-    /**
-     * Returns list of filtered users.
-     *
-     * @param followers followers of user
-     * @return list of followers
-     */
-    private List<User> filterFollowers(PagableResponseList<User> followers) {
-        return followers.stream().filter(this::isCorrectUser).collect(Collectors.toList());
     }
 
     /**
@@ -170,5 +159,4 @@ public class TwitterHelper {
         return configuration.getLang().equals(Language.fromString(user.getLang()))
                 && !user.isProtected() && user.getStatus() != null;
     }
-
 }

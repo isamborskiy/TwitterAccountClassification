@@ -1,7 +1,7 @@
 package com.samborskiy.extraction;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.extraction.utils.DatabaseHelper;
+import com.samborskiy.entity.utils.DatabaseHelper;
 
 import java.io.File;
 import java.sql.ResultSet;
