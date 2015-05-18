@@ -5,7 +5,7 @@ package com.samborskiy.entity.analyzers.morphological;
  */
 public abstract class MorphologicalAnalyzer {
 
-    private static final MorphologicalAnalyzer analyzer = new SimpleMorphologicalAnalyzer();
+    private static final MorphologicalAnalyzer analyzer = new EnglishOpenPOSTagging();
 
     public enum PartOfSpeech {
         ADJECTIVE,

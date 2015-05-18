@@ -35,7 +35,7 @@ public class Account extends Instance {
         attrs.add(new Attribute(query.getInt(DatabaseHelper.FOLLOWING), DatabaseHelper.FOLLOWING));
         attrs.add(new Attribute(query.getInt(DatabaseHelper.VERIFIED), DatabaseHelper.VERIFIED));
         attrs.add(new Attribute(query.getInt(DatabaseHelper.FAVOURITE), DatabaseHelper.FAVOURITE));
-        attrs.add(new Attribute(query.getInt(DatabaseHelper.RETWEETS), DatabaseHelper.RETWEETS));
+//        attrs.add(new Attribute(query.getInt(DatabaseHelper.RETWEETS), DatabaseHelper.RETWEETS));
     }
 
     public int size() {

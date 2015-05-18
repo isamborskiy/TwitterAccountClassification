@@ -40,7 +40,7 @@ public class ConfusionMatrixTest2 extends Test {
         for (int t = 0; t < ROUNDS; t++) {
             Collections.shuffle(instances);
             for (int i = 0; i < foldCount; i++) {
-                int[][] confusionMatrix = new int[instances.numClasses() - 1][instances.numClasses() - 1];
+                int[][] confusionMatrix = new int[instances.numClasses()][instances.numClasses()];
                 Instances test = instances.testCV(foldCount, i);
                 Instances train = instances.trainCV(foldCount, i);
                 classifier.buildClassifier(train);

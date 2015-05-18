@@ -11,7 +11,7 @@ public class SimpleTweetParser extends TweetParser {
 
     @Override
     public List<String> parse(String tweet) {
-        StringTokenizer tokenizer = new StringTokenizer(tweet, ",;:.!? \t\n\r\f");
+        StringTokenizer tokenizer = new StringTokenizer(tweet, "\',;:.!? \t\n\r\f");
         List<String> words = new ArrayList<>();
         while (tokenizer.hasMoreTokens()) {
             words.add(tokenizer.nextToken());

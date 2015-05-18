@@ -7,7 +7,7 @@ import java.io.IOException;
  */
 public abstract class GrammarAnalyzer {
 
-    private static final GrammarAnalyzer analyzer = new JLanguageToolGrammarCheckerRu();
+    private static final GrammarAnalyzer analyzer = new JLanguageToolGrammarCheckerEn();
 
     public static GrammarAnalyzer get() {
         return analyzer;

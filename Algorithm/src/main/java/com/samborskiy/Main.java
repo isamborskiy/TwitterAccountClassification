@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class Main {
 
-    private static final String TRAIN_FILE_PATH = "res/ru/config.json";
+    private static final String TRAIN_FILE_PATH = "res/en/config.json";
     private static final int FOLD_COUNT = 5;
     private static final String RELATION_NAME = "train";
 
@@ -79,7 +79,7 @@ public class Main {
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.hashtag"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.reference"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.personal"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.frequency"));
+//        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.frequency"));
         return accountFunctions;
     }
 
