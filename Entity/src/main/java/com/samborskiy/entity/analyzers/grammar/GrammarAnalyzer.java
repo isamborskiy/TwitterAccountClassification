@@ -7,11 +7,11 @@ import java.io.IOException;
  */
 public abstract class GrammarAnalyzer {
 
-    private static final GrammarAnalyzer analyzer = new JLanguageToolGrammarChecker();
-
-    public abstract int check(String text) throws IOException;
+    private static final GrammarAnalyzer analyzer = new JLanguageToolGrammarCheckerRu();
 
     public static GrammarAnalyzer get() {
         return analyzer;
     }
+
+    public abstract int check(String text) throws IOException;
 }

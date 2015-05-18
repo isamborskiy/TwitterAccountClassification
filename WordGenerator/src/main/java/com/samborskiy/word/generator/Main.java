@@ -5,9 +5,9 @@ package com.samborskiy.word.generator;
  */
 public class Main {
 
-    private static final String FILE_NAME = "randomForestResults.docx";
+    private static final String FILE_NAME = "fssTableGenerator.docx";
 
     public static void main(String[] args) throws Exception {
-        new FSSTableGenerator(FILE_NAME).generate();
+        new ClassifierParamsTableGenerator(FILE_NAME).generate();
     }
 }

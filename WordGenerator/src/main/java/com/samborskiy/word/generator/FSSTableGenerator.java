@@ -45,9 +45,9 @@ public class FSSTableGenerator extends WordGenerator {
 
     private void fillFeature(XWPFTable table, List<Statistic> statistics, int classifiers, int fssNumber) {
         int row = fssNumber * (classifiers + 1) + 1;
-        String fssName = statistics.get(row - 1).getFeatureSelectionName();
-        int attributeNumber = statistics.get(row - 1).getAttributeNumber();
-        table.getRow(row).getCell(0).setText(String.format("%s (%ы %d %s)", fssName.replace("_", "-"), leftForm(attributeNumber), attributeNumber, attributeForm(attributeNumber)));
+        String fssName = statistics.get(fssNumber * classifiers).getFeatureSelectionName();
+        int attributeNumber = statistics.get(fssNumber * classifiers).getAttributeNumber();
+        table.getRow(row).getCell(0).setText(String.format("%s (%s %d %s)", fssName.replace("_", "-"), leftForm(attributeNumber), attributeNumber, attributeForm(attributeNumber)));
         for (int i = 1; i <= classifiers; i++) {
             Statistic statistic = statistics.get(fssNumber * classifiers + i - 1);
             XWPFTableRow tableRow = table.getRow(row + i);

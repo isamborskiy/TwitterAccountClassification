@@ -5,14 +5,10 @@ import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.feature.NoFeatureSelection;
-import com.samborskiy.statistic.ConfusionMatrixTest;
+import com.samborskiy.statistic.ConfusionMatrixTest2;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
 import org.reflections.Reflections;
-import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.LibSVM;
-import weka.classifiers.lazy.IBk;
-import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
 
 import java.io.File;
@@ -37,25 +33,31 @@ public class Main {
     public static List<Statistic> getStatistics() throws Exception {
         File configFileTrain = new File(TRAIN_FILE_PATH);
         Configuration configuration = Configuration.build(configFileTrain);
-        Test test = new ConfusionMatrixTest(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
+        Test test = new ConfusionMatrixTest2(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
         return test.test(FOLD_COUNT, true);
+//        InfoGainAttributeEval eval = new InfoGainAttributeEval().buildEvaluator(null);
+//        eval.evaluateAttribute()
     }
 
     public static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
         List<ClassifierWrapper> wrappers = new ArrayList<>();
 //        wrappers.addAll(new RandomForestVariation().getClassifiers());
 
-        wrappers.add(new ClassifierWrapper(new IBk()));
-        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
-        wrappers.add(new ClassifierWrapper(new LibSVM()));
-        wrappers.add(new ClassifierWrapper(new J48()));
+//        wrappers.add(new ClassifierWrapper(new IBk()));
+//        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
+//        wrappers.add(new ClassifierWrapper(new LibSVM()));
+//        wrappers.add(new ClassifierWrapper(new J48()));
         wrappers.add(new ClassifierWrapper(new RandomForest()));
+//        RandomForest randomForest = new RandomForest();
+//        randomForest.setOptions(new String[]{"-I", "105", "-K", "4"});
+//        wrappers.add(new ClassifierWrapper(randomForest));
+
         return wrappers;
     }
 
     public static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
         List<Feature> featureSelections = new ArrayList<>();
-//        featureSelections.add(new CFS_SBS());
+//        featureSelections.add(new CFS_BiS());
         featureSelections.add(new NoFeatureSelection());
         featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
         featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));

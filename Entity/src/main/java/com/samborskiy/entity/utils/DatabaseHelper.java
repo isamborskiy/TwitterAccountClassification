@@ -38,6 +38,7 @@ public class DatabaseHelper implements AutoCloseable {
     public static final String FOLLOWING = "following_number";
     public static final String VERIFIED = "is_verified";
     public static final String FAVOURITE = "favourite_number";
+    public static final String RETWEETS = "retweet_number";
     private static final String DATABASE_URL = "jdbc:sqlite:%s";
     /**
      * Name of table.
@@ -51,6 +52,7 @@ public class DatabaseHelper implements AutoCloseable {
     private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_EXTRA_QUERY = "UPDATE " + TABLE_NAME + " SET " + FOLLOWERS + " = ?, " +
             FOLLOWING + " = ?, " + VERIFIED + " = ?, " + FAVOURITE + " = ? " + "WHERE " + SCREEN_NAME + " = ?;";
+    private static final String UPDATE_RETWEET_QUERY = "UPDATE " + TABLE_NAME + " SET " + RETWEETS + " = ? " + "WHERE " + SCREEN_NAME + " = ?;";
     private static final String SELECT_QUERY_USER_ID = "SELECT %s FROM " + TABLE_NAME + " WHERE " + USER_ID + " = %d;";
     private static final String SELECT_QUERY_USER_ROW = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
     private static final String SELECT_QUERY_SCREEN_NAME = "SELECT %s FROM " + TABLE_NAME + " WHERE " + SCREEN_NAME + " = \'%s\';";
@@ -141,6 +143,18 @@ public class DatabaseHelper implements AutoCloseable {
             statement.setInt(3, user.isVerified() ? 1 : 0);
             statement.setInt(4, user.getFavouritesCount());
             statement.setString(5, user.getScreenName());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addRetweet(String screenName, float retweetNumber) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_RETWEET_QUERY)) {
+            statement.setFloat(1, retweetNumber);
+            statement.setString(2, screenName);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

@@ -7,6 +7,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.FileOutputStream;
+import java.util.Collections;
 import java.util.List;
 
 import static com.samborskiy.Main.getClassifierWrappers;
@@ -23,6 +24,9 @@ public class ClassifierParamsTableGenerator extends WordGenerator {
 
     public void generate() throws Exception {
         List<Statistic> statistics = getStatistics();
+        Collections.sort(statistics);
+        statistics.forEach(System.out::println);
+
         int classifiers = getClassifierWrappers().size();
         int rows = classifiers + 1;
 

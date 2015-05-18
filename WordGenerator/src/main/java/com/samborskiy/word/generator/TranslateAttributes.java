@@ -37,6 +37,10 @@ public class TranslateAttributes extends WordGenerator {
         }
     }
 
+    public String translate(String name) {
+        return translator.get(name);
+    }
+
     @Override
     public void generate() throws Exception {
         int rows = instances.numAttributes();
