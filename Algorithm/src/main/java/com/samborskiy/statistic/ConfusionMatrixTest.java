@@ -55,11 +55,6 @@ public class ConfusionMatrixTest extends Test {
     }
 
     private double getFMeasure(int[][] confusionMatrix) {
-//        System.out.println("------------------------");
-//        for (int[] row : confusionMatrix) {
-//            System.out.println(Arrays.toString(row));
-//        }
-//        System.out.println("-----------------------");
         double precision = getPrecision(confusionMatrix);
         double recall = getRecall(confusionMatrix);
         return 2 * precision * recall / (precision + recall);
@@ -68,10 +63,10 @@ public class ConfusionMatrixTest extends Test {
     private double getPrecision(int[][] confusionMatrix) {
         double[] precisions = new double[confusionMatrix.length];
         for (int i = 0; i < precisions.length; i++) {
-            for (int j = 0; j < precisions.length; j++) {
-                precisions[i] += confusionMatrix[i][j];
-            }
             if (confusionMatrix[i][i] != 0) {
+                for (int j = 0; j < precisions.length; j++) {
+                    precisions[i] += confusionMatrix[i][j];
+                }
                 precisions[i] = confusionMatrix[i][i] / precisions[i];
             }
         }
@@ -81,10 +76,10 @@ public class ConfusionMatrixTest extends Test {
     private double getRecall(int[][] confusionMatrix) {
         double[] recalls = new double[confusionMatrix.length];
         for (int i = 0; i < recalls.length; i++) {
-            for (int j = 0; j < recalls.length; j++) {
-                recalls[i] += confusionMatrix[j][i];
-            }
             if (confusionMatrix[i][i] != 0) {
+                for (int j = 0; j < recalls.length; j++) {
+                    recalls[i] += confusionMatrix[j][i];
+                }
                 recalls[i] = confusionMatrix[i][i] / recalls[i];
             }
         }

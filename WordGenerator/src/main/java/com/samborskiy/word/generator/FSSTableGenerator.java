@@ -7,6 +7,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.FileOutputStream;
+import java.util.Collections;
 import java.util.List;
 
 import static com.samborskiy.Main.*;
@@ -36,6 +37,8 @@ public class FSSTableGenerator extends WordGenerator {
         try (FileOutputStream out = new FileOutputStream(fileName)) {
             doc.write(out);
         }
+        Collections.sort(statistics);
+        statistics.forEach(System.out::println);
     }
 
     private void fillHeader(XWPFTable table) {

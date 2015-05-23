@@ -1,5 +1,6 @@
 package com.samborskiy;
 
+import com.samborskiy.feature.extraction.PCA;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.core.Instances;
 
@@ -27,6 +28,7 @@ public class InformationGain {
         BufferedReader datafile = new BufferedReader(new FileReader("train.arff"));
         Instances instances = new Instances(datafile);
         instances.setClassIndex(instances.numAttributes() - 1);
+        instances.deleteAttributeAt(instances.attribute("retweet_number").index());
 
         InfoGainAttributeEval eval = new InfoGainAttributeEval();
         eval.buildEvaluator(instances);

@@ -1,16 +1,21 @@
 package com.samborskiy.statistic;
 
+import com.samborskiy.InformationGain;
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
 import com.samborskiy.weka.DatabaseToArff;
+import weka.classifiers.trees.J48;
+import weka.core.Attribute;
 import weka.core.Instances;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Whiplash on 01.05.2015.
@@ -40,6 +45,16 @@ public abstract class Test {
         BufferedReader datafile = new BufferedReader(new FileReader(relationName + ".arff"));
         Instances instances = new Instances(datafile);
         instances.setClassIndex(instances.numAttributes() - 1);
+        instances.deleteAttributeAt(instances.attribute("retweet_number").index());
+
+        //---------
+        Set<Map.Entry<String, Double>> sortedStatistics = InformationGain.getStatistics();
+        sortedStatistics.stream().filter(entry -> instances.numAttributes() > 36).forEach(entry -> {
+            Attribute attribute = instances.attribute(entry.getKey());
+            instances.deleteAttributeAt(attribute.index());
+        });
+        System.out.println(instances.numAttributes());
+        //---------
 
         double currentIteration = 0.;
         double iterationNumber = features.size();

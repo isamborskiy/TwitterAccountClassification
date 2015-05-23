@@ -24,8 +24,6 @@ public class ClassifierParamsTableGenerator extends WordGenerator {
 
     public void generate() throws Exception {
         List<Statistic> statistics = getStatistics();
-        Collections.sort(statistics);
-        statistics.forEach(System.out::println);
 
         int classifiers = getClassifierWrappers().size();
         int rows = classifiers + 1;
@@ -44,6 +42,9 @@ public class ClassifierParamsTableGenerator extends WordGenerator {
         try (FileOutputStream out = new FileOutputStream(fileName)) {
             doc.write(out);
         }
+
+        Collections.sort(statistics);
+        statistics.forEach(System.out::println);
     }
 
     private void fillHeader(XWPFTable table) {

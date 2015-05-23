@@ -49,9 +49,14 @@ public class TranslateAttributes extends WordGenerator {
         XWPFTable table = doc.createTable(rows, 2);
         fillHeader(table);
         for (int i = 0; i < instances.numAttributes() - 1; i++) {
+            String name = instances.attribute(i).name();
+            for (String engWord : translator.keySet()) {
+                name = name.replace(engWord, /*"«" +*/ translator.get(engWord) /*+ "»"*/);
+            }
+            name = name.replace("...", "");
             XWPFTableRow tableRow = table.getRow(i + 1);
             tableRow.getCell(0).setText(String.valueOf(i + 1));
-            tableRow.getCell(1).setText(translator.get(instances.attribute(i).name()));
+            tableRow.getCell(1).setText(name);
         }
 
         try (FileOutputStream out = new FileOutputStream(fileName)) {
@@ -61,6 +66,6 @@ public class TranslateAttributes extends WordGenerator {
 
     private void fillHeader(XWPFTable table) {
         table.getRow(0).getCell(0).setText("№");
-        table.getRow(0).getCell(1).setText("Название атрибута");
+        table.getRow(0).getCell(1).setText("Название признака");
     }
 }
