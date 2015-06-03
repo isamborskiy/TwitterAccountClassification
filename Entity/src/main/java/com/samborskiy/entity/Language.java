@@ -2,8 +2,6 @@ package com.samborskiy.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.samborskiy.entity.utils.stemmers.PorterStemmerEn;
-import com.samborskiy.entity.utils.stemmers.PorterStemmerRu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,23 +53,6 @@ public enum Language {
             }
         }
         return null;
-    }
-
-    /**
-     * Stems word to simple form.
-     *
-     * @param word word that will normalize
-     * @return simple form of word
-     */
-    public String stem(String word) {
-        switch (this) {
-            case ru:
-                return PorterStemmerRu.stem(word);
-            case en:
-                return PorterStemmerEn.stem(word);
-            default:
-                throw new UnsupportedOperationException("Stemmed for this language not realized");
-        }
     }
 
     /**

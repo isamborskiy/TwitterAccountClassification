@@ -1,6 +1,6 @@
 package com.samborskiy.entity.analyzers.frequency;
 
-import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech;
+import com.samborskiy.entity.PartOfSpeech;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

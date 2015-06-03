@@ -1,5 +1,6 @@
 package com.samborskiy.entity.analyzers.morphological;
 
+import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.frequency.FrequencyDictionary;
 
 /**

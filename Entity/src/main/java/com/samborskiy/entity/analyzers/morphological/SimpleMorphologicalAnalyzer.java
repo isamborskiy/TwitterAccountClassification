@@ -1,5 +1,7 @@
 package com.samborskiy.entity.analyzers.morphological;
 
+import com.samborskiy.entity.PartOfSpeech;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer.PartOfSpeech.*;
+import static com.samborskiy.entity.PartOfSpeech.*;
 
 /**
  * Created by Whiplash on 25.04.2015.

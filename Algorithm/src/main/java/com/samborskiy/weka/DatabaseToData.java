@@ -1,7 +1,7 @@
 package com.samborskiy.weka;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.Account;
+import com.samborskiy.entity.Account;
 import com.samborskiy.entity.utils.DatabaseHelper;
 import com.samborskiy.entity.utils.EntityUtil;
 
@@ -23,10 +23,10 @@ class DatabaseToData {
     }
 
     /**
-     * Returns list of user {@link com.samborskiy.entity.instances.Account} get from database.
+     * Returns list of user {@link com.samborskiy.entity.Account} get from database.
      *
      * @param configuration to get access to database describe in configuration
-     * @return list of user {@link com.samborskiy.entity.instances.Account} get from database
+     * @return list of user {@link com.samborskiy.entity.Account} get from database
      */
     public static List<Account> getAllAccounts(Configuration configuration) {
         List<Account> instances = new ArrayList<>();

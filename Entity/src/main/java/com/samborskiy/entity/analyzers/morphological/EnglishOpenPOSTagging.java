@@ -1,5 +1,6 @@
 package com.samborskiy.entity.analyzers.morphological;
 
+import com.samborskiy.entity.PartOfSpeech;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 

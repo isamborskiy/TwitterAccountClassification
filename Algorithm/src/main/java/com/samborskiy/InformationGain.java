@@ -1,6 +1,5 @@
 package com.samborskiy;
 
-import com.samborskiy.feature.extraction.PCA;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.core.Instances;
 

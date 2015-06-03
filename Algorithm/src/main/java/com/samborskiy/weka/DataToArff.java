@@ -1,8 +1,8 @@
 package com.samborskiy.weka;
 
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.instances.Account;
-import com.samborskiy.entity.instances.Attribute;
+import com.samborskiy.entity.Account;
+import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.instances.Instance;
 
 import java.io.FileNotFoundException;

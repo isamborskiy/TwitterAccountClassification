@@ -71,24 +71,6 @@ public class TwitterHelper {
         return EntityUtil.serialize(filterTweets(statuses));
     }
 
-    public float getRetweetNumber(String screenName, int tweetNumber) throws TwitterException {
-        Paging paging = new Paging(1, tweetNumber);
-        List<Status> statuses = twitter.getUserTimeline(screenName, paging);
-        if (statuses == null || statuses.isEmpty()) {
-            return 0f;
-        } else {
-            return getRetweetNumber(statuses) / statuses.size();
-        }
-    }
-
-    private float getRetweetNumber(List<Status> statuses) {
-        float retweetNumber = 0;
-        for (Status status : statuses) {
-            retweetNumber += status.isRetweet() ? 1 : 0;
-        }
-        return retweetNumber;
-    }
-
     /**
      * Returns filtered tweets of user.
      *
