@@ -20,9 +20,9 @@ import java.util.Set;
 
 public class Main {
 
-    private static final String TRAIN_FILE_PATH = "res/en/config.json";
+    private static final String TRAIN_FILE_PATH = "res/en/config2.json";
     private static final int FOLD_COUNT = 5;
-    private static final String RELATION_NAME = "train";
+    private static final String RELATION_NAME = "train2";
 
     public static void main(String[] args) throws Exception {
         List<Statistic> statistics = getStatistics();
