@@ -1,6 +1,6 @@
-package com.samborskiy.feature.extraction;
+package com.samborskiy.classifier.fss.extraction;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.LatentSemanticAnalysis;
@@ -9,7 +9,7 @@ import weka.attributeSelection.Ranker;
 /**
  * Created by Whiplash on 04.05.2015.
  */
-public class LSA extends Feature {
+public class LSA extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {

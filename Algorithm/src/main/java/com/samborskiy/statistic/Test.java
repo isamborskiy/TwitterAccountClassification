@@ -4,9 +4,8 @@ import com.samborskiy.InformationGain;
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import com.samborskiy.weka.DatabaseToArff;
-import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.Instances;
 
@@ -26,10 +25,10 @@ public abstract class Test {
     protected final String relationName;
     protected final List<ClassifierWrapper> classifierWrappers;
     protected final List<AccountFunction> accountFunctions;
-    protected final List<Feature> features;
+    protected final List<FeatureSelection> features;
 
     public Test(Configuration configuration, String relationName, List<ClassifierWrapper> classifierWrappers,
-                List<AccountFunction> accountFunctions, List<Feature> features) {
+                List<AccountFunction> accountFunctions, List<FeatureSelection> features) {
         this.configuration = configuration;
         this.relationName = relationName;
         this.classifierWrappers = classifierWrappers;
@@ -59,7 +58,7 @@ public abstract class Test {
         double currentIteration = 0.;
         double iterationNumber = features.size();
         List<Statistic> statistics = new ArrayList<>();
-        for (Feature feature : features) {
+        for (FeatureSelection feature : features) {
             long time = System.currentTimeMillis();
             Instances newInstances = feature.select(instances);
             for (ClassifierWrapper classifierWrapper : classifierWrappers) {

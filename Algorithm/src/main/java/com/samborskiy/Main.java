@@ -1,16 +1,13 @@
 package com.samborskiy;
 
 import com.samborskiy.classifiers.ClassifierWrapper;
-import com.samborskiy.classifiers.RandomForestVariation;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
-import com.samborskiy.feature.Feature;
-import com.samborskiy.feature.NoFeatureSelection;
-import com.samborskiy.statistic.ConfusionMatrixTest;
+import com.samborskiy.classifier.fss.FeatureSelection;
+import com.samborskiy.classifier.fss.NoFeatureSelection;
 import com.samborskiy.statistic.ConfusionMatrixTest2;
 import com.samborskiy.statistic.Statistic;
 import com.samborskiy.statistic.Test;
-import com.samborskiy.statistic.WekaTest;
 import org.reflections.Reflections;
 import weka.classifiers.trees.RandomForest;
 
@@ -62,8 +59,8 @@ public class Main {
         return wrappers;
     }
 
-    public static List<Feature> getFeatures() throws InstantiationException, IllegalAccessException {
-        List<Feature> featureSelections = new ArrayList<>();
+    public static List<FeatureSelection> getFeatures() throws InstantiationException, IllegalAccessException {
+        List<FeatureSelection> featureSelections = new ArrayList<>();
 //        featureSelections.add(new CFS_TS());
         featureSelections.add(new NoFeatureSelection());
 //        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
@@ -71,8 +68,8 @@ public class Main {
         return featureSelections;
     }
 
-    private static List<Feature> getFeatures(String packageName) throws IllegalAccessException, InstantiationException {
-        return getClasses(packageName, Feature.class);
+    private static List<FeatureSelection> getFeatures(String packageName) throws IllegalAccessException, InstantiationException {
+        return getClasses(packageName, FeatureSelection.class);
     }
 
     public static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {

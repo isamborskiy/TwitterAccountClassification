@@ -22,6 +22,10 @@ public class Attribute {
         return String.format("@attribute %s numeric", name);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public double getValue() {
         return value;
     }

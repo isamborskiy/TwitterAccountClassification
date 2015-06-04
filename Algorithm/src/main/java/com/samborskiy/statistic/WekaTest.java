@@ -4,7 +4,7 @@ import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.Type;
 import com.samborskiy.entity.functions.AccountFunction;
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
@@ -19,7 +19,7 @@ import java.util.Random;
 public class WekaTest extends Test {
 
     public WekaTest(Configuration configuration, String relationName, List<ClassifierWrapper> classifiers,
-                    List<AccountFunction> accountFunctions, List<Feature> features) {
+                    List<AccountFunction> accountFunctions, List<FeatureSelection> features) {
         super(configuration, relationName, classifiers, accountFunctions, features);
     }
 

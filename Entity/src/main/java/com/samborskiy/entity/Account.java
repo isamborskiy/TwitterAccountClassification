@@ -1,19 +1,15 @@
 package com.samborskiy.entity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * Created by Whiplash on 21.04.2015.
  */
-public class Account implements Iterable<Attribute> {
+public class Account extends ArrayList<Attribute> {
 
     protected final int classId;
     protected final List<String> tweets = new ArrayList<>();
-    protected final List<Attribute> attrs = new ArrayList<>();
 
     protected int followers;
     protected int following;
@@ -21,15 +17,12 @@ public class Account implements Iterable<Attribute> {
     protected int favourite;
 
     public Account(int classId, int followers, int following, int verified, int favourite) {
+        super();
         this.classId = classId;
         this.followers = followers;
         this.following = following;
         this.verified = verified;
         this.favourite = favourite;
-    }
-
-    public int size() {
-        return tweets.size();
     }
 
     public void addTweet(String tweet) {
@@ -40,20 +33,8 @@ public class Account implements Iterable<Attribute> {
         tweets.forEach(this::addTweet);
     }
 
-    public void addAttr(Attribute attribute) {
-        attrs.add(attribute);
-    }
-
-    public void addAttrs(List<Attribute> attributes) {
-        attributes.forEach(this::addAttr);
-    }
-
     public List<String> getTweets() {
         return tweets;
-    }
-
-    public String get(int i) {
-        return tweets.get(i);
     }
 
     public int getClassId() {
@@ -74,21 +55,6 @@ public class Account implements Iterable<Attribute> {
 
     public int getFavourite() {
         return favourite;
-    }
-
-    @Override
-    public Iterator<Attribute> iterator() {
-        return attrs.iterator();
-    }
-
-    @Override
-    public void forEach(Consumer<? super Attribute> action) {
-        attrs.forEach(action);
-    }
-
-    @Override
-    public Spliterator<Attribute> spliterator() {
-        return attrs.spliterator();
     }
 
     @Override

@@ -1,15 +1,15 @@
-package com.samborskiy.feature.selection;
+package com.samborskiy.classifier.fss.selection;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.BestFirst;
-import weka.attributeSelection.CfsSubsetEval;
+import weka.attributeSelection.ConsistencySubsetEval;
 
 /**
  * Created by Whiplash on 30.04.2015.
  */
-public class CFS_SFS extends Feature {
+public class Cons_BiS extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {
@@ -18,11 +18,11 @@ public class CFS_SFS extends Feature {
 
     @Override
     protected String[] getSearcherOptions() {
-        return new String[]{"-D", "1"};
+        return new String[]{"-D", "2"};
     }
 
     @Override
     protected ASEvaluation getEvaluator() {
-        return new CfsSubsetEval();
+        return new ConsistencySubsetEval();
     }
 }

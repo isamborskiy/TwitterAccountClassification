@@ -1,11 +1,7 @@
 package com.samborskiy.word.generator;
 
 import com.samborskiy.InformationGain;
-import com.samborskiy.feature.extraction.PCA;
-import weka.core.Instances;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

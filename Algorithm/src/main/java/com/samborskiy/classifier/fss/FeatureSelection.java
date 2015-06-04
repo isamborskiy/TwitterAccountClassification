@@ -1,4 +1,4 @@
-package com.samborskiy.feature;
+package com.samborskiy.classifier.fss;
 
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
@@ -10,7 +10,7 @@ import weka.filters.supervised.attribute.AttributeSelection;
 /**
  * Created by Whiplash on 03.05.2015.
  */
-public abstract class Feature {
+public abstract class FeatureSelection {
 
     public Instances select(Instances instances) {
         try {

@@ -3,7 +3,7 @@ package com.samborskiy.statistic;
 import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
@@ -21,7 +21,7 @@ public class ConfusionMatrixTest extends Test {
     private static final int ROUNDS = 50;
 
     public ConfusionMatrixTest(Configuration configuration, String relationName, List<ClassifierWrapper> classifiers,
-                               List<AccountFunction> accountFunctions, List<Feature> features) {
+                               List<AccountFunction> accountFunctions, List<FeatureSelection> features) {
         super(configuration, relationName, classifiers, accountFunctions, features);
     }
 

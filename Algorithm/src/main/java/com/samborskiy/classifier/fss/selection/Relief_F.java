@@ -1,6 +1,6 @@
-package com.samborskiy.feature.selection;
+package com.samborskiy.classifier.fss.selection;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.Ranker;
@@ -9,7 +9,7 @@ import weka.attributeSelection.ReliefFAttributeEval;
 /**
  * Created by Whiplash on 30.04.2015.
  */
-public class Relief_F extends Feature {
+public class Relief_F extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {

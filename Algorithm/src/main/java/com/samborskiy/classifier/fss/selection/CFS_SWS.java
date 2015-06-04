@@ -1,24 +1,19 @@
-package com.samborskiy.feature.selection;
+package com.samborskiy.classifier.fss.selection;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
-import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.CfsSubsetEval;
+import weka.attributeSelection.GreedyStepwise;
 
 /**
  * Created by Whiplash on 30.04.2015.
  */
-public class CFS_SBS extends Feature {
+public class CFS_SWS extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {
-        return new BestFirst();
-    }
-
-    @Override
-    protected String[] getSearcherOptions() {
-        return new String[]{"-D", "0"};
+        return new GreedyStepwise();
     }
 
     @Override

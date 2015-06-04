@@ -1,19 +1,19 @@
-package com.samborskiy.feature.selection;
+package com.samborskiy.classifier.fss.selection;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.ConsistencySubsetEval;
-import weka.attributeSelection.GeneticSearch;
+import weka.attributeSelection.RankSearch;
 
 /**
  * Created by Whiplash on 30.04.2015.
  */
-public class Cons_GS extends Feature {
+public class Cons_RS extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {
-        return new GeneticSearch();
+        return new RankSearch();
     }
 
     @Override

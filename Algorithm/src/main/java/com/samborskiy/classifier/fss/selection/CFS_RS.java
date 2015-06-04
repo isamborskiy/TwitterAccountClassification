@@ -1,19 +1,19 @@
-package com.samborskiy.feature.selection;
+package com.samborskiy.classifier.fss.selection;
 
-import com.samborskiy.feature.Feature;
+import com.samborskiy.classifier.fss.FeatureSelection;
 import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.CfsSubsetEval;
-import weka.attributeSelection.LinearForwardSelection;
+import weka.attributeSelection.RankSearch;
 
 /**
  * Created by Whiplash on 30.04.2015.
  */
-public class CFS_LS extends Feature {
+public class CFS_RS extends FeatureSelection {
 
     @Override
     protected ASSearch getSearcher() {
-        return new LinearForwardSelection();
+        return new RankSearch();
     }
 
     @Override
