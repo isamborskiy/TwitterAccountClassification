@@ -1,0 +1,24 @@
+{
+  "lang": "en",
+  "databasePath": "res/en/test2.db",
+  "types": [
+    {
+      "id": 0,
+      "name": "personal",
+      "tweetPerUser": 500,
+      "constraints": false,
+      "data": {
+        "screenNames": "res/en/personal"
+      }
+    },
+    {
+      "id": 1,
+      "name": "corporate",
+      "tweetPerUser": 500,
+      "constraints": false,
+      "data": {
+        "screenNames": "res/en/corporate"
+      }
+    }
+  ]
+}

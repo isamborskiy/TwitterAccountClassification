@@ -50,7 +50,7 @@ public class TwitterHelper {
      * @throws twitter4j.TwitterException if twitter service or network is unavailable
      */
     public User getUser(String screenName, boolean constraints) throws TwitterException {
-        User user = twitter.showUser(screenName);
+        User user = twitter.showUser(Long.parseLong(screenName));
         if (!constraints || isCorrectUser(user)) {
             return user;
         }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Update {
 
     public static void main(String[] args) throws Exception {
-        File file = new File("res/en/config.json");
+        File file = new File("res/en/config2.json");
         Configuration configuration = Configuration.build(file);
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 
