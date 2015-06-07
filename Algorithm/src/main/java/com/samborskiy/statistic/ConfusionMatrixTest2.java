@@ -46,7 +46,8 @@ public class ConfusionMatrixTest2 extends Test {
                 classifier.buildClassifier(train);
                 double acc = 0.;
                 for (Instance instance : test) {
-                    int classId = (int) classifier.classifyInstance(instance) > 0 ? 1 : 0;
+//                    int classId = (int) classifier.classifyInstance(instance) > 0 ? 1 : 0;
+                    int classId = 0;
                     int realClassId = (int) instance.classValue() > 0 ? 1 : 0;
                     if (classId == realClassId) {
                         acc++;

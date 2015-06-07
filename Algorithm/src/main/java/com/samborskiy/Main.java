@@ -4,6 +4,7 @@ import com.samborskiy.classifiers.ClassifierWrapper;
 import com.samborskiy.entity.Configuration;
 import com.samborskiy.entity.functions.AccountFunction;
 import com.samborskiy.feature.Feature;
+import com.samborskiy.feature.InformationFeatureSelection;
 import com.samborskiy.feature.NoFeatureSelection;
 import com.samborskiy.statistic.ConfusionMatrixTest2;
 import com.samborskiy.statistic.Statistic;
@@ -59,8 +60,11 @@ public class Main {
         List<Feature> featureSelections = new ArrayList<>();
 //        featureSelections.add(new CFS_BiS());
         featureSelections.add(new NoFeatureSelection());
-        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+//        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
+//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
+//        for (int i = 2; i < 50; i++) {
+//            featureSelections.add(new InformationFeatureSelection(i));
+//        }
         return featureSelections;
     }
 
