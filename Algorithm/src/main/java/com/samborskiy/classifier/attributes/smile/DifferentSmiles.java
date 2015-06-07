@@ -1,10 +1,10 @@
 package com.samborskiy.classifier.attributes.smile;
 
+import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
-import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 
@@ -14,8 +14,13 @@ import java.util.List;
 public class DifferentSmiles extends SmileFunction {
 
     public DifferentSmiles(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
+    }
+
+    @Override
+    public String getName() {
+        return String.format("different_smiles", args);
     }
 
     @Override
@@ -29,7 +34,7 @@ public class DifferentSmiles extends SmileFunction {
                 }
             }
         }
-        attributes.add(getAttribute(count / SMILES.size()));
+        attributes.add(new Attribute(count / SMILES.size(), getName()));
     }
 
     private boolean hasSmile(SmileSequence smile, String tweet) {
@@ -39,10 +44,5 @@ public class DifferentSmiles extends SmileFunction {
             }
         }
         return false;
-    }
-
-    @Override
-    protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, String.format("different_smiles", args));
     }
 }

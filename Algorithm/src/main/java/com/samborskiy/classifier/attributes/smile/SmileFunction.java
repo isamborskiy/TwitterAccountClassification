@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class SmileFunction extends AttributeFunction {
 
-    protected static final List<SmileSequence> SMILES = new ArrayList<>();
+    public static final List<SmileSequence> SMILES = new ArrayList<>();
 
     static {
         SMILES.add(new SmileSequence("happy_smiles", ":)", ":-)", "^_^", "=)"));
@@ -32,8 +32,8 @@ public abstract class SmileFunction extends AttributeFunction {
     }
 
     public SmileFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
     }
 
     protected static class SmileSequence {
