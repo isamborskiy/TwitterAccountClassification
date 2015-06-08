@@ -1,10 +1,10 @@
 package com.samborskiy.classifier.attributes.length;
 
+import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
-import com.samborskiy.entity.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,11 @@ public class AverageWordLength extends LengthFunction {
     }
 
     @Override
+    public String getName() {
+        return "average_word_length";
+    }
+
+    @Override
     protected List<Attribute> count(List<List<String>> tweets) {
         List<Attribute> attributes = new ArrayList<>();
         double lengthOfWords = 0.;
@@ -30,12 +35,7 @@ public class AverageWordLength extends LengthFunction {
                 lengthOfWords += word.length();
             }
         }
-        attributes.add(getAttribute(lengthOfWords / count));
+        attributes.add(new Attribute(lengthOfWords / count, getName()));
         return attributes;
-    }
-
-    @Override
-    protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "average_word_length");
     }
 }

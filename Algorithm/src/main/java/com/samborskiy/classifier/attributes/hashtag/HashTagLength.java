@@ -1,10 +1,10 @@
 package com.samborskiy.classifier.attributes.hashtag;
 
+import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
-import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 
@@ -14,8 +14,13 @@ import java.util.List;
 public class HashTagLength extends HashTagFunction {
 
     public HashTagLength(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
+    }
+
+    @Override
+    public String getName() {
+        return "hash_tag_length";
     }
 
     @Override
@@ -26,11 +31,6 @@ public class HashTagLength extends HashTagFunction {
                 length += hashTag.length();
             }
         }
-        attributes.add(getAttribute(length / tweets.size()));
-    }
-
-    @Override
-    protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "hash_tag_length");
+        attributes.add(new Attribute(length / tweets.size(), getName()));
     }
 }

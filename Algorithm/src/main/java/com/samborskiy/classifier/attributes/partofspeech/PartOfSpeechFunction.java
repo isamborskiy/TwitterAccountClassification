@@ -1,12 +1,12 @@
 package com.samborskiy.classifier.attributes.partofspeech;
 
 import com.samborskiy.classifier.attributes.AttributeFunction;
+import com.samborskiy.entity.Attribute;
+import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
-import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
-import com.samborskiy.entity.Attribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import static com.samborskiy.entity.PartOfSpeech.*;
  */
 public abstract class PartOfSpeechFunction extends AttributeFunction {
 
-    protected static final List<PartOfSpeechSequence> SEQUENCES = new ArrayList<>();
+    public static final List<PartOfSpeechSequence> SEQUENCES = new ArrayList<>();
 
     static {
         SEQUENCES.add(new PartOfSpeechSequence(NOUN));
@@ -35,8 +35,8 @@ public abstract class PartOfSpeechFunction extends AttributeFunction {
     }
 
     public PartOfSpeechFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                                MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                                MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
     }
 
     @Override

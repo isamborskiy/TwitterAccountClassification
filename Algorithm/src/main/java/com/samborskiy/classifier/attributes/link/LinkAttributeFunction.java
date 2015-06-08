@@ -18,8 +18,8 @@ public abstract class LinkAttributeFunction extends AttributeFunction {
     protected static final String INSTAGRAM = "instag";
 
     public LinkAttributeFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                                 MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                                 MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
     }
 
     @Override

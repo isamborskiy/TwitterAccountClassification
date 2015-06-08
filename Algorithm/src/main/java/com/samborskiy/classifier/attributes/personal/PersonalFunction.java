@@ -17,8 +17,8 @@ public abstract class PersonalFunction extends AttributeFunction {
     protected final String[] SUFFIXES = {"ил", "ыл", "ал", "ила", "ыла", "ала"};
 
     public PersonalFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                            MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                            MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
     }
 
     protected double match(String tweet) {

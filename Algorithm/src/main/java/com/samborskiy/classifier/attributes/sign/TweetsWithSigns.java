@@ -14,8 +14,13 @@ import java.util.List;
 public class TweetsWithSigns extends SignFunction {
 
     public TweetsWithSigns(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
+    }
+
+    @Override
+    public String getName() {
+        return "tweets_with_signs";
     }
 
     @Override
@@ -29,11 +34,6 @@ public class TweetsWithSigns extends SignFunction {
                 }
             }
         }
-        attributes.add(getAttribute(count / tweets.size()));
-    }
-
-    @Override
-    protected Attribute getAttribute(double val, String... args) {
-        return new Attribute(val, "tweets_with_signs");
+        attributes.add(new Attribute(count / tweets.size(), getName()));
     }
 }

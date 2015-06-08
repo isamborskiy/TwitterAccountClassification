@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public abstract class SignFunction extends AttributeFunction {
 
-    protected static final Map<String, String> SIGNS = new HashMap<>();
+    public static final Map<String, String> SIGNS = new HashMap<>();
 
     static {
         SIGNS.put("`", "stress");
@@ -53,7 +53,7 @@ public abstract class SignFunction extends AttributeFunction {
     }
 
     public SignFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                        MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
+                        MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
+        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
     }
 }
