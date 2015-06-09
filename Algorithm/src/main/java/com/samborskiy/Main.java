@@ -1,105 +1,62 @@
 package com.samborskiy;
 
-import com.samborskiy.classifiers.ClassifierWrapper;
+import com.samborskiy.entities.Account;
 import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.functions.AccountFunction;
-import com.samborskiy.classifier.fss.FeatureSelection;
-import com.samborskiy.classifier.fss.NoFeatureSelection;
-import com.samborskiy.statistic.ConfusionMatrixTest2;
-import com.samborskiy.statistic.Statistic;
-import com.samborskiy.statistic.Test;
-import org.reflections.Reflections;
-import weka.classifiers.trees.RandomForest;
+import com.samborskiy.entity.utils.DatabaseHelper;
+import com.samborskiy.entity.utils.EntityUtil;
 
-import java.io.File;
-import java.lang.reflect.Modifier;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Created by Whiplash on 10.06.2015.
+ */
 public class Main {
 
-    private static final String TRAIN_FILE_PATH = "res/ru/config.json";
-    private static final int FOLD_COUNT = 5;
-    private static final String RELATION_NAME = "train";
+    public static void main(String[] args) {
 
-    public static void main(String[] args) throws Exception {
-        List<Statistic> statistics = getStatistics();
-        Collections.sort(statistics);
-        statistics.forEach(System.out::println);
-//        for (Statistic statistic : statistics) {
-//            System.out.format("%s %s\n", statistic.getAccuracyString(), statistic.getFMeasureString());
-//        }
     }
 
-    public static List<Statistic> getStatistics() throws Exception {
-        File configFileTrain = new File(TRAIN_FILE_PATH);
-        Configuration configuration = Configuration.build(configFileTrain);
-//        ConfusionMatrixTestAttributes test = new ConfusionMatrixTestAttributes(configuration, RELATION_NAME);
-        Test test = new ConfusionMatrixTest2(configuration, RELATION_NAME, getClassifierWrappers(), getTweetAttributes(), getFeatures());
-        return test.test(FOLD_COUNT, true);
-//        InfoGainAttributeEval eval = new InfoGainAttributeEval().buildEvaluator(null);
-//        eval.evaluateAttribute()
-    }
-
-    public static List<ClassifierWrapper> getClassifierWrappers() throws Exception {
-        List<ClassifierWrapper> wrappers = new ArrayList<>();
-//        wrappers.addAll(new RandomForestVariation().getClassifiers());
-
-//        wrappers.add(new ClassifierWrapper(new IBk()));
-//        wrappers.add(new ClassifierWrapper(new NaiveBayes()));
-//        wrappers.add(new ClassifierWrapper(new LibSVM()));
-//        wrappers.add(new ClassifierWrapper(new J48()));
-//        wrappers.add(new ClassifierWrapper(new RandomForest()));
-        RandomForest randomForest = new RandomForest();
-        randomForest.setOptions(new String[]{"-I", "104", "-K", "0"});
-        wrappers.add(new ClassifierWrapper(randomForest));
-
-        return wrappers;
-    }
-
-    public static List<FeatureSelection> getFeatures() throws InstantiationException, IllegalAccessException {
-        List<FeatureSelection> featureSelections = new ArrayList<>();
-//        featureSelections.add(new CFS_TS());
-        featureSelections.add(new NoFeatureSelection());
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.selection"));
-//        featureSelections.addAll(getFeatures("com.samborskiy.feature.extraction"));
-        return featureSelections;
-    }
-
-    private static List<FeatureSelection> getFeatures(String packageName) throws IllegalAccessException, InstantiationException {
-        return getClasses(packageName, FeatureSelection.class);
-    }
-
-    public static List<AccountFunction> getTweetAttributes() throws InstantiationException, IllegalAccessException {
-        List<AccountFunction> accountFunctions = new ArrayList<>();
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.partofspeech"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.sign"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.smile"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.length"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.grammar"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.vocabulary"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.hashtag"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.reference"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.personal"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.entity.functions.frequency"));
-        return accountFunctions;
-    }
-
-    private static List<AccountFunction> getTweetAttributes(String packageName) throws IllegalAccessException, InstantiationException {
-        return getClasses(packageName, AccountFunction.class);
-    }
-
-    private static <E> List<E> getClasses(String packageName, Class<E> type) throws IllegalAccessException, InstantiationException {
-        Reflections reflections = new Reflections(packageName);
-        Set<Class<? extends E>> allClasses = reflections.getSubTypesOf(type);
-        List<E> classes = new ArrayList<>();
-        for (Class clazz : allClasses) {
-            if (!Modifier.isAbstract(clazz.getModifiers())) {
-                classes.add((E) clazz.newInstance());
+    /**
+     * Returns list of user {@link com.samborskiy.entities.Account} get from database.
+     *
+     * @param configuration to get access to database describe in configuration
+     * @return list of user {@link com.samborskiy.entities.Account} get from database
+     */
+    public static List<Account> getAllAccounts(Configuration configuration) {
+        List<Account> instances = new ArrayList<>();
+        try (DatabaseHelper databaseHelper = new DatabaseHelper(configuration)) {
+            ResultSet cursor = databaseHelper.getAll();
+            while (cursor.next()) {
+                Account account = new Account(cursor.getInt(DatabaseHelper.ACCOUNT_TYPE),
+                        cursor.getInt(DatabaseHelper.FOLLOWERS),
+                        cursor.getInt(DatabaseHelper.FOLLOWING),
+                        cursor.getInt(DatabaseHelper.VERIFIED),
+                        cursor.getInt(DatabaseHelper.VERIFIED));
+                account.addTweets(parseRow(cursor));
+                instances.add(account);
             }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return classes;
+        return instances;
+    }
+
+    /**
+     * Returns list of parsed tweets.
+     *
+     * @param cursor cursor on table row
+     * @return list of parsed tweets
+     * @throws java.sql.SQLException trouble with database connect
+     * @throws java.io.IOException   incorrect tweets json
+     */
+    private static List<String> parseRow(ResultSet cursor) throws SQLException, IOException {
+        String[] tweets = EntityUtil.deserialize(cursor.getString(DatabaseHelper.TWEETS).getBytes(), String[].class);
+        return Arrays.asList(tweets);
     }
 }
