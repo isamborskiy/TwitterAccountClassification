@@ -1,6 +1,7 @@
 package com.samborskiy.classifier.attributes.link;
 
 import com.samborskiy.classifier.attributes.AttributeFunction;
+import com.samborskiy.entity.Account;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
@@ -18,9 +19,9 @@ public abstract class LinkAttributeFunction extends AttributeFunction {
     protected static final String INSTAGRAM = "instag";
 
     @Override
-    public List<Attribute> apply(List<String> tweets) {
+    public List<Attribute> apply(Account account) {
         List<Attribute> attributes = new ArrayList<>();
-        apply(attributes, tweets);
+        apply(attributes, account.getTweets());
         return attributes;
     }
 

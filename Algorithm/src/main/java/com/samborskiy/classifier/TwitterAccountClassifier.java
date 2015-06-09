@@ -1,8 +1,18 @@
 package com.samborskiy.classifier;
 
 import com.samborskiy.classifier.attributes.AttributeFunction;
+import com.samborskiy.classifier.attributes.partofspeech.PartOfSpeechFunction;
+import com.samborskiy.classifier.attributes.partofspeech.PartOfSpeechPerAccount;
+import com.samborskiy.classifier.attributes.partofspeech.ParticlePerAccount;
+import com.samborskiy.classifier.attributes.partofspeech.TweetsWithPartOfSpeech;
+import com.samborskiy.classifier.attributes.sign.*;
+import com.samborskiy.classifier.attributes.smile.*;
+import com.samborskiy.classifier.entities.sequences.PartOfSpeechSequence;
+import com.samborskiy.classifier.entities.sequences.SignSequence;
+import com.samborskiy.classifier.entities.sequences.SmileSequence;
 import com.samborskiy.classifier.fss.FeatureSelection;
 import com.samborskiy.classifier.fss.InformationFeatureSelection;
+import com.samborskiy.classifier.misc.ClassifierProperty;
 import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
@@ -28,10 +38,10 @@ import java.util.stream.Collectors;
 
 public class TwitterAccountClassifier {
 
-    private FrequencyAnalyzer frequencyAnalyzer = FrequencyAnalyzer.get();
-    private GrammarAnalyzer grammarAnalyzer = GrammarAnalyzer.get();
-    private MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
-    private TweetParser tweetParser = TweetParser.get();
+    private FrequencyAnalyzer frequencyAnalyzer = ClassifierProperty.getFrequencyAnalyzer();
+    private GrammarAnalyzer grammarAnalyzer = ClassifierProperty.getGrammarAnalyzer();
+    private MorphologicalAnalyzer morphologicalAnalyzer = ClassifierProperty.getMorphologicalAnalyzer();
+    private TweetParser tweetParser = ClassifierProperty.getTweetParser();
 
     private Classifier classifier = new RandomForest();
 
@@ -115,19 +125,12 @@ public class TwitterAccountClassifier {
 
     private void setAttributes(Account account, List<AttributeFunction> functions) {
         for (AttributeFunction function : functions) {
-            account.addAttrs(function.apply(account.getTweets()));
-            account.addAttr(new Attribute(account.getFollowers(), "follower_number"));
-            account.addAttr(new Attribute(account.getFollowing(), "following_number"));
-            account.addAttr(new Attribute(account.getVerified(), "is_verified"));
-            account.addAttr(new Attribute(account.getFavourite(), "favourite_number"));
+            account.addAll(function.apply(account));
         }
     }
 
     private List<AttributeFunction> getAttributeFunctions() throws ReflectiveOperationException {
         List<AttributeFunction> accountFunctions = new ArrayList<>();
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.partofspeech"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.sign"));
-        accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.smile"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.length"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.grammar"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.vocabulary"));
@@ -136,6 +139,20 @@ public class TwitterAccountClassifier {
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.personal"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.frequency"));
         accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.link"));
+        accountFunctions.addAll(getTweetAttributes("com.samborskiy.classifier.attributes.meta"));
+        accountFunctions.add(new ParticlePerAccount());
+        accountFunctions.addAll(PartOfSpeechFunction.SEQUENCES.stream().map(PartOfSpeechPerAccount::new).collect(Collectors.toList()));
+        accountFunctions.addAll(PartOfSpeechFunction.SEQUENCES.stream().map(TweetsWithPartOfSpeech::new).collect(Collectors.toList()));
+        accountFunctions.add(new AvrSignsNumber());
+        accountFunctions.add(new SignLatitude());
+        accountFunctions.add(new SignsPerAccount());
+        accountFunctions.add(new TweetsWithSigns());
+        accountFunctions.addAll(SignFunction.SIGNS.stream().map(SignPerAccount::new).collect(Collectors.toList()));
+        accountFunctions.addAll(SignFunction.SIGNS.stream().map(TweetsWithSign::new).collect(Collectors.toList()));
+        accountFunctions.add(new DifferentSmiles());
+        accountFunctions.add(new TweetsWithSmiles());
+        accountFunctions.addAll(SmileFunction.SMILES.stream().map(SmilePerAccount::new).collect(Collectors.toList()));
+        accountFunctions.addAll(SmileFunction.SMILES.stream().map(TweetsWithSmile::new).collect(Collectors.toList()));
         return accountFunctions;
     }
 
@@ -149,7 +166,7 @@ public class TwitterAccountClassifier {
         List<E> classes = new ArrayList<>();
         for (Class clazz : allClasses) {
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                classes.add((E) clazz.getConstructors()[0].newInstance(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser));
+                classes.add((E) clazz.newInstance());
             }
         }
         return classes;

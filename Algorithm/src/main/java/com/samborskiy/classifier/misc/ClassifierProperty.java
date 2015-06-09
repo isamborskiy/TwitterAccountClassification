@@ -6,9 +6,10 @@ import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 import org.reflections.Reflections;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class ClassifierProperty {
     private static GrammarAnalyzer grammarAnalyzer = GrammarAnalyzer.get();
     private static MorphologicalAnalyzer morphologicalAnalyzer = MorphologicalAnalyzer.get();
     private static TweetParser tweetParser = TweetParser.get();
+    private static List<String> attributes;
     private static boolean isDebug = false;
 
     public static final String DEFAULT_FREQUENCY_ANALYZER = "com.samborskiy.entity.analyzers.frequency.FrequencyDictionary";
@@ -33,6 +35,7 @@ public class ClassifierProperty {
             grammarAnalyzer = getClass(properties.getProperty("grammar_analyzer", DEFAULT_GRAMMAR_ANALYZER), GrammarAnalyzer.class);
             morphologicalAnalyzer = getClass(properties.getProperty("morphological_analyzer", DEFAULT_MORPHOLOGICAL_ANALYZER), MorphologicalAnalyzer.class);
             tweetParser = getClass(properties.getProperty("sentence_analyzer", DEFAULT_SENTENCE_ANALYZER), TweetParser.class);
+            attributes = getAttributes(properties.getProperty("random_forest_attributes", null));
             isDebug = Boolean.parseBoolean(properties.getProperty("debug", "false"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,6 +45,21 @@ public class ClassifierProperty {
     private ClassifierProperty() {
     }
 
+    private static List<String> getAttributes(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            List<String> attributes = new ArrayList<>();
+            String attribute;
+            while ((attribute = reader.readLine()) != null) {
+                attributes.add(attribute);
+            }
+            return attributes;
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
     private static <E> E getClass(String packageName, Class<E> type) throws ReflectiveOperationException {
         Reflections reflections = new Reflections(packageName);
@@ -58,39 +76,23 @@ public class ClassifierProperty {
         return frequencyAnalyzer;
     }
 
-    public static void setFrequencyAnalyzer(FrequencyAnalyzer frequencyAnalyzer) {
-        ClassifierProperty.frequencyAnalyzer = frequencyAnalyzer;
-    }
-
     public static GrammarAnalyzer getGrammarAnalyzer() {
         return grammarAnalyzer;
-    }
-
-    public static void setGrammarAnalyzer(GrammarAnalyzer grammarAnalyzer) {
-        ClassifierProperty.grammarAnalyzer = grammarAnalyzer;
     }
 
     public static MorphologicalAnalyzer getMorphologicalAnalyzer() {
         return morphologicalAnalyzer;
     }
 
-    public static void setMorphologicalAnalyzer(MorphologicalAnalyzer morphologicalAnalyzer) {
-        ClassifierProperty.morphologicalAnalyzer = morphologicalAnalyzer;
-    }
-
     public static TweetParser getTweetParser() {
         return tweetParser;
     }
 
-    public static void setTweetParser(TweetParser tweetParser) {
-        ClassifierProperty.tweetParser = tweetParser;
+    public static List<String> getAttributes() {
+        return attributes;
     }
 
     public static boolean isDebug() {
         return isDebug;
-    }
-
-    public static void setDebug(boolean isDebug) {
-        ClassifierProperty.isDebug = isDebug;
     }
 }
