@@ -14,11 +14,6 @@ import java.util.List;
  */
 public class UnknownWordsPerAccount extends AttributeFunction {
 
-    public UnknownWordsPerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                                  MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "unknown_word_per_tweet";

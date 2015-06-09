@@ -1,5 +1,6 @@
 package com.samborskiy.classifier.attributes;
 
+import com.samborskiy.classifier.misc.ClassifierProperty;
 import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
@@ -17,20 +18,10 @@ public abstract class AttributeFunction implements Function<List<String>, List<A
 
     private static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
-    protected FrequencyAnalyzer frequencyAnalyzer;
-    protected GrammarAnalyzer grammarAnalyzer;
-    protected MorphologicalAnalyzer morphologicalAnalyzer;
-    protected TweetParser tweetParser;
-    protected String[] args;
-
-    public AttributeFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                             MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        this.frequencyAnalyzer = frequencyAnalyzer;
-        this.grammarAnalyzer = grammarAnalyzer;
-        this.morphologicalAnalyzer = morphologicalAnalyzer;
-        this.tweetParser = tweetParser;
-        this.args = args;
-    }
+    protected static FrequencyAnalyzer frequencyAnalyzer = ClassifierProperty.getFrequencyAnalyzer();
+    protected static GrammarAnalyzer grammarAnalyzer = ClassifierProperty.getGrammarAnalyzer();
+    protected static MorphologicalAnalyzer morphologicalAnalyzer = ClassifierProperty.getMorphologicalAnalyzer();
+    protected static TweetParser tweetParser = ClassifierProperty.getTweetParser();
 
     public abstract String getName();
 

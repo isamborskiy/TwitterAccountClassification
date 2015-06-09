@@ -18,7 +18,7 @@ public abstract class Sequence<E> {
 
     public abstract int count(String tweet);
 
-    public boolean match(String tweet) {
+    public boolean contains(String tweet) {
         return count(tweet) > 0;
     }
 
@@ -26,5 +26,4 @@ public abstract class Sequence<E> {
     public String toString() {
         return name;
     }
-
 }

@@ -6,6 +6,7 @@ import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by whiplash on 08.06.15.
@@ -24,31 +25,20 @@ public class PartOfSpeechSequence extends Sequence<PartOfSpeech> {
         for (String word : parsedTweet) {
             PartOfSpeech partOfSpeech = morphologicalAnalyzer.get(word);
             if (partOfSpeech != null) {
-
+                partsOfSpeech.add(partOfSpeech);
             }
         }
-
-        return 0;
-    }
-
-    public boolean match(List<PartOfSpeech> tweet, int position) {
-        if (tweet.size() - position < sequence.size()) {
-            return false;
+        int count = 0;
+        for (int i = 0; i < partsOfSpeech.size() - sequence.size(); i++) {
+            List<PartOfSpeech> subSequence = partsOfSpeech.subList(i, i + sequence.size());
+            count += sequence.equals(subSequence) ? 1 : 0;
         }
-        for (int i = position; i < position + sequence.size(); i++) {
-            if (!sequence.get(i - position).equals(tweet.get(i))) {
-                return false;
-            }
-        }
-        return true;
+        return count;
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(sequence.get(0).toString());
-        for (int i = 1; i < sequence.size(); i++) {
-            builder.append("_").append(sequence.get(i).toString());
-        }
-        return builder.toString().toLowerCase();
+        return sequence.stream().map(Enum::toString)
+                .collect(Collectors.joining("_"));
     }
 }

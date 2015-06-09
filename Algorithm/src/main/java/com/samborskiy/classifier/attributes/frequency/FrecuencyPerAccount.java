@@ -2,19 +2,10 @@ package com.samborskiy.classifier.attributes.frequency;
 
 import com.samborskiy.classifier.attributes.AttributeFunction;
 import com.samborskiy.entity.Attribute;
-import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
-import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
-import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
-import com.samborskiy.entity.analyzers.sentence.TweetParser;
 
 import java.util.List;
 
 public class FrecuencyPerAccount extends AttributeFunction {
-
-    public FrecuencyPerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                               MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
 
     @Override
     public String getName() {
