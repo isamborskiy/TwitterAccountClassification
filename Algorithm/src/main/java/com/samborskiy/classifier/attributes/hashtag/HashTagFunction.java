@@ -16,11 +16,6 @@ import java.util.regex.Pattern;
  */
 public abstract class HashTagFunction extends AttributeFunction {
 
-    public HashTagFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     protected List<String> getHashTags(String tweet) {
         Pattern pattern = Pattern.compile("#(\\w)+");
         Matcher matcher = pattern.matcher(tweet);

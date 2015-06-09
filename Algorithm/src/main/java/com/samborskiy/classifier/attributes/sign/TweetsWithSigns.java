@@ -1,5 +1,6 @@
 package com.samborskiy.classifier.attributes.sign;
 
+import com.samborskiy.classifier.entities.sequences.SignSequence;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
@@ -13,11 +14,6 @@ import java.util.List;
  */
 public class TweetsWithSigns extends SignFunction {
 
-    public TweetsWithSigns(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                           MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "tweets_with_signs";
@@ -27,8 +23,8 @@ public class TweetsWithSigns extends SignFunction {
     protected void apply(List<Attribute> attributes, List<String> tweets) {
         double count = 0;
         for (String tweet : tweets) {
-            for (String sign : SIGNS.keySet()) {
-                if (tweet.contains(sign)) {
+            for (SignSequence sequence : SIGNS) {
+                if (sequence.contains(tweet)) {
                     count++;
                     break;
                 }

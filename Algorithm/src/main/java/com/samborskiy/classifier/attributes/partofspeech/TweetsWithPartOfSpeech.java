@@ -1,5 +1,6 @@
 package com.samborskiy.classifier.attributes.partofspeech;
 
+import com.samborskiy.classifier.entities.sequences.PartOfSpeechSequence;
 import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
@@ -15,31 +16,21 @@ import java.util.List;
  */
 public class TweetsWithPartOfSpeech extends PartOfSpeechFunction {
 
-    public TweetsWithPartOfSpeech(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                                  MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
+    public TweetsWithPartOfSpeech(PartOfSpeechSequence sequence) {
+        super(sequence);
     }
 
     @Override
     public String getName() {
-        return String.format("tweets_with_%s", args);
+        return String.format("tweets_with_%s", sequence.toString());
     }
 
     @Override
-    protected List<Attribute> count(List<List<PartOfSpeech>> partsOfSpeechList) {
-        List<Attribute> attrs = new ArrayList<>();
-        for (PartOfSpeechSequence sequence : SEQUENCES) {
-            double count = 0;
-            for (List<PartOfSpeech> partsOfSpeech : partsOfSpeechList) {
-                for (int i = 0; i < partsOfSpeech.size(); i++) {
-                    if (sequence.match(partsOfSpeech, i)) {
-                        count++;
-                        break;
-                    }
-                }
-            }
-            attrs.add(new Attribute(count / partsOfSpeechList.size(), getName()));
+    protected void apply(List<Attribute> attributes, List<String> tweets) {
+        double count = 0;
+        for (String tweet : tweets) {
+            count += sequence.contains(tweet) ? 1 : 0;
         }
-        return attrs;
+        attributes.add(new Attribute(count / tweets.size(), getName()));
     }
 }

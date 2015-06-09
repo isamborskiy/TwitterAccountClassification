@@ -1,5 +1,6 @@
 package com.samborskiy.classifier.attributes.sign;
 
+import com.samborskiy.classifier.entities.sequences.SignSequence;
 import com.samborskiy.entity.Attribute;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
@@ -15,11 +16,6 @@ import java.util.List;
  */
 public class SignLatitude extends SignFunction {
 
-    public SignLatitude(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                        MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "sign_latitude";
@@ -30,10 +26,8 @@ public class SignLatitude extends SignFunction {
         double max = 0;
         for (String tweet : tweets) {
             double count = 0.;
-            for (String sign : SIGNS.keySet()) {
-                if (tweet.contains(sign)) {
-                    count++;
-                }
+            for (SignSequence sequence : SIGNS) {
+                count += sequence.contains(tweet) ? 1 : 0;
             }
             max = Math.max(max, count);
         }

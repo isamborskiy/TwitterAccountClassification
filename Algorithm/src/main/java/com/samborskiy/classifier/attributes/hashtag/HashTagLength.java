@@ -13,11 +13,6 @@ import java.util.List;
  */
 public class HashTagLength extends HashTagFunction {
 
-    public HashTagLength(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "hash_tag_length";

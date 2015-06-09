@@ -15,11 +15,6 @@ import java.util.stream.Collectors;
  */
 public abstract class LengthFunction extends AttributeFunction {
 
-    public LengthFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                          MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public List<Attribute> apply(List<String> tweets) {
         return count(tweets.stream().map(tweetParser::parse).collect(Collectors.toList()));

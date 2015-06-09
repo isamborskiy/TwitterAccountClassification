@@ -13,11 +13,6 @@ import java.util.List;
  */
 public class PersonalPerAccount extends PersonalFunction {
 
-    public PersonalPerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                              MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
-    }
-
     @Override
     public String getName() {
         return "personal_words_per_tweet";

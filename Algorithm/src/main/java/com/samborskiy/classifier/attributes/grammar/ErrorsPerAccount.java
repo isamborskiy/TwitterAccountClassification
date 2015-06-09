@@ -14,11 +14,6 @@ import java.util.List;
  */
 public class ErrorsPerAccount extends AttributeFunction {
 
-    public ErrorsPerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                            MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "errors_per_tweet";

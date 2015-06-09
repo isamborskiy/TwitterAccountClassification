@@ -16,11 +16,6 @@ import java.util.regex.Pattern;
  */
 public abstract class ReferenceFunction extends AttributeFunction {
 
-    public ReferenceFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                             MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     protected List<String> getReferences(String tweet) {
         Pattern pattern = Pattern.compile("@(\\w)+");
         Matcher matcher = pattern.matcher(tweet);

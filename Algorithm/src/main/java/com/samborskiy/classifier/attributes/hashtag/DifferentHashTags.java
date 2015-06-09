@@ -16,11 +16,6 @@ import java.util.stream.Collectors;
  */
 public class DifferentHashTags extends HashTagFunction {
 
-    public DifferentHashTags(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                             MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "different_hash_tags_per_tweet";

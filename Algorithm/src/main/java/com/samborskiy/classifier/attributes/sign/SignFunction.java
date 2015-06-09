@@ -1,12 +1,15 @@
 package com.samborskiy.classifier.attributes.sign;
 
 import com.samborskiy.classifier.attributes.AttributeFunction;
+import com.samborskiy.classifier.entities.sequences.SignSequence;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 import com.samborskiy.entity.analyzers.sentence.TweetParser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,46 +17,41 @@ import java.util.Map;
  */
 public abstract class SignFunction extends AttributeFunction {
 
-    public static final Map<String, String> SIGNS = new HashMap<>();
+    public static final List<SignSequence> SIGNS = new ArrayList<>();
 
     static {
-        SIGNS.put("`", "stress");
-        SIGNS.put("~", "tilde");
-        SIGNS.put("!", "exclamation_point");
-        SIGNS.put("@", "at");
-        SIGNS.put("#", "hash");
-        SIGNS.put("$", "dollar_sign");
-        SIGNS.put("%", "percent");
-        SIGNS.put("^", "exponent");
-        SIGNS.put("&", "ampersand");
-        SIGNS.put("*", "multiply");
-        SIGNS.put("(", "opening_parenthesis");
-        SIGNS.put(")", "closing_parenthesis");
-        SIGNS.put("-", "minus");
-        SIGNS.put("_", "underline");
-        SIGNS.put("+", "plus");
-        SIGNS.put("=", "equals");
-        SIGNS.put("[", "opening_bracket");
-        SIGNS.put("{", "opening_brace");
-        SIGNS.put("]", "closing_bracket");
-        SIGNS.put("}", "closing_brace");
-        SIGNS.put("\\", "backslash");
-        SIGNS.put("|", "vertical_slash");
-        SIGNS.put(";", "semicolon");
-        SIGNS.put(":", "colon");
-        SIGNS.put("'", "apostrophe");
-        SIGNS.put("\"", "quote");
-        SIGNS.put(",", "comma");
-        SIGNS.put("<", "less_than");
-        SIGNS.put(".", "point");
-        SIGNS.put(">", "great_than");
-        SIGNS.put("/", "divide");
-        SIGNS.put("?", "question_mark");
-        SIGNS.put("№", "number_sign");
-    }
-
-    public SignFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                        MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
+        SIGNS.add(new SignSequence("stress", "`"));
+        SIGNS.add(new SignSequence("tilde", "~"));
+        SIGNS.add(new SignSequence("exclamation_point", "!"));
+        SIGNS.add(new SignSequence("at", "@"));
+        SIGNS.add(new SignSequence("hash", "#"));
+        SIGNS.add(new SignSequence("dollar_sign", "$"));
+        SIGNS.add(new SignSequence("percent", "%"));
+        SIGNS.add(new SignSequence("exponent", "^"));
+        SIGNS.add(new SignSequence("ampersand", "&"));
+        SIGNS.add(new SignSequence("multiply", "*"));
+        SIGNS.add(new SignSequence("opening_parenthesis", "("));
+        SIGNS.add(new SignSequence("closing_parenthesis", ")"));
+        SIGNS.add(new SignSequence("minus", "-"));
+        SIGNS.add(new SignSequence("underline", "_"));
+        SIGNS.add(new SignSequence("plus", "+"));
+        SIGNS.add(new SignSequence("equals", "="));
+        SIGNS.add(new SignSequence("opening_bracket", "["));
+        SIGNS.add(new SignSequence("opening_brace", "{"));
+        SIGNS.add(new SignSequence("closing_bracket", "]"));
+        SIGNS.add(new SignSequence("closing_brace", "}"));
+        SIGNS.add(new SignSequence("backslash", "\\"));
+        SIGNS.add(new SignSequence("vertical_slash", "|"));
+        SIGNS.add(new SignSequence("semicolon", ";"));
+        SIGNS.add(new SignSequence("colon", ":"));
+        SIGNS.add(new SignSequence("apostrophe", "'"));
+        SIGNS.add(new SignSequence("quote", "\""));
+        SIGNS.add(new SignSequence("comma", ","));
+        SIGNS.add(new SignSequence("less_than", "<"));
+        SIGNS.add(new SignSequence("point", "."));
+        SIGNS.add(new SignSequence("great_than", ">"));
+        SIGNS.add(new SignSequence("divide", "/"));
+        SIGNS.add(new SignSequence("question_mark", "?"));
+        SIGNS.add(new SignSequence("number_sign", "№"));
     }
 }

@@ -16,11 +16,6 @@ public class ParticlePerAccount extends AttributeFunction {
 
     private static final String NEGATIVE_PARTICLE = "не";
 
-    public ParticlePerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                              MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "particle_ne_per_tweet";

@@ -16,11 +16,6 @@ import java.util.stream.Collectors;
  */
 public class DifferentReferences extends ReferenceFunction {
 
-    public DifferentReferences(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                               MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "different_references_per_tweet";

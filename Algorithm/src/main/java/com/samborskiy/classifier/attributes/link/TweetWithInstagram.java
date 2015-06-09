@@ -13,11 +13,6 @@ import java.util.List;
  */
 public class TweetWithInstagram extends LinkAttributeFunction {
 
-    public TweetWithInstagram(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                              MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "tweets_with_instagram";

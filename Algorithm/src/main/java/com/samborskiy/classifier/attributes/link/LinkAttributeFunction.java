@@ -17,11 +17,6 @@ public abstract class LinkAttributeFunction extends AttributeFunction {
     protected static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     protected static final String INSTAGRAM = "instag";
 
-    public LinkAttributeFunction(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                                 MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public List<Attribute> apply(List<String> tweets) {
         List<Attribute> attributes = new ArrayList<>();

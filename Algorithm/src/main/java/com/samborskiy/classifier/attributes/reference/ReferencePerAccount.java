@@ -13,11 +13,6 @@ import java.util.List;
  */
 public class ReferencePerAccount extends ReferenceFunction {
 
-    public ReferencePerAccount(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                               MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "reference_per_tweet";

@@ -13,11 +13,6 @@ import java.util.List;
  */
 public class TweetWithLink extends LinkAttributeFunction {
 
-    public TweetWithLink(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                         MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser, String... args) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser, args);
-    }
-
     @Override
     public String getName() {
         return "tweets_with_urls";

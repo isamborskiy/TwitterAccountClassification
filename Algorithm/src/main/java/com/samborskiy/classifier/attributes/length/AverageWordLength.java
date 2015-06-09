@@ -14,11 +14,6 @@ import java.util.List;
  */
 public class AverageWordLength extends LengthFunction {
 
-    public AverageWordLength(FrequencyAnalyzer frequencyAnalyzer, GrammarAnalyzer grammarAnalyzer,
-                             MorphologicalAnalyzer morphologicalAnalyzer, TweetParser tweetParser) {
-        super(frequencyAnalyzer, grammarAnalyzer, morphologicalAnalyzer, tweetParser);
-    }
-
     @Override
     public String getName() {
         return "average_word_length";
