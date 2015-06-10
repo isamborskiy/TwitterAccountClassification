@@ -1,6 +1,6 @@
-package com.samborskiy.entity.utils;
+package com.samborskiy.extraction.utils;
 
-import com.samborskiy.entity.Configuration;
+import com.samborskiy.extraction.entity.Configuration;
 import twitter4j.User;
 
 import java.io.File;

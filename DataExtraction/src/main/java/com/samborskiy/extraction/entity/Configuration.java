@@ -1,9 +1,9 @@
-package com.samborskiy.entity;
+package com.samborskiy.extraction.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.samborskiy.entity.utils.EntityUtil;
+import com.samborskiy.extraction.utils.EntityUtil;
 
 import java.io.File;
 import java.io.IOException;

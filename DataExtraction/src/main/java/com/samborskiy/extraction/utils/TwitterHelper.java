@@ -1,7 +1,7 @@
-package com.samborskiy.entity.utils;
+package com.samborskiy.extraction.utils;
 
-import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.Language;
+import com.samborskiy.extraction.entity.Configuration;
+import com.samborskiy.extraction.entity.Language;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;

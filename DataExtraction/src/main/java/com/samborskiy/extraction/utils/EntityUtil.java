@@ -1,4 +1,4 @@
-package com.samborskiy.entity.utils;
+package com.samborskiy.extraction.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

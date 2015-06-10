@@ -1,4 +1,4 @@
-package com.samborskiy.entity;
+package com.samborskiy.extraction.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

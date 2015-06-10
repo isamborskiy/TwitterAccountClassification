@@ -1,6 +1,6 @@
 package com.samborskiy.extraction.requests;
 
-import com.samborskiy.entity.utils.TwitterHelper;
+import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.TwitterException;
 
 /**

@@ -1,9 +1,9 @@
 package com.samborskiy.extraction;
 
-import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.Type;
-import com.samborskiy.entity.utils.DatabaseHelper;
-import com.samborskiy.entity.utils.TwitterHelper;
+import com.samborskiy.extraction.entity.Configuration;
+import com.samborskiy.extraction.entity.Type;
+import com.samborskiy.extraction.utils.DatabaseHelper;
+import com.samborskiy.extraction.utils.TwitterHelper;
 import com.samborskiy.extraction.requests.FindUsersRequest;
 import com.samborskiy.extraction.requests.TweetsRequest;
 import com.samborskiy.extraction.requests.UserRequest;

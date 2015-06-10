@@ -1,9 +1,9 @@
 package com.samborskiy;
 
 import com.samborskiy.entities.Account;
-import com.samborskiy.entity.Configuration;
-import com.samborskiy.entity.utils.DatabaseHelper;
-import com.samborskiy.entity.utils.EntityUtil;
+import com.samborskiy.extraction.entity.Configuration;
+import com.samborskiy.extraction.utils.DatabaseHelper;
+import com.samborskiy.extraction.utils.EntityUtil;
 
 import java.io.IOException;
 import java.sql.ResultSet;
