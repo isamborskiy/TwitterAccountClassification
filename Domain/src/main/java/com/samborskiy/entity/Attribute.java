@@ -1,7 +1,7 @@
 package com.samborskiy.entity;
 
 /**
- * Created by Whiplash on 23.04.2015.
+ * Structure for holding information about attribute (name and value).
  */
 public class Attribute {
 

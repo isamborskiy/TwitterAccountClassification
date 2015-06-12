@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Whiplash on 21.04.2015.
+ * Structure for handling information about Twitter account.
  */
 public class Account extends ArrayList<Attribute> {
 
@@ -60,6 +60,12 @@ public class Account extends ArrayList<Attribute> {
         return favourite;
     }
 
+    /**
+     * Converts account structure to instance.
+     *
+     * @param attrs list of attributes to add them into instance
+     * @return built instance
+     */
     public Instance toInstance(List<weka.core.Attribute> attrs) {
         Instance instance = new DenseInstance(attrs.size());
         Attribute classAttr = new Attribute(classId, "class");

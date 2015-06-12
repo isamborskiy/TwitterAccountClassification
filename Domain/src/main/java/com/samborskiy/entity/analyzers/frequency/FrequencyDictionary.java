@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * Created by Whiplash on 03.05.2015.
+ * Frequency analyzer based on dictionary.
  */
 public class FrequencyDictionary extends FrequencyAnalyzer {
 

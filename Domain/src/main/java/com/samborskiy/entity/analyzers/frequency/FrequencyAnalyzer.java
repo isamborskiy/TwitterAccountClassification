@@ -6,18 +6,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Whiplash on 03.05.2015.
+ * Analyzer of word frequency.
+ *
+ * @author Whiplash
  */
 public abstract class FrequencyAnalyzer {
 
     private static final FrequencyAnalyzer analyzer = new FrequencyDictionary();
 
+    /**
+     * Returns frequency of word.
+     *
+     * @param word word for which it will conduct research frequency
+     * @return frequency of word
+     */
     public abstract double getFrequency(String word);
 
     public static FrequencyAnalyzer get() {
         return analyzer;
     }
 
+    /**
+     * Structure for holding word frequency (and part of speech if it possible).
+     */
     public static class WordFrequency {
 
         private static final Map<String, PartOfSpeech> abbreviateToClass = new HashMap<>();

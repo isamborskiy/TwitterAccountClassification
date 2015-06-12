@@ -1,7 +1,9 @@
 package com.samborskiy.entity.sequences;
 
 /**
- * Created by whiplash on 08.06.15.
+ * Sequence of smiles.
+ *
+ * @author Whiplash
  */
 public class SmileSequence extends Sequence<String> {
 

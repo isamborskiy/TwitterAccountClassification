@@ -1,8 +1,10 @@
 package com.samborskiy.entity;
 
 /**
-* Created by Whiplash on 04.06.2015.
-*/
+ * Parts of speech that can be used.
+ *
+ * @author Whiplash
+ */
 public enum PartOfSpeech {
     ADJECTIVE,
     COMMUNION,

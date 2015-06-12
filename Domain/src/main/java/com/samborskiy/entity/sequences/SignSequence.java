@@ -1,7 +1,9 @@
 package com.samborskiy.entity.sequences;
 
 /**
- * Created by Whiplash on 09.06.2015.
+ * Sequence of signs.
+ *
+ * @author Whiplash
  */
 public class SignSequence extends Sequence<String> {
 

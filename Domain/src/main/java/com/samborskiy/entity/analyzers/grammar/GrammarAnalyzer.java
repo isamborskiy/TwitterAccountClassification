@@ -3,7 +3,9 @@ package com.samborskiy.entity.analyzers.grammar;
 import java.io.IOException;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Analyzer of grammar.
+ *
+ * @author Whiplash
  */
 public abstract class GrammarAnalyzer {
 
@@ -13,5 +15,11 @@ public abstract class GrammarAnalyzer {
         return analyzer;
     }
 
+    /**
+     * Checks grammar error of text.
+     *
+     * @param text text to be examined for errors
+     * @return number of errors
+     */
     public abstract int check(String text) throws IOException;
 }

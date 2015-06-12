@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Created by Whiplash on 27.04.2015.
+ * Sentence analyzer based on signs.
+ *
+ * @author Whiplash
  */
 public class SimpleTweetParser extends TweetParser {
 

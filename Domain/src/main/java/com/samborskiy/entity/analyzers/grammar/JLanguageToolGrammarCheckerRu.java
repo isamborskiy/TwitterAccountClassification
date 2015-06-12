@@ -6,7 +6,10 @@ import org.languagetool.language.Russian;
 import java.io.IOException;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Grammar analyzer based on LanguageTool.
+ *
+ * @author Whiplash
+ * @see <a href="https://languagetool.org/">LanguageTool</a>
  */
 public class JLanguageToolGrammarCheckerRu extends GrammarAnalyzer {
 

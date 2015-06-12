@@ -2,17 +2,14 @@ package com.samborskiy.entity.analyzers.morphological;
 
 import com.samborskiy.entity.PartOfSpeech;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.samborskiy.entity.PartOfSpeech.*;
 
 /**
- * Created by Whiplash on 25.04.2015.
+ * Morphological analyzer based on word endings.
+ *
+ * @author Whiplash
  */
 public class SimpleMorphologicalAnalyzer extends MorphologicalAnalyzer {
 

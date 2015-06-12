@@ -6,10 +6,11 @@ import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Created by whiplash on 08.06.15.
+ * Sequence of parts of speech.
+ *
+ * @author Whiplash
  */
 public class PartOfSpeechSequence extends Sequence<PartOfSpeech> {
 

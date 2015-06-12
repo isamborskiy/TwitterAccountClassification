@@ -4,7 +4,9 @@ import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.frequency.FrequencyDictionary;
 
 /**
- * Created by Whiplash on 25.04.2015.
+ * Morphological analyzer based on frequency dictionary.
+ *
+ * @author Whiplash
  */
 public class FrequencyMorphologicalAnalyzer extends MorphologicalAnalyzer {
 

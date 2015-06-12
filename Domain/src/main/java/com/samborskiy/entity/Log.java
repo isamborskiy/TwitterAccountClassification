@@ -1,8 +1,5 @@
 package com.samborskiy.entity;
 
-/**
- * Created by whiplash on 08.06.15.
- */
 public class Log {
 
     private Log() {
