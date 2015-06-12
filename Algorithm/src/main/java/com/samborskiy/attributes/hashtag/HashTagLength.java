@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 29.04.2015.
+ * Frequency of use of references per tweet.
+ *
+ * @author Whiplash
  */
 public class HashTagLength extends HashTagFunction {
 

@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Number of different words used in tweets, divided by the total number of tweets the user.
+ *
+ * @author Whiplash
  */
 public class RichnessOfVocabulary extends AttributeFunction {
 

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Whiplash on 26.04.2015.
+ * Function based on using smiles in account.
+ *
+ * @author Whiplash
  */
 public abstract class SmileFunction extends AttributeFunction {
 

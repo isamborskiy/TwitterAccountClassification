@@ -5,6 +5,11 @@ import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 
+/**
+ * Average frequency of words in a tweet, divided by the number per tweet.
+ *
+ * @author Whiplash
+ */
 public class FrecuencyPerAccount extends AttributeFunction {
 
     @Override

@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Whiplash on 29.04.2015.
+ * Frequency of use of different hashtags per tweet.
+ *
+ * @author Whiplash
  */
 public class DifferentHashTags extends HashTagFunction {
 

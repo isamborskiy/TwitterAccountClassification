@@ -7,7 +7,9 @@ import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.ConsistencySubsetEval;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Consistency feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class Cons_SFS extends FeatureSelection {
 

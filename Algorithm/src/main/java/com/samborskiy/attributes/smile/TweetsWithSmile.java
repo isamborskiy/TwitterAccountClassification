@@ -1,12 +1,14 @@
 package com.samborskiy.attributes.smile;
 
-import com.samborskiy.entity.sequences.SmileSequence;
 import com.samborskiy.entity.Attribute;
+import com.samborskiy.entity.sequences.SmileSequence;
 
 import java.util.List;
 
 /**
- * Created by Whiplash on 27.04.2015.
+ * Frequency of tweet with smiles per account.
+ *
+ * @author Whiplash
  */
 public class TweetsWithSmile extends SmileFunction {
 

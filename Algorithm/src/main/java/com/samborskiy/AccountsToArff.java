@@ -10,11 +10,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+/**
+ * Util to generates arff file using list of {@link com.samborskiy.entity.Account accounts}.
+ *
+ * @author Whiplash
+ */
 class AccountsToArff {
 
     private AccountsToArff() {
     }
 
+    /**
+     * Generates arff file from list of accounts.
+     *
+     * @param types        types of accounts (eg. {0 1 2})
+     * @param accounts     data which will be written into file
+     * @param relationName name of relation (also future file name)
+     * @throws FileNotFoundException if file cannot be created
+     */
     public static void write(Collection<Integer> types, List<Account> accounts, String relationName) throws FileNotFoundException {
         if (accounts == null || accounts.isEmpty()) {
             throw new IllegalArgumentException("data can't be null or empty");

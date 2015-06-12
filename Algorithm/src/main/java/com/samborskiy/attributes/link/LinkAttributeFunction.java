@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Function based on the links (urls).
+ *
+ * @author Whiplash
+ */
 public abstract class LinkAttributeFunction extends AttributeFunction {
 
     protected static final String URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";

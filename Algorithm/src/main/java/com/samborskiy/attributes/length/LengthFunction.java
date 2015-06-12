@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by Whiplash on 27.04.2015.
+ * Function based on the length of word and tweet.
+ *
+ * @author Whiplash
  */
 public abstract class LengthFunction extends AttributeFunction {
 

@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 04.06.2015.
+ * Frequency of instagram links per tweet.
+ *
+ * @author Whiplash
  */
 public class InstagramPerTweet extends LinkAttributeFunction {
 

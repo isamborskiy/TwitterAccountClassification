@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 29.04.2015.
+ * References length divided by the number of tweets.
+ *
+ * @author Whiplash
  */
 public class ReferencePerAccount extends ReferenceFunction {
 

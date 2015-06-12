@@ -30,6 +30,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Classifier to identify Twitter account to one of the next types: personal, corporate, character.
+ * <br>
+ * Defaults use {@link weka.classifiers.trees.RandomForest} classifier as the most effective
+ * classifier for solving this problem.
+ *
+ * @author Whiplash
+ */
 public class TwitterAccountClassifier {
 
     private Classifier classifier = new RandomForest();
@@ -45,11 +53,26 @@ public class TwitterAccountClassifier {
     private Instances instances;
     private String relationName;
 
+    /**
+     * Creates instance of {@link com.samborskiy.TwitterAccountClassifier classifier} using
+     * exist in project folder arff file with name {@code relationName}.
+     *
+     * @param relationName name of relation
+     * @throws IOException if {@code relationName}.arff doesn't exist
+     */
     public TwitterAccountClassifier(String relationName) throws IOException {
         this.relationName = relationName;
         initializeInstances();
     }
 
+    /**
+     * Creates instance of {@link com.samborskiy.TwitterAccountClassifier classifier} converting
+     * {@code accounts} to arff file (into project folder).
+     *
+     * @param accounts     data which will be converted to arff file
+     * @param relationName name of relation
+     * @throws IOException if {@code relationName}.arff doesn't exist
+     */
     public TwitterAccountClassifier(List<Account> accounts, String relationName) throws ReflectiveOperationException, IOException {
         this.relationName = relationName;
         setAttributes(accounts);
@@ -59,18 +82,38 @@ public class TwitterAccountClassifier {
         initializeInstances();
     }
 
+    private void initializeInstances() throws IOException {
+        try (BufferedReader dataFile = new BufferedReader(new FileReader(relationName + ".arff"))) {
+            instances = new Instances(dataFile);
+            instances.setClassIndex(instances.numAttributes() - 1);
+        }
+    }
+
+    /**
+     * Builds classifier.
+     *
+     * @throws Exception if the classifier has not been generated successfully
+     */
     public void build() throws Exception {
         classifier.buildClassifier(instances);
     }
 
-    public FeatureSelection findFeatureSubsetSelectionAlgorithm(int foldNumber) throws Exception {
+    /**
+     * Finds the best feature subset selection algorithm using
+     * the F-measure as a parameter for comparison.
+     *
+     * @param folds folds number (need to k-folds cross-validation)
+     * @return the best of feature subset selection algorithm to current data and classifier
+     * @throws Exception if test cannot be run
+     */
+    public FeatureSelection findFeatureSubsetSelectionAlgorithm(int folds) throws Exception {
         List<FeatureSelection> algorithms = getFeaturesSelectionAlgorithms();
         Classifier[] copiedClassifiers = AbstractClassifier.makeCopies(classifier, algorithms.size());
         FeatureSelection maxFSS = null;
         double maxFMeasure = 0.;
         for (int i = 0; i < copiedClassifiers.length; i++) {
             Log.d("Start " + algorithms.get(i).toString());
-            double fMeasure = new Test(copiedClassifiers[i], algorithms.get(i).select(instances)).crossValidation(foldNumber);
+            double fMeasure = new Test(copiedClassifiers[i], algorithms.get(i).select(instances)).crossValidation(folds);
             Log.d("End with F-measure: " + fMeasure);
             if (fMeasure > maxFMeasure) {
                 maxFMeasure = fMeasure;
@@ -80,6 +123,13 @@ public class TwitterAccountClassifier {
         return maxFSS;
     }
 
+    /**
+     * Returns class id of {@code account} (runs {@link #build()} before).
+     *
+     * @param account account has to be classified
+     * @return class id of {@code account}
+     * @throws Exception if an error occurred during the prediction
+     */
     public int getClassId(Account account) throws Exception {
         setAttributes(account, getAttributeFunctions());
         ArrayList<weka.core.Attribute> attrs = new ArrayList<>();
@@ -92,15 +142,15 @@ public class TwitterAccountClassifier {
         return (int) classifier.classifyInstance(temp.get(0));
     }
 
+    /**
+     * Returns class id of {@code instance} (runs {@link #build()} before).
+     *
+     * @param instance account has to be classified (converts to {@link weka.core.Instance})
+     * @return class id of {@code instance}
+     * @throws Exception if an error occurred during the prediction
+     */
     public int getClassId(Instance instance) throws Exception {
         return (int) classifier.classifyInstance(instance);
-    }
-
-    private void initializeInstances() throws IOException {
-        try (BufferedReader dataFile = new BufferedReader(new FileReader(relationName + ".arff"))) {
-            instances = new Instances(dataFile);
-            instances.setClassIndex(instances.numAttributes() - 1);
-        }
     }
 
     private void setAttributes(List<Account> accounts) throws ReflectiveOperationException {
@@ -180,6 +230,11 @@ public class TwitterAccountClassifier {
         return classes;
     }
 
+    /**
+     * Sets new classifier.
+     *
+     * @param classifier new classifier
+     */
     public void setClassifier(Classifier classifier) {
         this.classifier = classifier;
     }

@@ -7,7 +7,9 @@ import weka.attributeSelection.Ranker;
 import weka.attributeSelection.ReliefFAttributeEval;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Distance feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class Relief_F extends FeatureSelection {
 

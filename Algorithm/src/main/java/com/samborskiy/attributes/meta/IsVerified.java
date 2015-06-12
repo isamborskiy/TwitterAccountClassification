@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by i.samborskiy on 09.06.2015.
+ * Is account verified or not.
+ *
+ * @author Whiplash
  */
 public class IsVerified extends AttributeFunction {
 

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by i.samborskiy on 09.06.2015.
+ * Number of followers in account.
+ *
+ * @author Whiplash
  */
 public class FollowerNumber extends AttributeFunction {
 

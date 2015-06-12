@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Whiplash on 27.04.2015.
+ * Frequency of words per account.
+ *
+ * @author Whiplash
  */
 public class AverageWordLength extends LengthFunction {
 

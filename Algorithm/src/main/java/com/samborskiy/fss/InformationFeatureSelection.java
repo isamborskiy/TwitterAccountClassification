@@ -6,10 +6,16 @@ import weka.attributeSelection.InfoGainAttributeEval;
 import weka.core.Attribute;
 import weka.core.Instances;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * Created by whiplash on 04.06.2015.
+ * Feature selection algorithm uses mutual information like a selection parameter.
+ *
+ * @author Whiplash
+ * @see <a href="https://en.wikipedia.org/wiki/Mutual_information">Mutual information</a>
  */
 public class InformationFeatureSelection extends FeatureSelection {
 
@@ -34,6 +40,13 @@ public class InformationFeatureSelection extends FeatureSelection {
         }
     }
 
+    /**
+     * Returns sorted by mutual information set of attributes.
+     *
+     * @param instances data which will apply algorithm
+     * @return set of attributes
+     * @throws Exception if the attribute could not be evaluated
+     */
     private Set<Map.Entry<String, Double>> getStatistics(Instances instances) throws Exception {
         InfoGainAttributeEval infoGainAttributeEval = new InfoGainAttributeEval();
         infoGainAttributeEval.buildEvaluator(instances);
@@ -46,14 +59,11 @@ public class InformationFeatureSelection extends FeatureSelection {
         return entriesSortedByValues(iGains);
     }
 
-    private <K, V extends Comparable<? super V>> Set<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
+    private <K, V extends Comparable<V>> Set<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
         Set<Map.Entry<K, V>> sortedEntries = new TreeSet<>(
-                new Comparator<Map.Entry<K, V>>() {
-                    @Override
-                    public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
-                        int res = e1.getValue().compareTo(e2.getValue());
-                        return res != 0 ? res : 1;
-                    }
+                (e1, e2) -> {
+                    int res = e1.getValue().compareTo(e2.getValue());
+                    return res != 0 ? res : 1;
                 }
         );
         sortedEntries.addAll(map.entrySet());

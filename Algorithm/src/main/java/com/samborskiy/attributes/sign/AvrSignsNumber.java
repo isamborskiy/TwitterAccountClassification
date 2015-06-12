@@ -6,7 +6,7 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * The average number of different signs in a tweets.
+ * Frequency of different signs in a tweets.
  */
 public class AvrSignsNumber extends SignFunction {
 

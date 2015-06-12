@@ -5,7 +5,9 @@ import com.samborskiy.attributes.AttributeFunction;
 import java.util.Arrays;
 
 /**
- * Created by whiplash on 29.04.2015.
+ * Function based on personal words.
+ *
+ * @author Whiplash
  */
 public abstract class PersonalFunction extends AttributeFunction {
 

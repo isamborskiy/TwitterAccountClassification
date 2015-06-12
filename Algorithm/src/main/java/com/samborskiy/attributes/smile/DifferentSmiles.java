@@ -1,12 +1,14 @@
 package com.samborskiy.attributes.smile;
 
-import com.samborskiy.entity.sequences.SmileSequence;
 import com.samborskiy.entity.Attribute;
+import com.samborskiy.entity.sequences.SmileSequence;
 
 import java.util.List;
 
 /**
- * Created by Whiplash on 27.04.2015.
+ * Number of different types of smiles encountered in tweets, divided by the number of types of smiles.
+ *
+ * @author Whiplash
  */
 public class DifferentSmiles extends SmileFunction {
 

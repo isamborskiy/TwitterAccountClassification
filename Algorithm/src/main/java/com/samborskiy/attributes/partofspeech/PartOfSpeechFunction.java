@@ -9,7 +9,9 @@ import java.util.List;
 import static com.samborskiy.entity.PartOfSpeech.*;
 
 /**
- * Created by Whiplash on 26.04.2015.
+ * Function based on parts of speech using in account.
+ *
+ * @author Whiplash
  */
 public abstract class PartOfSpeechFunction extends AttributeFunction {
 

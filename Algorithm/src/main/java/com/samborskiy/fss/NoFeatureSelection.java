@@ -4,7 +4,10 @@ import weka.attributeSelection.ASEvaluation;
 import weka.attributeSelection.ASSearch;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Feature selection algorithm that does nothing
+ * (need for test and find the best of feature selection algorithms).
+ *
+ * @author Whiplash
  */
 public class NoFeatureSelection extends FeatureSelection {
 

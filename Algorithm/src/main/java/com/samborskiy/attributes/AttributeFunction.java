@@ -1,8 +1,8 @@
 package com.samborskiy.attributes;
 
-import com.samborskiy.entity.ClassifierProperty;
 import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Attribute;
+import com.samborskiy.entity.ClassifierProperty;
 import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
 import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Created by Whiplash on 22.04.2015.
+ * Function to get attributes by account.
+ *
+ * @author Whiplash
  */
 public abstract class AttributeFunction implements Function<Account, List<Attribute>> {
 

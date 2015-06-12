@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 04.06.2015.
+ * Frequency of links per tweet.
+ *
+ * @author Whiplash
  */
 public class LinkPerTweet extends LinkAttributeFunction {
 

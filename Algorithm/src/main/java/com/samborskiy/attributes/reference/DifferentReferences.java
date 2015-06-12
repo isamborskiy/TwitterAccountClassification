@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Whiplash on 29.04.2015.
+ * Frequency of difference references per tweet.
+ *
+ * @author Whiplash
  */
 public class DifferentReferences extends ReferenceFunction {
 

@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by whiplash on 29.04.2015.
+ * Frequency of personal words per account.
+ *
+ * @author Whiplash
  */
 public class PersonalPerAccount extends PersonalFunction {
 

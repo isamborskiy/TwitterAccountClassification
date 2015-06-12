@@ -7,7 +7,9 @@ import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.CfsSubsetEval;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Dependency feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class CFS_SFS extends FeatureSelection {
 

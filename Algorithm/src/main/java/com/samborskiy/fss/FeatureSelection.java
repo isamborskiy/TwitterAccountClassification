@@ -8,10 +8,18 @@ import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 
 /**
- * Created by Whiplash on 03.05.2015.
+ * Feature subset selection algorithm which reduces the dimension of the feature space.
+ *
+ * @author Whiplash
  */
 public abstract class FeatureSelection {
 
+    /**
+     * Reduces the dimension of the feature space.
+     *
+     * @param instances data which will apply algorithm
+     * @return data processed by the algorithm
+     */
     public Instances select(Instances instances) {
         try {
             AttributeSelection filter = new AttributeSelection();
@@ -37,14 +45,34 @@ public abstract class FeatureSelection {
         }
     }
 
+    /**
+     * Returns searcher of algorithm.
+     *
+     * @return searcher of algorithm
+     */
     protected abstract ASSearch getSearcher();
 
+    /**
+     * Returns searcher options (if it implemented {@link weka.core.OptionHandler})
+     *
+     * @return searcher options
+     */
     protected String[] getSearcherOptions() {
         return new String[]{};
     }
 
+    /**
+     * Returns evaluator of algorithm.
+     *
+     * @return evaluator of algorithm
+     */
     protected abstract ASEvaluation getEvaluator();
 
+    /**
+     * Returns evaluator options (if it implemented {@link weka.core.OptionHandler})
+     *
+     * @return evaluator options
+     */
     protected String[] getEvaluatorOptions() {
         return new String[]{};
     }

@@ -7,7 +7,9 @@ import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.LinearForwardSelection;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Dependency feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class CFS_LS extends FeatureSelection {
 

@@ -8,7 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Function based on the user's use of hashtags.
+ *
+ * @author Whiplash
  */
 public abstract class HashTagFunction extends AttributeFunction {
 

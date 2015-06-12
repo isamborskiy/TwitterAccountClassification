@@ -5,7 +5,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 04.06.2015.
+ * Frequency of tweets with links per account.
+ *
+ * @author Whiplash
  */
 public class TweetWithLink extends LinkAttributeFunction {
 

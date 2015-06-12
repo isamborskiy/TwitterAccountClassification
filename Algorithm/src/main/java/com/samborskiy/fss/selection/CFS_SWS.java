@@ -7,7 +7,9 @@ import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Dependency feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class CFS_SWS extends FeatureSelection {
 

@@ -6,7 +6,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Frequency of errors (grammar, punctuation).
+ *
+ * @author Whiplash
  */
 public class ErrorsPerAccount extends AttributeFunction {
 

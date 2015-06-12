@@ -7,7 +7,10 @@ import weka.attributeSelection.PrincipalComponents;
 import weka.attributeSelection.Ranker;
 
 /**
- * Created by Whiplash on 03.05.2015.
+ * Feature extraction algorithm.
+ *
+ * @author Whiplash
+ * @see <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a>
  */
 public class PCA extends FeatureSelection {
 

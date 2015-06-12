@@ -7,7 +7,12 @@ import weka.core.Instances;
 import java.util.Random;
 
 /**
- * Created by Whiplash on 10.06.2015.
+ * Test of classifier to calculate F-measure using k-fold cross-validation and confusion matrix.
+ *
+ * @author Whiplash
+ * @see <a href="https://en.wikipedia.org/wiki/F1_score">F-measure</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">Cross-validation</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion matrix</a>
  */
 class Test {
 
@@ -19,6 +24,13 @@ class Test {
         this.classifier = classifier;
     }
 
+    /**
+     * Runs k-folds cross-validation to calculate F-measure of {@code instances}.
+     *
+     * @param folds number of folds
+     * @return F-measure of data
+     * @throws Exception if {@link weka.classifiers.Evaluation} cannot be build
+     */
     public double crossValidation(int folds) throws Exception {
         Evaluation evaluation = new Evaluation(instances);
         evaluation.crossValidateModel(classifier, instances, folds, new Random(1));

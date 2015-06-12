@@ -5,6 +5,11 @@ import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 
+/**
+ * Average frequency of the words in account.
+ *
+ * @author Whiplash
+ */
 public class FrecuencyPerWord extends AttributeFunction {
 
     @Override

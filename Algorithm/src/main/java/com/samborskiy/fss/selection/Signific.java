@@ -7,7 +7,9 @@ import weka.attributeSelection.Ranker;
 import weka.attributeSelection.SignificanceAttributeEval;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Probabilistic significance feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class Signific extends FeatureSelection {
 

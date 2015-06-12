@@ -6,7 +6,9 @@ import com.samborskiy.entity.Attribute;
 import java.util.List;
 
 /**
- * Created by Whiplash on 28.04.2015.
+ * Number of words not found in the dictionary, divided by the total number of tweets.
+ *
+ * @author Whiplash
  */
 public class UnknownWordsPerAccount extends AttributeFunction {
 

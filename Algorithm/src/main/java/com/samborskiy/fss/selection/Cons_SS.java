@@ -7,7 +7,9 @@ import weka.attributeSelection.ConsistencySubsetEval;
 import weka.attributeSelection.ScatterSearchV1;
 
 /**
- * Created by Whiplash on 30.04.2015.
+ * Consistency feature selection algorithm.
+ *
+ * @author Whiplash
  */
 public class Cons_SS extends FeatureSelection {
 
