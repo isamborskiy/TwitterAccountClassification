@@ -6,3 +6,5 @@ include 'Algorithm'
 
 include 'Domain'
 
+include 'Demo'
+

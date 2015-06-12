@@ -24,13 +24,6 @@ public class EnglishOpenPOSTagging extends MorphologicalAnalyzer {
         }
     }
 
-/*
-COMMUNION,
-CONJUNCTION,
-PREPOSITION,
-PARTICLE
- */
-
     @Override
     public PartOfSpeech get(String word) {
         String partOfSpeechTag = tagger.tag(new String[]{word})[0];
@@ -61,20 +54,3 @@ PARTICLE
         return false;
     }
 }
-
-/*
-CC Coordinating conjunction
-DT Determiner
-EX Existential there
-FW Foreign word
-IN Preposition or subordinating conjunction
-LS List item marker
-MD Modal
-PDT Predeterminer
-POS Possessive ending
-RP Particle
-SYM Symbol
-TO to
-UH Interjection
-WDT Wh­determiner
- */

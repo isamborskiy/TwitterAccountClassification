@@ -5,26 +5,19 @@ import com.samborskiy.attributes.partofspeech.PartOfSpeechFunction;
 import com.samborskiy.attributes.partofspeech.PartOfSpeechPerAccount;
 import com.samborskiy.attributes.partofspeech.ParticlePerAccount;
 import com.samborskiy.attributes.partofspeech.TweetsWithPartOfSpeech;
-import com.samborskiy.attributes.sign.AvrSignsNumber;
-import com.samborskiy.attributes.sign.SignFunction;
-import com.samborskiy.attributes.sign.SignLatitude;
-import com.samborskiy.attributes.sign.SignPerAccount;
-import com.samborskiy.attributes.sign.SignsPerAccount;
-import com.samborskiy.attributes.sign.TweetsWithSign;
-import com.samborskiy.attributes.sign.TweetsWithSigns;
-import com.samborskiy.attributes.smile.DifferentSmiles;
-import com.samborskiy.attributes.smile.SmileFunction;
-import com.samborskiy.attributes.smile.SmilePerAccount;
-import com.samborskiy.attributes.smile.TweetsWithSmile;
-import com.samborskiy.attributes.smile.TweetsWithSmiles;
+import com.samborskiy.attributes.sign.*;
+import com.samborskiy.attributes.smile.*;
 import com.samborskiy.entity.Account;
-import com.samborskiy.fss.FeatureSelection;
-import com.samborskiy.fss.NoFeatureSelection;
 import com.samborskiy.entity.ClassifierProperty;
+import com.samborskiy.entity.Log;
+import com.samborskiy.fss.FeatureSelection;
+import com.samborskiy.fss.InformationFeatureSelection;
+import com.samborskiy.fss.NoFeatureSelection;
 import org.reflections.Reflections;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.RandomForest;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.OptionHandler;
 
@@ -76,7 +69,9 @@ public class TwitterAccountClassifier {
         FeatureSelection maxFSS = null;
         double maxFMeasure = 0.;
         for (int i = 0; i < copiedClassifiers.length; i++) {
+            Log.d("Start " + algorithms.get(i).toString());
             double fMeasure = new Test(copiedClassifiers[i], algorithms.get(i).select(instances)).crossValidation(foldNumber);
+            Log.d("End with F-measure: " + fMeasure);
             if (fMeasure > maxFMeasure) {
                 maxFMeasure = fMeasure;
                 maxFSS = algorithms.get(i);
@@ -87,7 +82,18 @@ public class TwitterAccountClassifier {
 
     public int getClassId(Account account) throws Exception {
         setAttributes(account, getAttributeFunctions());
-        return (int) classifier.classifyInstance(account.toInstance());
+        ArrayList<weka.core.Attribute> attrs = new ArrayList<>();
+        for (int i = 0; i < instances.numAttributes(); i++) {
+            attrs.add(instances.attribute(i));
+        }
+        Instances temp = new Instances("temp", attrs, 1);
+        temp.setClass(instances.classAttribute());
+        temp.add(account.toInstance(attrs));
+        return (int) classifier.classifyInstance(temp.get(0));
+    }
+
+    public int getClassId(Instance instance) throws Exception {
+        return (int) classifier.classifyInstance(instance);
     }
 
     private void initializeInstances() throws IOException {
@@ -152,6 +158,9 @@ public class TwitterAccountClassifier {
         featureSelections.add(new NoFeatureSelection());
         featureSelections.addAll(getFeaturesSelectionAlgorithms("com.samborskiy.fss.selection"));
         featureSelections.addAll(getFeaturesSelectionAlgorithms("com.samborskiy.fss.extraction"));
+        for (int i = 0; i < instances.numAttributes(); i++) {
+            featureSelections.add(new InformationFeatureSelection(i));
+        }
         return featureSelections;
     }
 

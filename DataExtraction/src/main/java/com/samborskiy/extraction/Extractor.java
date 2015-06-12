@@ -10,6 +10,7 @@ import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.User;
 
 import java.io.File;
+import java.util.List;
 
 public class Extractor {
 
@@ -28,24 +29,44 @@ public class Extractor {
                 dbHelper.createTable();
             }
             for (Type type : configuration) {
-                for (String screenName : type.getData().extractScreenNames()) {
-                    if (!dbHelper.hasUser(screenName)) {
-                        User user = new UserRequest(twitterHelper, screenName).make();
-                        tweetsExtraction(twitterHelper, dbHelper, type, user);
-                    }
-                }
-                for (Long userId : type.getData().extractUserIds()) {
-                    if (!dbHelper.hasUser(userId)) {
-                        User user = new UserRequest(twitterHelper, userId).make();
-                        tweetsExtraction(twitterHelper, dbHelper, type, user);
-                    }
-                }
+                getUsers(type.getData().extractScreenNames(), twitterHelper, type, dbHelper);
+                getUsers(type.getData().extractUserIds(), twitterHelper, type, dbHelper);
             }
             dbHelper.deleteEmptyTweetsRow();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private <E> void getUsers(List<E> identities, TwitterHelper twitterHelper, Type type, DatabaseHelper dbHelper) throws InterruptedException {
+        User user = null;
+        for (E identity : identities) {
+            if (identity instanceof String) {
+                user = getUser((String) identity, twitterHelper, dbHelper);
+            } else if (identity instanceof Long) {
+                user = getUser((Long) identity, twitterHelper, dbHelper);
+            }
+            if (user != null) {
+                tweetsExtraction(twitterHelper, dbHelper, type, user);
+            }
+        }
+    }
+
+    private User getUser(String screenName, TwitterHelper twitterHelper, DatabaseHelper dbHelper) throws InterruptedException {
+        if (!dbHelper.hasUser(screenName)) {
+            return new UserRequest(twitterHelper, screenName).make();
+        }
+        Log.d(String.format("Skip user %s", screenName));
+        return null;
+    }
+
+    private User getUser(Long userId, TwitterHelper twitterHelper, DatabaseHelper dbHelper) throws InterruptedException {
+        if (!dbHelper.hasUser(userId)) {
+            return new UserRequest(twitterHelper, userId).make();
+        }
+        Log.d(String.format("Skip user %d", userId));
+        return null;
     }
 
     private void tweetsExtraction(TwitterHelper twitterHelper, DatabaseHelper dbHelper, Type type, User user) throws InterruptedException {

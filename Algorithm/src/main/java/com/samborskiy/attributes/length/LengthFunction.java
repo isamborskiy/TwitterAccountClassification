@@ -1,6 +1,7 @@
 package com.samborskiy.attributes.length;
 
 import com.samborskiy.attributes.AttributeFunction;
+import com.samborskiy.entity.Account;
 import com.samborskiy.entity.Attribute;
 
 import java.util.List;
@@ -12,8 +13,10 @@ import java.util.stream.Collectors;
 public abstract class LengthFunction extends AttributeFunction {
 
     @Override
-    public List<Attribute> apply(List<String> tweets) {
-        return count(tweets.stream().map(tweetParser::parse).collect(Collectors.toList()));
+    public List<Attribute> apply(Account account) {
+        return count(account.getTweets().stream()
+                .map(tweetParser::parse)
+                .collect(Collectors.toList()));
     }
 
     @Override

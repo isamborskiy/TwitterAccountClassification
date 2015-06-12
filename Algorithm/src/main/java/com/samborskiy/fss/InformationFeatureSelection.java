@@ -69,4 +69,9 @@ public class InformationFeatureSelection extends FeatureSelection {
     protected ASEvaluation getEvaluator() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "(" + n + ")";
+    }
 }

@@ -60,13 +60,16 @@ public class Account extends ArrayList<Attribute> {
         return favourite;
     }
 
-    public Instance toInstance() {
-        Instance instance = new DenseInstance(size() + 1);
+    public Instance toInstance(List<weka.core.Attribute> attrs) {
+        Instance instance = new DenseInstance(attrs.size());
+        Attribute classAttr = new Attribute(classId, "class");
+        add(classAttr);
         for (Attribute attribute : this) {
-            instance.setValue(new weka.core.Attribute(attribute.getName()), attribute.getValue());
+            attrs.stream()
+                    .filter(attr -> attribute.getName().equals(attr.name()))
+                    .forEach(attr -> instance.setValue(attr, attribute.getValue()));
         }
-        instance.setValue(new weka.core.Attribute("class"), classId);
-//        instance.setClassValue(classId);
+        remove(classAttr);
         return instance;
     }
 

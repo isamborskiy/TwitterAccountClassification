@@ -1,6 +1,6 @@
 package com.samborskiy.entity.sequences;
 
-import com.samborskiy.misc.ClassifierProperty;
+import com.samborskiy.entity.ClassifierProperty;
 import com.samborskiy.entity.PartOfSpeech;
 import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
 
@@ -34,11 +34,5 @@ public class PartOfSpeechSequence extends Sequence<PartOfSpeech> {
             count += sequence.equals(subSequence) ? 1 : 0;
         }
         return count;
-    }
-
-    @Override
-    public String toString() {
-        return sequence.stream().map(Enum::toString)
-                .collect(Collectors.joining("_"));
     }
 }

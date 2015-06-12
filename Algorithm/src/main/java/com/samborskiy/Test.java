@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Created by Whiplash on 10.06.2015.
  */
-public class Test {
+class Test {
 
     private final Classifier classifier;
     private final Instances instances;

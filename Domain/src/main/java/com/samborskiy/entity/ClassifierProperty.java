@@ -26,12 +26,12 @@ public class ClassifierProperty {
     private static boolean isDebug = false;
 
     public static final String DEFAULT_FREQUENCY_ANALYZER = "com.samborskiy.entity.analyzers.frequency.FrequencyDictionary";
-    public static final String DEFAULT_GRAMMAR_ANALYZER = "com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer";
-    public static final String DEFAULT_MORPHOLOGICAL_ANALYZER = "com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer";
-    public static final String DEFAULT_SENTENCE_ANALYZER = "com.samborskiy.entity.analyzers.sentence.TweetParser";
+    public static final String DEFAULT_GRAMMAR_ANALYZER = "com.samborskiy.entity.analyzers.grammar.JLanguageToolGrammarCheckerRu";
+    public static final String DEFAULT_MORPHOLOGICAL_ANALYZER = "com.samborskiy.entity.analyzers.morphological.SimpleMorphologicalAnalyzer";
+    public static final String DEFAULT_SENTENCE_ANALYZER = "com.samborskiy.entity.analyzers.sentence.SimpleTweetParser";
 
     static {
-        try (InputStream stream = new FileInputStream("twitter_classifier.property")) {
+        try (InputStream stream = new FileInputStream("twitter_classifier.properties")) {
             Properties properties = new Properties();
             properties.load(stream);
             frequencyAnalyzer = getClass(properties.getProperty("frequency_analyzer", DEFAULT_FREQUENCY_ANALYZER), FrequencyAnalyzer.class);
