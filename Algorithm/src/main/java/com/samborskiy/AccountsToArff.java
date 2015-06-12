@@ -1,7 +1,7 @@
 package com.samborskiy;
 
-import com.samborskiy.entities.Account;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Account;
+import com.samborskiy.entity.Attribute;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

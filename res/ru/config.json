@@ -6,7 +6,6 @@
       "id": 0,
       "name": "personal",
       "tweetPerUser": 500,
-      "constraints": false,
       "data": {
         "screenNames": "res/ru/screen_names_0"
       }
@@ -15,16 +14,14 @@
       "id": 1,
       "name": "corporate",
       "tweetPerUser": 500,
-      "constraints": false,
       "data": {
         "screenNames": "res/ru/screen_names_1"
       }
     },
     {
       "id": 2,
-      "name": "fake",
+      "name": "character",
       "tweetPerUser": 500,
-      "constraints": false,
       "data": {
         "screenNames": "res/ru/screen_names_2"
       }

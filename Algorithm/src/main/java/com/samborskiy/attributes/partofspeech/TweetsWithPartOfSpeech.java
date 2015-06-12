@@ -1,7 +1,7 @@
 package com.samborskiy.attributes.partofspeech;
 
-import com.samborskiy.entities.sequences.PartOfSpeechSequence;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.sequences.PartOfSpeechSequence;
+import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 

@@ -2,14 +2,7 @@ package com.samborskiy.extraction.utils;
 
 import com.samborskiy.extraction.entity.Configuration;
 import com.samborskiy.extraction.entity.Language;
-import twitter4j.PagableResponseList;
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.User;
+import twitter4j.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -44,14 +37,28 @@ public class TwitterHelper {
     /**
      * Returns information about user by screen name.
      *
-     * @param screenName  screen name of user
-     * @param constraints returns the user found despite constraints of {@link #isCorrectUser(twitter4j.User)}
+     * @param userId id of user
      * @return information about user
      * @throws twitter4j.TwitterException if twitter service or network is unavailable
      */
-    public User getUser(String screenName, boolean constraints) throws TwitterException {
+    public User getUser(long userId) throws TwitterException {
+        User user = twitter.showUser(userId);
+        if (isCorrectUser(user)) {
+            return user;
+        }
+        return null;
+    }
+
+    /**
+     * Returns information about user by screen name.
+     *
+     * @param screenName screen name of user
+     * @return information about user
+     * @throws twitter4j.TwitterException if twitter service or network is unavailable
+     */
+    public User getUser(String screenName) throws TwitterException {
         User user = twitter.showUser(screenName);
-        if (!constraints || isCorrectUser(user)) {
+        if (isCorrectUser(user)) {
             return user;
         }
         return null;
@@ -129,24 +136,6 @@ public class TwitterHelper {
      */
     private String getQuery(String name) throws UnsupportedEncodingException {
         return "q=" + URLEncoder.encode(name, "UTF-8");
-    }
-
-    /**
-     * Returns all followers of user.
-     *
-     * @param user user from whom you want to request followers
-     * @return user's followers
-     * @throws TwitterException if twitter service or network is unavailable
-     */
-    public Set<User> getFollowers(User user) throws TwitterException {
-        long cursor = -1;
-        PagableResponseList<User> followers;
-        Set<User> users = new HashSet<>();
-        do {
-            followers = twitter.getFollowersList(user.getId(), cursor);
-            users.addAll(followers);
-        } while ((cursor = followers.getNextCursor()) != 0);
-        return users;
     }
 
     /**

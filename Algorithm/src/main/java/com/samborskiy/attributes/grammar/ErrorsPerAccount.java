@@ -1,7 +1,7 @@
 package com.samborskiy.attributes.grammar;
 
 import com.samborskiy.attributes.AttributeFunction;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 

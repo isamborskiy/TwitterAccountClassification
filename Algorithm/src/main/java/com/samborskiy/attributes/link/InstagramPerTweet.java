@@ -1,6 +1,6 @@
 package com.samborskiy.attributes.link;
 
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 

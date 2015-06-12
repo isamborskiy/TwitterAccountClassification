@@ -1,12 +1,12 @@
 package com.samborskiy.attributes.partofspeech;
 
 import com.samborskiy.attributes.AttributeFunction;
-import com.samborskiy.entities.sequences.PartOfSpeechSequence;
+import com.samborskiy.entity.sequences.PartOfSpeechSequence;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.samborskiy.entities.PartOfSpeech.*;
+import static com.samborskiy.entity.PartOfSpeech.*;
 
 /**
  * Created by Whiplash on 26.04.2015.

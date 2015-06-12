@@ -1,7 +1,7 @@
 package com.samborskiy.attributes.sign;
 
-import com.samborskiy.entities.sequences.SignSequence;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.sequences.SignSequence;
+import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
 package com.samborskiy.attributes;
 
-import com.samborskiy.misc.ClassifierProperty;
-import com.samborskiy.entities.Account;
-import com.samborskiy.entities.Attribute;
-import com.samborskiy.entities.analyzers.frequency.FrequencyAnalyzer;
-import com.samborskiy.entities.analyzers.grammar.GrammarAnalyzer;
-import com.samborskiy.entities.analyzers.morphological.MorphologicalAnalyzer;
-import com.samborskiy.entities.analyzers.sentence.TweetParser;
+import com.samborskiy.entity.ClassifierProperty;
+import com.samborskiy.entity.Account;
+import com.samborskiy.entity.Attribute;
+import com.samborskiy.entity.analyzers.frequency.FrequencyAnalyzer;
+import com.samborskiy.entity.analyzers.grammar.GrammarAnalyzer;
+import com.samborskiy.entity.analyzers.morphological.MorphologicalAnalyzer;
+import com.samborskiy.entity.analyzers.sentence.TweetParser;
 
 import java.util.ArrayList;
 import java.util.List;

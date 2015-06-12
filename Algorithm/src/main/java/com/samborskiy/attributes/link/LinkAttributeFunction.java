@@ -1,8 +1,8 @@
 package com.samborskiy.attributes.link;
 
 import com.samborskiy.attributes.AttributeFunction;
-import com.samborskiy.entities.Account;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Account;
+import com.samborskiy.entity.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;

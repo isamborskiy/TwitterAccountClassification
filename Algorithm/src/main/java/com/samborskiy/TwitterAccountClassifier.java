@@ -17,11 +17,10 @@ import com.samborskiy.attributes.smile.SmileFunction;
 import com.samborskiy.attributes.smile.SmilePerAccount;
 import com.samborskiy.attributes.smile.TweetsWithSmile;
 import com.samborskiy.attributes.smile.TweetsWithSmiles;
-import com.samborskiy.entities.Account;
+import com.samborskiy.entity.Account;
 import com.samborskiy.fss.FeatureSelection;
 import com.samborskiy.fss.NoFeatureSelection;
-import com.samborskiy.misc.ClassifierProperty;
-import com.samborskiy.misc.Test;
+import com.samborskiy.entity.ClassifierProperty;
 import org.reflections.Reflections;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
@@ -39,8 +38,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TwitterAccountClassifier {
-
-    public static final int FOLDS_NUMBER = 5;
 
     private Classifier classifier = new RandomForest();
 
@@ -73,13 +70,13 @@ public class TwitterAccountClassifier {
         classifier.buildClassifier(instances);
     }
 
-    public FeatureSelection findFeatureSubsetSelectionAlgorithm() throws Exception {
+    public FeatureSelection findFeatureSubsetSelectionAlgorithm(int foldNumber) throws Exception {
         List<FeatureSelection> algorithms = getFeaturesSelectionAlgorithms();
         Classifier[] copiedClassifiers = AbstractClassifier.makeCopies(classifier, algorithms.size());
         FeatureSelection maxFSS = null;
         double maxFMeasure = 0.;
         for (int i = 0; i < copiedClassifiers.length; i++) {
-            double fMeasure = new Test(copiedClassifiers[i], algorithms.get(i).select(instances)).crossValidation(FOLDS_NUMBER);
+            double fMeasure = new Test(copiedClassifiers[i], algorithms.get(i).select(instances)).crossValidation(foldNumber);
             if (fMeasure > maxFMeasure) {
                 maxFMeasure = fMeasure;
                 maxFSS = algorithms.get(i);
@@ -94,9 +91,10 @@ public class TwitterAccountClassifier {
     }
 
     private void initializeInstances() throws IOException {
-        BufferedReader dataFile = new BufferedReader(new FileReader(relationName + ".arff"));
-        instances = new Instances(dataFile);
-        instances.setClassIndex(instances.numAttributes() - 1);
+        try (BufferedReader dataFile = new BufferedReader(new FileReader(relationName + ".arff"))) {
+            instances = new Instances(dataFile);
+            instances.setClassIndex(instances.numAttributes() - 1);
+        }
     }
 
     private void setAttributes(List<Account> accounts) throws ReflectiveOperationException {

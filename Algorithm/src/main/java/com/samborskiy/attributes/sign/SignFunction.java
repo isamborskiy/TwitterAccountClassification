@@ -1,7 +1,7 @@
 package com.samborskiy.attributes.sign;
 
 import com.samborskiy.attributes.AttributeFunction;
-import com.samborskiy.entities.sequences.SignSequence;
+import com.samborskiy.entity.sequences.SignSequence;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.samborskiy.attributes.smile;
 
-import com.samborskiy.entities.sequences.SmileSequence;
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.sequences.SmileSequence;
+import com.samborskiy.entity.Attribute;
 
 import java.util.List;
 

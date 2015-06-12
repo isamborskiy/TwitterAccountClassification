@@ -1,6 +1,6 @@
 package com.samborskiy.attributes.hashtag;
 
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Attribute;
 
 import java.util.HashSet;
 import java.util.List;

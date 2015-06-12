@@ -14,19 +14,16 @@ public class Type {
     private final int tweetPerUser;
     private final Data data;
     private final String name;
-    private final boolean constraints;
 
     @JsonCreator
     public Type(@JsonProperty("id") int id,
                 @JsonProperty("tweetPerUser") int tweetPerUser,
                 @JsonProperty("data") Data data,
-                @JsonProperty("name") String name,
-                @JsonProperty("constraints") boolean constraints) {
+                @JsonProperty("name") String name) {
         this.id = id;
         this.tweetPerUser = tweetPerUser;
         this.data = data;
         this.name = name;
-        this.constraints = constraints;
     }
 
     @JsonProperty("id")
@@ -48,10 +45,4 @@ public class Type {
     public String getName() {
         return name;
     }
-
-    @JsonProperty("constraints")
-    public boolean hasConstraints() {
-        return constraints;
-    }
-
 }

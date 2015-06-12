@@ -1,6 +1,6 @@
 package com.samborskiy.attributes.length;
 
-import com.samborskiy.entities.Attribute;
+import com.samborskiy.entity.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;

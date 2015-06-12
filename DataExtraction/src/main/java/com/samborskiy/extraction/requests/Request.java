@@ -1,5 +1,6 @@
 package com.samborskiy.extraction.requests;
 
+import com.samborskiy.entity.Log;
 import com.samborskiy.extraction.utils.TwitterHelper;
 import twitter4j.TwitterException;
 
@@ -57,7 +58,7 @@ public abstract class Request<V> {
         try {
             return run();
         } catch (TwitterException e) {
-            System.out.println("Exceeded the number of requests at " + new Date().toString());
+            Log.d("Exceeded the number of requests at " + new Date().toString());
             Thread.sleep(API_RESTART);
             return make();
         }
