@@ -99,6 +99,15 @@ public class TwitterAccountClassifier {
     }
 
     /**
+     * Applies feature selection algorithm to {@code instances}.
+     *
+     * @param featureSelection algorithm which will be used
+     */
+    public void applyFeatureSelection(FeatureSelection featureSelection) {
+        instances = featureSelection.select(instances);
+    }
+
+    /**
      * Finds the best feature subset selection algorithm using
      * the F-measure as a parameter for comparison.
      *
