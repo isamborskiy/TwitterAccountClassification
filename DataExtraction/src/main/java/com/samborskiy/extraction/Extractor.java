@@ -25,9 +25,9 @@ public class Extractor {
         TwitterHelper twitterHelper = new TwitterHelper(configuration);
 
         try (DatabaseHelper dbHelper = new DatabaseHelper(configuration)) {
-            if (!new File(configuration.getDatabasePath()).exists()) {
-                dbHelper.createTable();
-            }
+//            if (!new File(configuration.getDatabasePath()).exists()) {
+//                dbHelper.createTable();
+//            }
             for (Type type : configuration) {
                 getUsers(type.getData().extractScreenNames(), twitterHelper, type, dbHelper);
                 getUsers(type.getData().extractUserIds(), twitterHelper, type, dbHelper);
@@ -42,6 +42,7 @@ public class Extractor {
     private <E> void getUsers(List<E> identities, TwitterHelper twitterHelper, Type type, DatabaseHelper dbHelper) throws InterruptedException {
         User user = null;
         for (E identity : identities) {
+            Log.d("Try get: " + identity.toString());
             if (identity instanceof String) {
                 user = getUser((String) identity, twitterHelper, dbHelper);
             } else if (identity instanceof Long) {

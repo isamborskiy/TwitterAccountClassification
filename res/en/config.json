@@ -1,0 +1,30 @@
+{
+  "lang": "en",
+  "databasePath": "../res/en/test.db",
+  "types": [
+    {
+      "id": 0,
+      "name": "personal",
+      "tweetPerUser": 500,
+      "data": {
+        "userIds": "../res/en/personal"
+      }
+    },
+    {
+      "id": 1,
+      "name": "corporate",
+      "tweetPerUser": 500,
+      "data": {
+        "userIds": "../res/en/corporate"
+      }
+    },
+    {
+      "id": 2,
+      "name": "character",
+      "tweetPerUser": 500,
+      "data": {
+        "userIds": "../res/en/character"
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.samborskiy.extraction.requests;
 
 import com.samborskiy.entity.Log;
 import com.samborskiy.extraction.utils.TwitterHelper;
+import twitter4j.HttpResponseCode;
 import twitter4j.TwitterException;
 
 import java.util.Date;
@@ -58,9 +59,16 @@ public abstract class Request<V> {
         try {
             return run();
         } catch (TwitterException e) {
-            Log.d("Exceeded the number of requests at " + new Date().toString());
-            Thread.sleep(API_RESTART);
-            return make();
+            switch (e.getStatusCode()) {
+                case HttpResponseCode.NOT_FOUND:
+                    Log.e("Get user throw error: 404");
+                    return null;
+                case HttpResponseCode.TOO_MANY_REQUESTS:
+                    Log.d("Exceeded the number of requests at " + new Date().toString());
+                    Thread.sleep(API_RESTART);
+                    return make();
+            }
+            return null;
         }
     }
 

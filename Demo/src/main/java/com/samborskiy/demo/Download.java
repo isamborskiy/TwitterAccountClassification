@@ -7,7 +7,7 @@ import java.io.File;
 public class Download {
 
     public static void main(String[] args) throws Exception {
-        Extractor extractor = new Extractor(new File("res/ru/config.json"));
+        Extractor extractor = new Extractor(new File("../res/en/config.json"));
         extractor.update();
     }
 }
